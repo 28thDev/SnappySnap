@@ -429,6 +429,34 @@ internal static partial class VisualHarness
                 || System.Windows.Application.Current.Windows.Count != windowCount)
                 throw new InvalidOperationException("Background series must retain each file without creating editor windows.");
             await File.AppendAllTextAsync(Path.Combine(output, "series-results.txt"), "PASS: 20 further document-only saves produce 20 distinct history files and no new WPF windows. Runtime first/subsequent editor choice still requires physical acceptance.\n");
+            var opened = new List<EditorWindow>();
+            var state = new ShelfState { ConfigureEditor = editor =>
+            {
+                editor.WindowStartupLocation = WindowStartupLocation.Manual;
+                editor.Left = -15000; editor.Top = -15000; editor.ShowActivated = false;
+                opened.Add(editor); editors.Add(editor);
+            } };
+            var settings = AppSettings.Defaults(); settings.General.CaptureRoot = root; settings.Screenshot.CopyToClipboard = false;
+            using var content = new ShelfContent(shelf, settings, logger, state);
+            await content.LoadAsync();
+            var list = (ListView)typeof(ShelfContent).GetField("_list", BindingFlags.Instance | BindingFlags.NonPublic)!.GetValue(content)!;
+            var edit = typeof(ShelfContent).GetMethod("EditSelected", BindingFlags.Instance | BindingFlags.NonPublic)!;
+            for (var i = 0; i < 4; i++)
+            {
+                list.SelectedIndex = i;
+                edit.Invoke(content, null);
+                var deadline = DateTime.UtcNow.AddSeconds(10);
+                while (state.IsEditing && DateTime.UtcNow < deadline) await Task.Delay(10);
+                if (state.IsEditing || opened.Count != i + 1 || opened.Any(editor => !editor.IsVisible))
+                    throw new InvalidOperationException("Shelf blocked a subsequent editor or closed an earlier one.");
+            }
+            await Task.WhenAll(opened.Select(editor => (Task)typeof(EditorWindow).GetMethod("SaveAndCloseAsync", BindingFlags.Instance | BindingFlags.NonPublic)!
+                .Invoke(editor, [new EditorSaveRequest("Png")])!));
+            if (state.IsSaving || state.ActiveSaves != 0 || opened.Any(editor => editor.IsVisible))
+                throw new InvalidOperationException("Concurrent Shelf editor saves did not complete independently.");
+            if ((await repository.GetRecentAsync(100, default)).Count != 23)
+                throw new InvalidOperationException("Shelf editor saves duplicated history.");
+            await File.AppendAllTextAsync(Path.Combine(output, "series-results.txt"), "PASS: real Shelf Edit handler opens four simultaneous editors; concurrent saves close independently, leave zero active saves and preserve history count.\n");
         }
         finally
         {

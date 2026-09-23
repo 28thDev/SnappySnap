@@ -27,7 +27,8 @@ public sealed class ShelfState : INotifyPropertyChanged
     public ShelfRow? Selected { get => _selected; set { _selected = value; PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Selected))); } }
     public bool Loaded { get; set; }
     public int LoadVersion { get; set; }
-    public bool IsSaving { get; set; }
+    public int ActiveSaves { get; set; }
+    public bool IsSaving => ActiveSaves > 0;
     public bool IsEditing { get; set; }
     public bool IsDragging { get; set; }
     public event PropertyChangedEventHandler? PropertyChanged;
@@ -176,7 +177,13 @@ public sealed partial class ShelfContent : UserControl, IDisposable
     public event EventHandler? ScreenshotRequested;
     public bool IsInteracting => IsSaving || _captureInProgress || _state.IsDragging || _marqueeSelection is not null || _state.IsEditing || _list.ContextMenu?.IsOpen == true;
     public event EventHandler? SettingsRequested;
-    public bool IsSaving { get => _state.IsSaving; private set { _state.IsSaving = value; IsEnabled = !value; UpdateSelectionActions(); } }
+    public bool IsSaving => _state.IsSaving;
+    private void ChangeActiveSaves(int delta)
+    {
+        _state.ActiveSaves += delta;
+        IsEnabled = !IsSaving;
+        UpdateSelectionActions();
+    }
     internal void SetCaptureInProgress(bool value) => _captureInProgress = value;
     public async Task LoadAsync()
     {
@@ -375,20 +382,20 @@ public sealed partial class ShelfContent : UserControl, IDisposable
                 message => { saveNotice = message; _state.Notify?.Invoke(message); }, _logger, row.Item.FilePath);
             document.SaveRequestedAsync = async request =>
             {
-                IsSaving = true;
-                try { await save.SaveAsync(request); }
-                finally { IsSaving = false; }
+                ChangeActiveSaves(1);
+                try
+                {
+                    await save.SaveAsync(request);
+                    await LoadAsync();
+                    if (saveNotice is not null) { _message.Text = saveNotice; _message.Visibility = Visibility.Visible; }
+                    _state.NotifySaved();
+                }
+                finally { ChangeActiveSaves(-1); }
             };
-            if (await document.ShowAsync())
-            {
-                await LoadAsync();
-                if (saveNotice is not null) { _message.Text = saveNotice; _message.Visibility = Visibility.Visible; }
-                IsSaving = false; _state.IsEditing = false;
-                _state.NotifySaved();
-            }
+            document.Show();
         }
         catch (Exception ex) { _logger.Error("Could not edit shelf screenshot.", ex); MessageBox.Show(L.T("Could not save the edited screenshot. Check the folder and try again."), "SnappySnap"); }
-        finally { IsSaving = false; _state.IsEditing = false; }
+        finally { _state.IsEditing = false; }
     }
 
     private async Task DeleteSelectedAsync()
@@ -402,7 +409,7 @@ public sealed partial class ShelfContent : UserControl, IDisposable
             : L.F("Delete {0} selected captures?\n\nThe files will be permanently deleted from disk and removed from Shelf.", rows.Length);
         try { if (MessageBox.Show(Window.GetWindow(this), prompt, "SnappySnap", MessageBoxButton.YesNo, MessageBoxImage.Warning) != MessageBoxResult.Yes) return; }
         finally { _state.IsEditing = false; }
-        IsSaving = true;
+        ChangeActiveSaves(1);
         try
         {
             var ids = rows.Select(row => row.Item.Id).ToArray();
@@ -417,7 +424,7 @@ public sealed partial class ShelfContent : UserControl, IDisposable
                 ? "Could not delete capture. Close apps using the file and try again."
                 : "Could not delete all selected captures. Close apps using the files and try again.", ex);
         }
-        finally { IsSaving = false; }
+        finally { ChangeActiveSaves(-1); }
     }
 }
 
