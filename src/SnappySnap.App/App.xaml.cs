@@ -682,9 +682,10 @@ public sealed class SnappySnapRuntime : IAsyncDisposable
     private async Task CompleteScreenshotAsync(CapturePlan plan, CapturedImage image)
     {
         SetShelfCaptureInProgress(false);
-        var editor = new EditorWindow(image, _logger, _settings.Screenshot.Format, _settings.Editor);
-        ConfigureEditor(editor);
-        var save = new ScreenshotSaveSession(editor.Document, _shelf,
+        var openEditor = !System.Windows.Application.Current.Windows.OfType<EditorWindow>().Any();
+        var document = new EditorDocument(image);
+        string? saveError = null;
+        var save = new ScreenshotSaveSession(document, _shelf,
             () => _paths.ExpandCaptureRoot(_settings.General.CaptureRoot), plan.SelectedVirtualBounds,
             bitmap => { if (_settings.Screenshot.CopyToClipboard) Clipboard.SetImage(bitmap); },
             message => ShowBalloon("Screenshot saved", message), _logger);
@@ -692,6 +693,12 @@ public sealed class SnappySnapRuntime : IAsyncDisposable
         try
         {
             await save.SaveOriginalAsync(_settings.Screenshot.Format);
+            if (!openEditor)
+            {
+                _screenshots.ConfirmExported();
+                await ShowSavedShelfAsync(plan);
+                return;
+            }
             _screenshots.ConfirmOriginalSaved();
             await ShowSavedShelfAsync(plan);
         }
@@ -699,8 +706,11 @@ public sealed class SnappySnapRuntime : IAsyncDisposable
         {
             _logger.Error("Initial screenshot save failed; image retained in editor.", ex);
             _screenshots.FailExport(ex);
-            editor.ShowInitialSaveFailure(ex.Message);
+            saveError = ex.Message;
         }
+        var editor = new EditorWindow(document, _logger, _settings.Screenshot.Format, _settings.Editor);
+        ConfigureEditor(editor);
+        if (saveError is not null) editor.ShowInitialSaveFailure(saveError);
         editor.SaveRequestedAsync = async request =>
         {
             await save.SaveAsync(request);

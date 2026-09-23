@@ -31,7 +31,15 @@ public readonly record struct HoverRegionResult(long Id, VirtualPixelRect Bounds
 public static class WindowRegionSelection
 {
     // Candidates are supplied in native Z order, so the first hit is the visible top window.
-    public static HoverRegionResult? Resolve(VirtualPixelPoint point, IReadOnlyList<WindowRegionCandidate> candidates)
+    public static HoverRegionResult? Resolve(VirtualPixelPoint point, IReadOnlyList<WindowRegionCandidate> candidates, VirtualPixelRect desktop)
+    {
+        if (!desktop.Contains(point)) return null;
+        var result = ResolveWindow(point, candidates);
+        return result is { } region && region.Bounds.TryIntersect(desktop, out var visible)
+            ? region with { Bounds = visible } : null;
+    }
+
+    private static HoverRegionResult? ResolveWindow(VirtualPixelPoint point, IReadOnlyList<WindowRegionCandidate> candidates)
     {
         foreach (var candidate in candidates)
         {

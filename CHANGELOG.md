@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.1.5 — release candidate
+
+- Window and browser capture suggestions are clipped to the visible desktop, fixing region capture failures for maximized or partly offscreen windows.
+- The first screenshot opens an editor. While an editor remains open, subsequent captures save directly to Shelf. When all editors close, the next capture opens an editor again. A failed save always retains the image in an editor for retry.
+
+This PATCH improves the existing screenshot workflow and supersedes the 1.1.4 tester candidate. Owner acceptance and publication are pending.
+
 ## 1.1.4 — release candidate
 
 - Fixed opacity slider keyboard steps sticking at some percentages because of floating-point conversion.

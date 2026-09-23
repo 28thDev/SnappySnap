@@ -48,10 +48,13 @@ public sealed class EditorWindow : Window
     }
 
     public EditorWindow(CapturedImage image, IAppLogger logger, string defaultFormat = "Png", EditorSettings? styles = null)
+        : this(new EditorDocument(image), logger, defaultFormat, styles) { }
+
+    public EditorWindow(EditorDocument document, IAppLogger logger, string defaultFormat = "Png", EditorSettings? styles = null)
     {
         _logger = logger;
         _styles = new EditorToolStyles(styles);
-        _document = new EditorDocument(image);
+        _document = document;
         Title = "SnappySnap — Screenshot Editor";
         Width = 1260; Height = 820; MinWidth = 900; MinHeight = 560;
         WindowStartupLocation = WindowStartupLocation.CenterScreen;
@@ -122,12 +125,12 @@ public sealed class EditorWindow : Window
         DockPanel.SetDock(_saveRecovery, Dock.Right); bottom.Children.Add(_saveRecovery);
         _status.TextWrapping = TextWrapping.Wrap;
         AutomationProperties.SetLiveSetting(_status, AutomationLiveSetting.Polite);
-        _dimensions = Ui.Text($"{image.Width} × {image.Height} px", 11, "Muted"); DockPanel.SetDock(_dimensions, Dock.Right); bottom.Children.Add(_dimensions); bottom.Children.Add(_status); DockPanel.SetDock(bottom, Dock.Bottom); center.Children.Add(bottom);
+        _dimensions = Ui.Text($"{document.Width} × {document.Height} px", 11, "Muted"); DockPanel.SetDock(_dimensions, Dock.Right); bottom.Children.Add(_dimensions); bottom.Children.Add(_status); DockPanel.SetDock(bottom, Dock.Bottom); center.Children.Add(bottom);
         _scroll = new ScrollViewer { HorizontalScrollBarVisibility = ScrollBarVisibility.Auto, VerticalScrollBarVisibility = ScrollBarVisibility.Auto, Background = Ui.Brush("Background"), Padding = new Thickness(8), HorizontalContentAlignment = HorizontalAlignment.Center, VerticalContentAlignment = VerticalAlignment.Center };
-        _canvas = new Canvas { Background = Brushes.Transparent, Width = image.Width, Height = image.Height };
-        _surface = new EditorSurface(_document) { Width = image.Width, Height = image.Height }; _canvas.Children.Add(_surface);
+        _canvas = new Canvas { Background = Brushes.Transparent, Width = document.Width, Height = document.Height };
+        _surface = new EditorSurface(_document) { Width = document.Width, Height = document.Height }; _canvas.Children.Add(_surface);
         _visibleBounds = _document.VisibleBounds;
-        _viewport = new Canvas { Width = image.Width, Height = image.Height, ClipToBounds = true };
+        _viewport = new Canvas { Width = document.Width, Height = document.Height, ClipToBounds = true };
         _viewport.Children.Add(_canvas); _scroll.Content = _viewport;
         var properties = new WrapPanel { Margin = new Thickness(8, 3, 8, 3), VerticalAlignment = VerticalAlignment.Center };
         _selectionLabel = Ui.Text("New annotation", 12, "Muted"); properties.Children.Add(_selectionLabel);

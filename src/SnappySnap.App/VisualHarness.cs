@@ -198,7 +198,7 @@ internal static partial class VisualHarness
                 ("page", new VirtualPixelPoint(500, 400), HoverRegionKind.BrowserContent)
             })
             {
-                var hover = WindowRegionSelection.Resolve(point, [browserCandidate]);
+                var hover = WindowRegionSelection.Resolve(point, [browserCandidate], monitor.Bounds);
                 if (hover?.Kind != kind) throw new InvalidOperationException($"Wrong synthetic browser zone: {name}.");
                 var timer = System.Diagnostics.Stopwatch.StartNew();
                 ((RegionSelectorWindow)window).DrawHover(hover);
@@ -415,6 +415,20 @@ internal static partial class VisualHarness
                 if (bitmap.PixelWidth != item.WidthPx) throw new InvalidOperationException("Series save used another frame's document.");
             }
             await File.WriteAllTextAsync(Path.Combine(output, "series-results.txt"), "PASS: three independent original files and modeless editors; reverse-order Save closes only its editor, preserves original history IDs and frame sizes. No real desktop capture or hotkey injection.\n");
+            // Repeated captures can save documents without constructing editor windows.
+            var windowCount = System.Windows.Application.Current.Windows.Count;
+            for (var i = 0; i < 20; i++)
+            {
+                var image = new CapturedImage(30 + i, 16, Enumerable.Repeat((byte)255, (30 + i) * 16 * 4).ToArray());
+                var document = new EditorDocument(image);
+                var save = new ScreenshotSaveSession(document, shelf, () => root, new(0, 0, image.Width, image.Height), _ => { }, _ => { }, logger);
+                await save.SaveOriginalAsync("Png");
+            }
+            var burst = (await repository.GetRecentAsync(100, default)).ToArray();
+            if (burst.Length != 23 || burst.Select(item => item.FilePath).Distinct().Count() != 23
+                || System.Windows.Application.Current.Windows.Count != windowCount)
+                throw new InvalidOperationException("Background series must retain each file without creating editor windows.");
+            await File.AppendAllTextAsync(Path.Combine(output, "series-results.txt"), "PASS: 20 further document-only saves produce 20 distinct history files and no new WPF windows. Runtime first/subsequent editor choice still requires physical acceptance.\n");
         }
         finally
         {

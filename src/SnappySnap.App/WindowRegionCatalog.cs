@@ -15,8 +15,9 @@ internal sealed class WindowRegionCatalog
     private readonly HashSet<long> _reportedProbeFailures = new();
     private readonly object _probeLock = new();
     private readonly IAppLogger _logger;
+    private readonly VirtualPixelRect _desktop;
 
-    private WindowRegionCatalog(IReadOnlyList<WindowInfo> windows, IAppLogger logger) => (_windows, _logger) = (windows, logger);
+    private WindowRegionCatalog(IReadOnlyList<WindowInfo> windows, VirtualPixelRect desktop, IAppLogger logger) => (_windows, _desktop, _logger) = (windows, desktop, logger);
 
     public static WindowRegionCatalog Enumerate(IReadOnlyCollection<nint> selectorHandles, VirtualPixelRect desktop, IAppLogger logger)
     {
@@ -48,7 +49,7 @@ internal sealed class WindowRegionCatalog
             windows.Add(new WindowInfo(handle, bounds, browser));
             return true;
         }, 0);
-        return new WindowRegionCatalog(windows, logger);
+        return new WindowRegionCatalog(windows, desktop, logger);
     }
 
     public HoverRegionResult? Resolve(VirtualPixelPoint point, Action refresh)
@@ -78,7 +79,7 @@ internal sealed class WindowRegionCatalog
         return WindowRegionSelection.Resolve(point, new[]
         {
             new WindowRegionCandidate((long)window.Handle, window.Bounds, window.IsBrowser, chrome, pending)
-        });
+        }, _desktop);
     }
 
     public async Task<HoverRegionResult?> ResolveReadyAsync(VirtualPixelPoint point, Action refresh)

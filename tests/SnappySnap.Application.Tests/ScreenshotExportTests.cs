@@ -5,6 +5,23 @@ namespace SnappySnap.Application.Tests;
 
 public sealed class ScreenshotExportTests
 {
+    [Fact]
+    public async Task Saved_series_frames_release_capture_without_editor_handoff()
+    {
+        var coordinator = new ScreenshotCaptureCoordinator(new Capture());
+        var bounds = new VirtualPixelRect(0, 0, 2, 2);
+        var plan = new CapturePlanBuilder().Build(bounds, [new MonitorDescriptor("test", bounds, bounds, 96, 96, true)]);
+        for (var i = 0; i < 20; i++)
+        {
+            coordinator.Begin();
+            await coordinator.CaptureDirectAsync(plan, default);
+            coordinator.BeginExport();
+            coordinator.ConfirmExported();
+            Assert.Equal(ScreenshotState.Idle, coordinator.Snapshot.State);
+            Assert.Null(coordinator.Snapshot.Image);
+        }
+    }
+
     [Theory]
     [InlineData(false)]
     [InlineData(true)]
