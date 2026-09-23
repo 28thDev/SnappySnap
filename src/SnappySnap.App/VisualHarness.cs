@@ -71,6 +71,10 @@ internal static partial class VisualHarness
     {
         if (!HotkeyParser.TryParse("PrintScreen", out var modifiers, out var key)
             || modifiers != HotkeyModifiers.None || key != System.Windows.Input.Key.PrintScreen
+            || HotkeyParser.DisplayKey(System.Windows.Input.Key.PrintScreen) != "PrintScreen"
+            || GlobalHotkeyService.Normalize("PrintScreen") != "PrintScreen"
+            || !HotkeyParser.TryParse(GlobalHotkeyService.Normalize("PrintScreen"), out _, out _)
+            || GlobalHotkeyService.Normalize("PrtSc") != "PrintScreen"
             || HotkeyParser.TryParse("A", out _, out _)
             || GlobalHotkeyService.Bindings(AppSettings.Defaults().Hotkeys)[1005] != "PrintScreen")
             throw new InvalidOperationException("Print Screen shortcut configuration is invalid.");
@@ -103,6 +107,10 @@ internal static partial class VisualHarness
         await Snapshot(new ShelfWindow(new ShelfContent(service, settings, logger), true), output, "shelf-compact");
         await Snapshot(new SettingsWindow(settings, new JsonSettingsStore(paths, logger), new WindowsStartupRegistration(), logger), output, "settings");
         await Snapshot(new SettingsWindow(settings, new JsonSettingsStore(paths, logger), new WindowsStartupRegistration(), logger) { Width = 940, Height = 680 }, output, "settings-compact");
+        await Snapshot(new SettingsWindow(settings, new JsonSettingsStore(paths, logger), new WindowsStartupRegistration(), logger), output, "settings-hotkeys",
+            window => ((SettingsWindow)window).SelectSection("Hotkeys"));
+        await Snapshot(new SettingsWindow(settings, new JsonSettingsStore(paths, logger), new WindowsStartupRegistration(), logger) { Width = 940, Height = 680 }, output, "settings-hotkeys-compact",
+            window => ((SettingsWindow)window).SelectSection("Hotkeys"));
         var editor = new EditorWindow(captured, logger);
         editor.Document.Elements.Add(new ArrowElement(new Point(250, 160), new Point(570, 235)) { Color = Colors.Crimson, StrokeWidth = 4 });
         editor.Document.Elements.Add(new RectangleElement(new Rect(280, 355, 400, 72)) { Color = Colors.MediumSpringGreen, IsSelected = true, StrokeWidth = 3 });

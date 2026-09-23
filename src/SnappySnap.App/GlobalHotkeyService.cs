@@ -20,6 +20,8 @@ public enum HotkeyModifiers : uint
 
 public static class HotkeyParser
 {
+    internal static string DisplayKey(Key key) => key == Key.PrintScreen ? "PrintScreen" : key.ToString();
+
     public static bool TryParse(string? display, out HotkeyModifiers modifiers, out Key key)
     {
         modifiers = HotkeyModifiers.None;
@@ -106,7 +108,7 @@ public sealed class GlobalHotkeyService : IDisposable
         return (modifiers.HasFlag(HotkeyModifiers.Control) ? "Ctrl+" : "") +
             (modifiers.HasFlag(HotkeyModifiers.Alt) ? "Alt+" : "") +
             (modifiers.HasFlag(HotkeyModifiers.Shift) ? "Shift+" : "") +
-            (modifiers.HasFlag(HotkeyModifiers.Windows) ? "Win+" : "") + key;
+            (modifiers.HasFlag(HotkeyModifiers.Windows) ? "Win+" : "") + HotkeyParser.DisplayKey(key);
     }
     public IReadOnlyDictionary<int, string> Snapshot() => new Dictionary<int, string>(_registered);
     public IReadOnlyList<HotkeyRegistration> Apply(IReadOnlyDictionary<int, string> bindings, bool rollbackOnFailure = true)

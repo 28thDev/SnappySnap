@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.1.2 — release candidate
+
+- Fixed the default Print Screen shortcut being shown as invalid after installation. The key now keeps the same display name through input, normalization and registration.
+
+This PATCH candidate supersedes the 1.1.1 tester installer. It awaits owner testing and is not published.
+
 ## 1.1.1 — release candidate
 
 - Rectangle, line and freehand annotations also start at 10 px and reach 24 px; former saved defaults move once while custom widths remain.
@@ -7,7 +13,7 @@
 - Double-click or Enter on a Shelf item opens SnappySnap's editor. The Open action still uses the Windows default app.
 - Browser address-and-page capture begins at the detected toolbar's top edge so the URL controls are included.
 
-This candidate also includes the automatic window and browser region proposals and thicker arrows from the unreleased 1.1.0 tester build. It awaits owner testing and is not published.
+This candidate also includes the automatic window and browser region proposals and thicker arrows from the unreleased 1.1.0 tester build. It was superseded by 1.1.2 before publication.
 The PATCH increment reflects compatible improvements to the existing capture, editor and Shelf workflows.
 
 ## 1.1.0 — release candidate

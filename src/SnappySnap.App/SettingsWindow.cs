@@ -180,7 +180,7 @@ public sealed class SettingsWindow : Window
             e.Handled = true; var key = e.Key == Key.System ? e.SystemKey : e.Key; var modifiers = Keyboard.Modifiers;
             if (optional && modifiers == ModifierKeys.None && key is Key.Back or Key.Delete) { box.Clear(); return; }
             if (key is Key.LeftCtrl or Key.RightCtrl or Key.LeftAlt or Key.RightAlt or Key.LeftShift or Key.RightShift or Key.LWin or Key.RWin || (modifiers == ModifierKeys.None && key != Key.PrintScreen)) return;
-            box.Text = (modifiers.HasFlag(ModifierKeys.Control) ? "Ctrl+" : "") + (modifiers.HasFlag(ModifierKeys.Alt) ? "Alt+" : "") + (modifiers.HasFlag(ModifierKeys.Shift) ? "Shift+" : "") + (modifiers.HasFlag(ModifierKeys.Windows) ? "Win+" : "") + key;
+            box.Text = (modifiers.HasFlag(ModifierKeys.Control) ? "Ctrl+" : "") + (modifiers.HasFlag(ModifierKeys.Alt) ? "Alt+" : "") + (modifiers.HasFlag(ModifierKeys.Shift) ? "Shift+" : "") + (modifiers.HasFlag(ModifierKeys.Windows) ? "Win+" : "") + HotkeyParser.DisplayKey(key);
         }; return box;
     }
     private static ComboBox Choice(Panel p, string label, string[] values, string selected, string unit)
