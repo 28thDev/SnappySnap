@@ -55,6 +55,7 @@ public sealed class ScreenshotStateMachine
             (ScreenshotState.Capturing, ScreenshotCommand.CaptureFailed) => ScreenshotState.Error,
             (ScreenshotState.Editing, ScreenshotCommand.Confirm) => ScreenshotState.Exporting,
             (ScreenshotState.Editing, ScreenshotCommand.Discard) => ScreenshotState.Idle,
+            (ScreenshotState.Editing, ScreenshotCommand.EditorOpened) => ScreenshotState.Completed,
             (ScreenshotState.Exporting, ScreenshotCommand.Exported) => ScreenshotState.Completed,
             (ScreenshotState.Exporting, ScreenshotCommand.OriginalSaved) => ScreenshotState.Editing,
             (ScreenshotState.Exporting, ScreenshotCommand.ExportFailed) => ScreenshotState.Editing,

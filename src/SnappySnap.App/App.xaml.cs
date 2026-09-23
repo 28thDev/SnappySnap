@@ -309,7 +309,7 @@ public sealed class SnappySnapRuntime : IAsyncDisposable
     private bool _hotkeyEventsAttached;
     private Task _recoveryTask = Task.CompletedTask;
     public bool IsExiting { get; set; }
-    public bool CanExit => _shelfState?.IsSaving != true && _compactState?.IsSaving != true && (!_screenshotRunning || _screenshots.Snapshot.State == ScreenshotState.Editing) && !_videoStarting &&
+    public bool CanExit => _shelfState?.IsSaving != true && _compactState?.IsSaving != true && !_screenshotRunning && !_videoStarting &&
         _recording.Snapshot.State is RecordingState.Idle or RecordingState.Completed or RecordingState.Error or RecordingState.RecoveryRequired;
 
     private SnappySnapRuntime(
@@ -703,13 +703,11 @@ public sealed class SnappySnapRuntime : IAsyncDisposable
         }
         editor.SaveRequestedAsync = async request =>
         {
-            _screenshots.BeginExport();
-            try { await save.SaveAsync(request); _screenshots.ConfirmExported(); }
-            catch (Exception ex) { _screenshots.FailExport(ex); throw; }
+            await save.SaveAsync(request);
+            await ShowSavedShelfAsync(plan);
         };
-        var accepted = await editor.ShowAsync();
-        if (!accepted) { _screenshots.Cancel(); return; }
-        await ShowSavedShelfAsync(plan);
+        editor.Show();
+        _screenshots.HandOffToEditor();
     }
 
     private void SetShelfCaptureInProgress(bool value)

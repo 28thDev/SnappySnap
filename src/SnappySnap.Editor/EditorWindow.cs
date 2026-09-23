@@ -206,9 +206,10 @@ public sealed class EditorWindow : Window
     private Slider PropertySlider(Panel panel, string label, double min, double max, double value, Action<double> changed)
     {
         var group = new StackPanel { Orientation = Orientation.Horizontal, Margin = new Thickness(8, 0, 4, 0) }; panel.Children.Add(group);
-        var caption = Ui.Text(L.T(label) + " " + value.ToString("0", L.Culture), 11, "Muted"); caption.MinWidth = 76; Ui.Localize(caption, TextBlock.TextProperty, label + " {0}", value); group.Children.Add(caption);
-        var slider = new Slider { Minimum = min, Maximum = max, Value = value, Width = 70, VerticalAlignment = VerticalAlignment.Center, TickFrequency = 1, IsSnapToTickEnabled = true }; Ui.Localize(slider, ToolTipProperty, label + " {0}", value);
-        Ui.Localize(slider, AutomationProperties.NameProperty, label); slider.ValueChanged += (_, _) => { if (!_syncingProperties) changed(slider.Value); Ui.Localize(slider, ToolTipProperty, label + " {0}", slider.Value); Ui.Localize(caption, TextBlock.TextProperty, label + " {0}", slider.Value); }; group.Children.Add(slider); return slider;
+        string Display(double number) => Math.Round(number).ToString("0", L.Culture) + (label == "Opacity" ? "%" : "");
+        var caption = Ui.Text(L.T(label) + " " + Display(value), 11, "Muted"); caption.MinWidth = 76; Ui.Localize(caption, TextBlock.TextProperty, label + " {0}", Display(value)); group.Children.Add(caption);
+        var slider = new Slider { Minimum = min, Maximum = max, Value = value, Width = 70, VerticalAlignment = VerticalAlignment.Center, TickFrequency = 1, IsSnapToTickEnabled = true }; Ui.Localize(slider, ToolTipProperty, label + " {0}", Display(value));
+        Ui.Localize(slider, AutomationProperties.NameProperty, label); slider.ValueChanged += (_, _) => { if (!_syncingProperties) changed(slider.Value); Ui.Localize(slider, ToolTipProperty, label + " {0}", Display(slider.Value)); Ui.Localize(caption, TextBlock.TextProperty, label + " {0}", Display(slider.Value)); }; group.Children.Add(slider); return slider;
     }
     private WrapPanel AddPalette(Panel panel, string label, bool fill)
     {

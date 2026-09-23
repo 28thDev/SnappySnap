@@ -8,6 +8,33 @@ public sealed class ScreenshotExportTests
     [Theory]
     [InlineData(false)]
     [InlineData(true)]
+    public async Task Editor_handoff_allows_a_series_and_preserves_each_captured_image(bool initialSaveFails)
+    {
+        var backend = new Capture();
+        var coordinator = new ScreenshotCaptureCoordinator(backend);
+        var bounds = new VirtualPixelRect(0, 0, 2, 2);
+        var plan = new CapturePlanBuilder().Build(bounds, [new MonitorDescriptor("test", bounds, bounds, 96, 96, true)]);
+        var images = new List<CapturedImage>();
+        for (var frame = 1; frame <= 3; frame++)
+        {
+            backend.Image = new CapturedImage(2, 2, Enumerable.Repeat((byte)frame, 16).ToArray());
+            coordinator.Begin();
+            images.Add(await coordinator.CaptureDirectAsync(plan, default));
+            coordinator.BeginExport();
+            Assert.Throws<InvalidOperationException>(() => coordinator.HandOffToEditor());
+            if (initialSaveFails) coordinator.FailExport(new IOException("Disk full"));
+            else coordinator.ConfirmOriginalSaved();
+            coordinator.HandOffToEditor();
+            Assert.Equal(ScreenshotState.Idle, coordinator.Snapshot.State);
+            Assert.Null(coordinator.Snapshot.Image);
+        }
+        Assert.Equal(3, backend.CallCount);
+        for (var i = 0; i < images.Count; i++) Assert.All(images[i].Bgra32, pixel => Assert.Equal((byte)(i + 1), pixel));
+    }
+
+    [Theory]
+    [InlineData(false)]
+    [InlineData(true)]
     public async Task Initial_save_keeps_image_and_allows_edit_export_or_discard(bool fail)
     {
         var coordinator = new ScreenshotCaptureCoordinator(new Capture());

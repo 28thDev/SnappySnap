@@ -365,7 +365,8 @@ public enum ScreenshotCommand
     ExportFailed,
     Discard,
     Reset,
-    OriginalSaved
+    OriginalSaved,
+    EditorOpened
 }
 
 public sealed record RecordingSnapshot(

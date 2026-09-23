@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.1.3 — release candidate
+
+- Take successive screenshots while earlier editors remain open. Each editor saves its own capture independently.
+- Opacity shows a rounded percentage instead of a long floating-point fraction.
+- Shelf context commands use distinct Open, Edit, Refresh and Screenshot icons.
+
+This PATCH candidate fixes existing capture and editing workflows and supersedes the 1.1.2 tester build. Owner acceptance and publication are pending.
+
 ## 1.1.2 — release candidate
 
 - Fixed the default Print Screen shortcut being shown as invalid after installation. The key now keeps the same display name through input, normalization and registration.

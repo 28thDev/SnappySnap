@@ -295,7 +295,7 @@ public sealed partial class ShelfContent : UserControl, IDisposable
 
     private static MenuItem AddMenuItem(ItemsControl menu, string text, RoutedEventHandler handler)
     {
-        var glyph = text switch { "Copy" => "\uE8C8", "Copy path" => "\uE71B", "Open folder" => "\uE8B7", "Delete" => "\uE74D", _ => "\uE70F" };
+        var glyph = text switch { "Open" => "\uE8A7", "Copy" => "\uE8C8", "Copy path" => "\uE71B", "Open folder" => "\uE8B7", "Edit / preview" => "\uE70F", "Delete" => "\uE74D", "Refresh" => "\uE72C", "Screenshot Shelf" => "\uE722", _ => throw new ArgumentOutOfRangeException(nameof(text)) };
         var shortcut = text switch { "Copy" => "Ctrl+C", "Copy path" => "Ctrl+Shift+C", "Delete" => "Del", _ => "" };
         var item = new MenuItem { Icon = Ui.Icon(glyph, 15), InputGestureText = shortcut }; Ui.Localize(item, HeaderedItemsControl.HeaderProperty, text); if (text == "Delete") item.Foreground = Ui.Brush("Danger"); item.Click += handler; menu.Items.Add(item);
         return item;

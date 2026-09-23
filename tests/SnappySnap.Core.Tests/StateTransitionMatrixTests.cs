@@ -71,6 +71,7 @@ public sealed class StateTransitionMatrixTests
             [(S.Capturing, A.CaptureFailed)] = S.Error,
             [(S.Editing, A.Confirm)] = S.Exporting,
             [(S.Editing, A.Discard)] = S.Idle,
+            [(S.Editing, A.EditorOpened)] = S.Completed,
             [(S.Exporting, A.Exported)] = S.Completed,
             [(S.Exporting, A.OriginalSaved)] = S.Editing,
             [(S.Exporting, A.ExportFailed)] = S.Editing,

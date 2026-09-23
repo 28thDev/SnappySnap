@@ -102,6 +102,19 @@ internal static partial class VisualHarness
             await (Task)typeof(ShelfContent).GetMethod("LoadOlderAsync", BindingFlags.Instance | BindingFlags.NonPublic)!.Invoke(shelf, null)!;
             if (Descendants<System.Windows.Controls.ListView>(window).Single().Items.Count != 16) throw new InvalidOperationException("Older captures were not appended to the real Shelf.");
             if (Descendants<Button>(window).Single(button => Name(button) == "Load older").IsEnabled) throw new InvalidOperationException("Shelf still offers another page after reaching the end.");
+            var menu = Descendants<ListView>(window).Single().ContextMenu!;
+            var commands = menu.Items.OfType<MenuItem>().Where(item => item.Header is string text && new[] { "Open", "Edit / preview", "Refresh", "Screenshot Shelf" }.Contains(text)).ToArray();
+            if (commands.Length != 4 || commands.Select(item => ((TextBlock)item.Icon).Text).Distinct().Count() != 4)
+                throw new InvalidOperationException("Shelf commands must have distinct, meaningful icons.");
+            menu.PlacementTarget = window; menu.IsOpen = true;
+            try
+            {
+                await window.Dispatcher.InvokeAsync(() => { }, DispatcherPriority.ApplicationIdle);
+                menu.UpdateLayout();
+                var bitmap = new RenderTargetBitmap((int)Math.Ceiling(menu.ActualWidth), (int)Math.Ceiling(menu.ActualHeight), 96, 96, PixelFormats.Pbgra32);
+                bitmap.Render(menu); SaveBitmap(bitmap, Path.Combine(output, "shelf-context-menu.png"));
+            }
+            finally { menu.IsOpen = false; }
         });
         settings.General.ShelfRecentCount = 20;
         await Snapshot(new ShelfWindow(new ShelfContent(service, settings, logger), true), output, "shelf-compact");
@@ -111,6 +124,14 @@ internal static partial class VisualHarness
             window => ((SettingsWindow)window).SelectSection("Hotkeys"));
         await Snapshot(new SettingsWindow(settings, new JsonSettingsStore(paths, logger), new WindowsStartupRegistration(), logger) { Width = 940, Height = 680 }, output, "settings-hotkeys-compact",
             window => ((SettingsWindow)window).SelectSection("Hotkeys"));
+        var opacityEditor = new EditorWindow(captured, logger) { Width = 940, Height = 680 };
+        opacityEditor.Document.Elements.Add(new HighlightElement(new Rect(100, 100, 600, 300)) { Opacity = .57, IsSelected = true });
+        await Snapshot(opacityEditor, output, "highlight-opacity", exercise: window =>
+        {
+            if (!Descendants<TextBlock>(window).Any(text => text.Text == "Opacity 57%")) throw new InvalidOperationException("Opacity must show rounded percent.");
+            return Task.CompletedTask;
+        });
+        await CheckScreenshotSeriesAsync(output, logger);
         var editor = new EditorWindow(captured, logger);
         editor.Document.Elements.Add(new ArrowElement(new Point(250, 160), new Point(570, 235)) { Color = Colors.Crimson, StrokeWidth = 4 });
         editor.Document.Elements.Add(new RectangleElement(new Rect(280, 355, 400, 72)) { Color = Colors.MediumSpringGreen, IsSelected = true, StrokeWidth = 3 });
@@ -317,6 +338,50 @@ internal static partial class VisualHarness
         }
         finally { ripple?.Close(); pill?.Close(); border?.Close(); fixture.Close(); }
     }
+    private static async Task CheckScreenshotSeriesAsync(string output, IAppLogger logger)
+    {
+        var root = Path.Combine(output, "series"); Directory.CreateDirectory(root);
+        await using var repository = new SqliteHistoryRepository(Path.Combine(root, "history.db"), logger);
+        var shelf = new ShelfService(repository, new ThumbnailService(Path.Combine(root, "thumbs"), repository, logger));
+        var editors = new List<EditorWindow>();
+        try
+        {
+            for (var i = 0; i < 3; i++)
+            {
+                var image = new CapturedImage(24 + i, 16, Enumerable.Repeat((byte)255, (24 + i) * 16 * 4).ToArray());
+                var editor = new EditorWindow(image, logger) { Left = -15000, Top = -15000, ShowActivated = false, WindowStartupLocation = WindowStartupLocation.Manual };
+                editors.Add(editor);
+                var save = new ScreenshotSaveSession(editor.Document, shelf, () => root, new(0, 0, image.Width, image.Height), _ => { }, _ => { }, logger);
+                await save.SaveOriginalAsync("Png"); editor.SaveRequestedAsync = save.SaveAsync; editor.Show();
+                editor.Document.Elements.Add(new RectangleElement(new Rect(1, 1, 12, 8)) { Color = Colors.Red });
+            }
+            var originals = (await repository.GetRecentAsync(10, default)).ToArray();
+            if (originals.Length != 3 || originals.Select(item => item.FilePath).Distinct().Count() != 3 || editors.Any(editor => !editor.IsVisible))
+                throw new InvalidOperationException("Screenshot series must retain three independent originals and editors.");
+            for (var i = 2; i >= 0; i--)
+            {
+                await (Task)typeof(EditorWindow).GetMethod("SaveAndCloseAsync", BindingFlags.Instance | BindingFlags.NonPublic)!.Invoke(editors[i], [new EditorSaveRequest("Png")])!;
+                if (editors.Take(i).Any(editor => !editor.IsVisible)) throw new InvalidOperationException("Saving one frame closed another editor.");
+            }
+            var saved = (await repository.GetRecentAsync(10, default)).ToArray();
+            if (saved.Length != 3 || !saved.Select(item => item.Id).Order().SequenceEqual(originals.Select(item => item.Id).Order()))
+                throw new InvalidOperationException("Series saves must replace their own originals without duplicate history.");
+            foreach (var item in saved)
+            {
+                var bitmap = new BitmapImage(); bitmap.BeginInit(); bitmap.CacheOption = BitmapCacheOption.OnLoad; bitmap.UriSource = new Uri(item.FilePath); bitmap.EndInit();
+                if (bitmap.PixelWidth != item.WidthPx) throw new InvalidOperationException("Series save used another frame's document.");
+            }
+            await File.WriteAllTextAsync(Path.Combine(output, "series-results.txt"), "PASS: three independent original files and modeless editors; reverse-order Save closes only its editor, preserves original history IDs and frame sizes. No real desktop capture or hotkey injection.\n");
+        }
+        finally
+        {
+            foreach (var editor in editors.Where(editor => editor.IsVisible))
+            {
+                typeof(EditorWindow).GetField("_committing", BindingFlags.Instance | BindingFlags.NonPublic)!.SetValue(editor, true); editor.Close();
+            }
+        }
+    }
+
     private static async Task Snapshot(Window window, string output, string name, Action<Window>? arrange = null, bool asyncWindow = false, Func<Window, Task>? exercise = null)
     {
         window.WindowStartupLocation = WindowStartupLocation.Manual; window.Left = -15000; window.Top = -15000; window.ShowActivated = false; window.Topmost = false;

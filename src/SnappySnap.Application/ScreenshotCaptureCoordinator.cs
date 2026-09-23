@@ -149,6 +149,12 @@ public sealed class ScreenshotCaptureCoordinator
         Publish();
     }
 
+    public void HandOffToEditor()
+    {
+        _stateMachine.Apply(ScreenshotCommand.EditorOpened);
+        Reset();
+    }
+
     public void FailExport(Exception exception)
     {
         _error = exception.Message;
