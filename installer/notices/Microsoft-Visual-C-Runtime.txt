@@ -1,0 +1,17 @@
+Microsoft Visual C++ Runtime, x64, file version 14.44.35211.0
+Copyright Microsoft Corporation. All rights reserved.
+
+SnappySnap distributes unmodified concrt140.dll, msvcp140.dll,
+vcruntime140.dll and vcruntime140_1.dll from the Visual Studio 2022
+VC Redist MSVC 14.44.35112 x64 Microsoft.VC143.CRT directory.
+These Microsoft components retain their own license terms; they are not
+covered by SnappySnap's MIT license.
+
+Redistribution terms and file list:
+https://learn.microsoft.com/en-us/visualstudio/releases/2022/redistribution
+Application-local deployment:
+https://learn.microsoft.com/en-us/cpp/windows/choosing-a-deployment-method
+
+The runtime is installed only beside SnappySnap.exe. Runtime security
+updates are delivered with SnappySnap updates; no machine-wide runtime
+installation or administrative privileges are required.

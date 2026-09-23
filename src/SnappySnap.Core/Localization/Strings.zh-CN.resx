@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <data name="General" xml:space="preserve"><value>常规</value></data>
+  <data name="Hotkeys" xml:space="preserve"><value>快捷键</value></data>
+  <data name="Screenshots" xml:space="preserve"><value>截图</value></data>
+  <data name="Screenshot" xml:space="preserve"><value>截图</value></data>
+  <data name="Recording" xml:space="preserve"><value>录制</value></data>
+  <data name="Updates" xml:space="preserve"><value>更新</value></data>
+  <data name="Settings" xml:space="preserve"><value>设置</value></data>
+  <data name="History" xml:space="preserve"><value>历史记录</value></data>
+  <data name="Shelf" xml:space="preserve"><value>素材架</value></data>
+  <data name="Captures" xml:space="preserve"><value>捕获内容</value></data>
+  <data name="Interface language" xml:space="preserve"><value>界面语言</value></data>
+  <data name="Appearance" xml:space="preserve"><value>外观</value></data>
+  <data name="System" xml:space="preserve"><value>系统</value></data>
+  <data name="Light" xml:space="preserve"><value>浅色</value></data>
+  <data name="Dark" xml:space="preserve"><value>深色</value></data>
+  <data name="Start with Windows" xml:space="preserve"><value>随 Windows 启动</value></data>
+  <data name="Capture folder" xml:space="preserve"><value>捕获文件夹</value></data>
+  <data name="Browse…" xml:space="preserve"><value>浏览…</value></data>
+  <data name="Choose folder" xml:space="preserve"><value>选择文件夹</value></data>
+  <data name="Choose a capture folder" xml:space="preserve"><value>选择捕获文件夹</value></data>
+  <data name="Recent captures in Shelf" xml:space="preserve"><value>素材架中的最近捕获</value></data>
+  <data name="Changes apply when saved." xml:space="preserve"><value>保存后应用更改。</value></data>
+  <data name="Save changes" xml:space="preserve"><value>保存更改</value></data>
+  <data name="Cancel" xml:space="preserve"><value>取消</value></data>
+  <data name="Screenshot region" xml:space="preserve"><value>截图区域</value></data>
+  <data name="Start / stop recording" xml:space="preserve"><value>开始 / 停止录制</value></data>
+  <data name="Pause / resume recording" xml:space="preserve"><value>暂停 / 继续录制</value></data>
+  <data name="Open Shelf" xml:space="preserve"><value>打开素材架</value></data>
+  <data name="Available now; checked again when saving." xml:space="preserve"><value>当前可用；保存时会再次检查。</value></data>
+  <data name="This shortcut is also occupied. Enter another combination." xml:space="preserve"><value>此快捷键也已被占用。请输入其他组合。</value></data>
+  <data name="Focus a field and press a key combination. Leave Open Shelf empty to disable its shortcut." xml:space="preserve"><value>选中输入框并按下组合键。将“打开素材架”留空可禁用其快捷键。</value></data>
+  <data name="Press Ctrl/Alt/Shift and a key" xml:space="preserve"><value>按下 Ctrl/Alt/Shift 和一个按键</value></data>
+  <data name="Use a modifier and a non-modifier key." xml:space="preserve"><value>请使用修饰键和非修饰键。</value></data>
+  <data name="This shortcut is assigned twice." xml:space="preserve"><value>此快捷键被分配了两次。</value></data>
+  <data name="Resolve the marked shortcut errors." xml:space="preserve"><value>请解决标记的快捷键错误。</value></data>
+  <data name="Default image format" xml:space="preserve"><value>默认图像格式</value></data>
+  <data name="Copy saved image to clipboard" xml:space="preserve"><value>将保存的图像复制到剪贴板</value></data>
+  <data name="Video quality" xml:space="preserve"><value>视频质量</value></data>
+  <data name="Compact" xml:space="preserve"><value>紧凑</value></data>
+  <data name="Balanced" xml:space="preserve"><value>均衡</value></data>
+  <data name="High" xml:space="preserve"><value>高</value></data>
+  <data name="Record system audio by default" xml:space="preserve"><value>默认录制系统音频</value></data>
+  <data name="Record microphone by default" xml:space="preserve"><value>默认录制麦克风</value></data>
+  <data name="Click highlighting" xml:space="preserve"><value>点击高亮</value></data>
+  <data name="Left click" xml:space="preserve"><value>左键点击</value></data>
+  <data name="Right click" xml:space="preserve"><value>右键点击</value></data>
+  <data name="Duration" xml:space="preserve"><value>持续时间</value></data>
+  <data name="Radius" xml:space="preserve"><value>半径</value></data>
+  <data name="No update source configured." xml:space="preserve"><value>未配置更新源。</value></data>
+  <data name="Check automatically" xml:space="preserve"><value>自动检查</value></data>
+  <data name="Release folder" xml:space="preserve"><value>发布文件夹</value></data>
+  <data name="Choose a signed release folder" xml:space="preserve"><value>选择已签名的发布文件夹</value></data>
+  <data name="Save a new source before checking or installing updates." xml:space="preserve"><value>请先保存新的更新源，再检查或安装更新。</value></data>
+  <data name="Update download" xml:space="preserve"><value>更新下载</value></data>
+  <data name="Check now" xml:space="preserve"><value>立即检查</value></data>
+  <data name="Download" xml:space="preserve"><value>下载</value></data>
+  <data name="Update and restart" xml:space="preserve"><value>更新并重启</value></data>
+  <data name="Save changes to use this release folder." xml:space="preserve"><value>保存更改以使用此发布文件夹。</value></data>
+  <data name="Not checked yet" xml:space="preserve"><value>尚未检查</value></data>
+  <data name="Ready to check for updates" xml:space="preserve"><value>可以检查更新</value></data>
+  <data name="Checking for updates…" xml:space="preserve"><value>正在检查更新…</value></data>
+  <data name="Update verified and ready to install" xml:space="preserve"><value>更新已验证，可以安装</value></data>
+  <data name="Up to date" xml:space="preserve"><value>已是最新版本</value></data>
+  <data name="Version {0} is available" xml:space="preserve"><value>版本 {0} 可用</value></data>
+  <data name="Check cancelled" xml:space="preserve"><value>检查已取消</value></data>
+  <data name="Download cancelled" xml:space="preserve"><value>下载已取消</value></data>
+  <data name="SnappySnap — Settings" xml:space="preserve"><value>SnappySnap — 设置</value></data>
+  <data name="SnappySnap — Video Editor" xml:space="preserve"><value>SnappySnap — 视频编辑器</value></data>
+  <data name="SnappySnap — Screenshot Editor" xml:space="preserve"><value>SnappySnap — 截图编辑器</value></data>
+  <data name="SnappySnap — Capture History" xml:space="preserve"><value>SnappySnap — 捕获历史</value></data>
+  <data name="Minimize" xml:space="preserve"><value>最小化</value></data>
+  <data name="Maximize / restore" xml:space="preserve"><value>最大化 / 还原</value></data>
+  <data name="Close" xml:space="preserve"><value>关闭</value></data>
+  <data name="Exit" xml:space="preserve"><value>退出</value></data>
+  <data name="Take screenshot" xml:space="preserve"><value>截图</value></data>
+  <data name="Start/stop recording" xml:space="preserve"><value>开始/停止录制</value></data>
+  <data name="Pause/resume recording" xml:space="preserve"><value>暂停/继续录制</value></data>
+  <data name="Export a copy" xml:space="preserve"><value>导出副本</value></data>
+  <data name="Undo" xml:space="preserve"><value>撤销</value></data>
+  <data name="Redo" xml:space="preserve"><value>重做</value></data>
+  <data name="Cancel export" xml:space="preserve"><value>取消导出</value></data>
+  <data name="Show in folder" xml:space="preserve"><value>在文件夹中显示</value></data>
+  <data name="Could not open the folder" xml:space="preserve"><value>无法打开文件夹</value></data>
+  <data name="Loading video…" xml:space="preserve"><value>正在加载视频…</value></data>
+  <data name="Select a fragment" xml:space="preserve"><value>选择片段</value></data>
+  <data name="Delete fragment" xml:space="preserve"><value>删除片段</value></data>
+  <data name="Keep only selection" xml:space="preserve"><value>仅保留所选内容</value></data>
+  <data name="Selection start (seconds)" xml:space="preserve"><value>选择开始时间（秒）</value></data>
+  <data name="Selection end (seconds)" xml:space="preserve"><value>选择结束时间（秒）</value></data>
+  <data name="Set selection" xml:space="preserve"><value>设置选择范围</value></data>
+  <data name="Exact time…" xml:space="preserve"><value>精确时间…</value></data>
+  <data name="Timeline zoom" xml:space="preserve"><value>时间线缩放</value></data>
+  <data name="Play" xml:space="preserve"><value>播放</value></data>
+  <data name="Pause" xml:space="preserve"><value>暂停</value></data>
+  <data name="Preview audio" xml:space="preserve"><value>预览音频</value></data>
+  <data name="Preview volume" xml:space="preserve"><value>预览音量</value></data>
+  <data name="Mute preview" xml:space="preserve"><value>静音预览</value></data>
+  <data name="Ready" xml:space="preserve"><value>就绪</value></data>
+  <data name="Retry adding to history" xml:space="preserve"><value>重试添加到历史记录</value></data>
+  <data name="Refresh" xml:space="preserve"><value>刷新</value></data>
+  <data name="Load older" xml:space="preserve"><value>加载更早内容</value></data>
+  <data name="Loading…" xml:space="preserve"><value>正在加载…</value></data>
+  <data name="Copy" xml:space="preserve"><value>复制</value></data>
+  <data name="Edit" xml:space="preserve"><value>编辑</value></data>
+  <data name="More" xml:space="preserve"><value>更多</value></data>
+  <data name="Screenshot Shelf" xml:space="preserve"><value>截取素材架</value></data>
+  <data name="Thumbnails" xml:space="preserve"><value>缩略图</value></data>
+  <data name="Thumbnail size" xml:space="preserve"><value>缩略图大小</value></data>
+  <data name="Captures: {0}" xml:space="preserve"><value>捕获内容：{0}</value></data>
+  <data name="Open" xml:space="preserve"><value>打开</value></data>
+  <data name="Edit / preview" xml:space="preserve"><value>编辑 / 预览</value></data>
+  <data name="Copy path" xml:space="preserve"><value>复制路径</value></data>
+  <data name="Open folder" xml:space="preserve"><value>打开文件夹</value></data>
+  <data name="Delete" xml:space="preserve"><value>删除</value></data>
+  <data name="Delete selected ({0})" xml:space="preserve"><value>删除所选内容（{0}）</value></data>
+  <data name="Video recording" xml:space="preserve"><value>视频录制</value></data>
+  <data name="Wait for saving to finish." xml:space="preserve"><value>请等待保存完成。</value></data>
+  <data name="Open recovery folder" xml:space="preserve"><value>打开恢复文件夹</value></data>
+  <data name="Open logs" xml:space="preserve"><value>打开日志</value></data>
+  <data name="Recovery needed" xml:space="preserve"><value>需要恢复</value></data>
+  <data name="Save" xml:space="preserve"><value>保存</value></data>
+  <data name="Save as new" xml:space="preserve"><value>另存为新文件</value></data>
+  <data name="Save options" xml:space="preserve"><value>保存选项</value></data>
+  <data name="Save to file…" xml:space="preserve"><value>保存到文件…</value></data>
+  <data name="Select" xml:space="preserve"><value>选择</value></data>
+  <data name="Arrow" xml:space="preserve"><value>箭头</value></data>
+  <data name="Rectangle" xml:space="preserve"><value>矩形</value></data>
+  <data name="Line" xml:space="preserve"><value>直线</value></data>
+  <data name="Freehand" xml:space="preserve"><value>手绘</value></data>
+  <data name="Text" xml:space="preserve"><value>文本</value></data>
+  <data name="Highlight" xml:space="preserve"><value>高亮</value></data>
+  <data name="Blur" xml:space="preserve"><value>模糊</value></data>
+  <data name="Pixelate" xml:space="preserve"><value>像素化</value></data>
+  <data name="Step marker" xml:space="preserve"><value>步骤标记</value></data>
+  <data name="Step" xml:space="preserve"><value>步骤</value></data>
+  <data name="Crop" xml:space="preserve"><value>裁剪</value></data>
+  <data name="Insert image" xml:space="preserve"><value>插入图像</value></data>
+  <data name="Image" xml:space="preserve"><value>图像</value></data>
+  <data name="New annotation" xml:space="preserve"><value>新注释</value></data>
+  <data name="Stroke color" xml:space="preserve"><value>描边颜色</value></data>
+  <data name="Fill color" xml:space="preserve"><value>填充颜色</value></data>
+  <data name="Stroke width" xml:space="preserve"><value>描边宽度</value></data>
+  <data name="Text size" xml:space="preserve"><value>文本大小</value></data>
+  <data name="Step size" xml:space="preserve"><value>步骤大小</value></data>
+  <data name="Opacity" xml:space="preserve"><value>不透明度</value></data>
+  <data name="Delete selection (Delete)" xml:space="preserve"><value>删除选择（Delete）</value></data>
+  <data name="Zoom out" xml:space="preserve"><value>缩小</value></data>
+  <data name="Zoom in" xml:space="preserve"><value>放大</value></data>
+  <data name="Annotation text" xml:space="preserve"><value>注释文本</value></data>
+  <data name="Copying…" xml:space="preserve"><value>正在复制…</value></data>
+  <data name="Copied" xml:space="preserve"><value>已复制</value></data>
+  <data name="Saving…" xml:space="preserve"><value>正在保存…</value></data>
+  <data name="Retry" xml:space="preserve"><value>重试</value></data>
+  <data name="Stop" xml:space="preserve"><value>停止</value></data>
+  <data name="Resume" xml:space="preserve"><value>继续</value></data>
+  <data name="Pause recording" xml:space="preserve"><value>暂停录制</value></data>
+  <data name="Resume recording" xml:space="preserve"><value>继续录制</value></data>
+  <data name="Saving recording…" xml:space="preserve"><value>正在保存录制内容…</value></data>
+  <data name="System ON" xml:space="preserve"><value>系统音频 开</value></data>
+  <data name="System OFF" xml:space="preserve"><value>系统音频 关</value></data>
+  <data name="Audio unavailable" xml:space="preserve"><value>音频不可用</value></data>
+  <data name="Mic ON" xml:space="preserve"><value>麦克风 开</value></data>
+  <data name="Mic OFF" xml:space="preserve"><value>麦克风 关</value></data>
+  <data name="No mic" xml:space="preserve"><value>无麦克风</value></data>
+  <data name="Starting" xml:space="preserve"><value>正在启动</value></data>
+  <data name="Finalizing" xml:space="preserve"><value>正在完成</value></data>
+  <data name="Idle" xml:space="preserve"><value>空闲</value></data>
+  <data name="Completed" xml:space="preserve"><value>已完成</value></data>
+  <data name="Paused" xml:space="preserve"><value>已暂停</value></data>
+  <data name="Error" xml:space="preserve"><value>错误</value></data>
+  <data name="RecoveryRequired" xml:space="preserve"><value>需要恢复</value></data>
+  <data name="Screenshot failed" xml:space="preserve"><value>截图失败</value></data>
+  <data name="Screenshot saved" xml:space="preserve"><value>截图已保存</value></data>
+  <data name="Capture saved" xml:space="preserve"><value>捕获内容已保存</value></data>
+  <data name="Recording started" xml:space="preserve"><value>录制已开始</value></data>
+  <data name="Recording failed" xml:space="preserve"><value>录制失败</value></data>
+  <data name="Recording interrupted" xml:space="preserve"><value>录制中断</value></data>
+  <data name="Audio control failed" xml:space="preserve"><value>音频控制失败</value></data>
+  <data name="SelectingRegion" xml:space="preserve"><value>正在选择区域…</value></data>
+  <data name="Pausing" xml:space="preserve"><value>正在暂停…</value></data>
+  <data name="Resuming" xml:space="preserve"><value>正在继续…</value></data>
+  <data name="Save changes to keep your preferences." xml:space="preserve"><value>保存更改以保留偏好设置。</value></data>
+  <data name="SnappySnap started" xml:space="preserve"><value>SnappySnap 已启动</value></data>
+  <data name="Shortcut unavailable" xml:space="preserve"><value>不可用</value></data>
+  <data name="Official GitHub Releases" xml:space="preserve"><value>GitHub 官方版本</value></data>
+  <data name="Downloading and verifying the installer…" xml:space="preserve"><value>正在下载并验证安装程序…</value></data>
+  <data name="Update failed. Check the connection and local log, then try again." xml:space="preserve"><value>更新失败。请检查网络连接和本地日志，然后重试。</value></data>
+</root>

@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <data name="General" xml:space="preserve"><value>全般</value></data>
+  <data name="Hotkeys" xml:space="preserve"><value>ホットキー</value></data>
+  <data name="Screenshots" xml:space="preserve"><value>スクリーンショット</value></data>
+  <data name="Screenshot" xml:space="preserve"><value>スクリーンショット</value></data>
+  <data name="Recording" xml:space="preserve"><value>録画</value></data>
+  <data name="Updates" xml:space="preserve"><value>更新</value></data>
+  <data name="Settings" xml:space="preserve"><value>設定</value></data>
+  <data name="History" xml:space="preserve"><value>履歴</value></data>
+  <data name="Shelf" xml:space="preserve"><value>キャプチャ一覧</value></data>
+  <data name="Captures" xml:space="preserve"><value>キャプチャ</value></data>
+  <data name="Interface language" xml:space="preserve"><value>インターフェイス言語</value></data>
+  <data name="Appearance" xml:space="preserve"><value>外観</value></data>
+  <data name="System" xml:space="preserve"><value>システム</value></data>
+  <data name="Light" xml:space="preserve"><value>ライト</value></data>
+  <data name="Dark" xml:space="preserve"><value>ダーク</value></data>
+  <data name="Start with Windows" xml:space="preserve"><value>Windows と同時に起動</value></data>
+  <data name="Capture folder" xml:space="preserve"><value>キャプチャフォルダー</value></data>
+  <data name="Browse…" xml:space="preserve"><value>参照…</value></data>
+  <data name="Choose folder" xml:space="preserve"><value>フォルダーを選択</value></data>
+  <data name="Choose a capture folder" xml:space="preserve"><value>キャプチャフォルダーを選択</value></data>
+  <data name="Recent captures in Shelf" xml:space="preserve"><value>最近のキャプチャ</value></data>
+  <data name="Changes apply when saved." xml:space="preserve"><value>変更は保存時に適用されます。</value></data>
+  <data name="Save changes" xml:space="preserve"><value>変更を保存</value></data>
+  <data name="Cancel" xml:space="preserve"><value>キャンセル</value></data>
+  <data name="Screenshot region" xml:space="preserve"><value>スクリーンショット範囲</value></data>
+  <data name="Start / stop recording" xml:space="preserve"><value>録画の開始 / 停止</value></data>
+  <data name="Pause / resume recording" xml:space="preserve"><value>録画の一時停止 / 再開</value></data>
+  <data name="Open Shelf" xml:space="preserve"><value>キャプチャ一覧を開く</value></data>
+  <data name="Available now; checked again when saving." xml:space="preserve"><value>現在使用できます。保存時に再確認します。</value></data>
+  <data name="This shortcut is also occupied. Enter another combination." xml:space="preserve"><value>このショートカットも使用中です。別の組み合わせを入力してください。</value></data>
+  <data name="Focus a field and press a key combination. Leave Open Shelf empty to disable its shortcut." xml:space="preserve"><value>入力欄を選択してキーの組み合わせを押します。キャプチャ一覧を開く欄を空にすると無効になります。</value></data>
+  <data name="Press Ctrl/Alt/Shift and a key" xml:space="preserve"><value>Ctrl/Alt/Shift とキーを押してください</value></data>
+  <data name="Use a modifier and a non-modifier key." xml:space="preserve"><value>修飾キーと通常のキーを使用してください。</value></data>
+  <data name="This shortcut is assigned twice." xml:space="preserve"><value>このショートカットは重複しています。</value></data>
+  <data name="Resolve the marked shortcut errors." xml:space="preserve"><value>マークされたショートカットの問題を解決してください。</value></data>
+  <data name="Default image format" xml:space="preserve"><value>既定の画像形式</value></data>
+  <data name="Copy saved image to clipboard" xml:space="preserve"><value>保存した画像をクリップボードにコピー</value></data>
+  <data name="Video quality" xml:space="preserve"><value>動画品質</value></data>
+  <data name="Compact" xml:space="preserve"><value>コンパクト</value></data>
+  <data name="Balanced" xml:space="preserve"><value>バランス</value></data>
+  <data name="High" xml:space="preserve"><value>高</value></data>
+  <data name="Record system audio by default" xml:space="preserve"><value>既定でシステム音声を録音</value></data>
+  <data name="Record microphone by default" xml:space="preserve"><value>既定でマイクを録音</value></data>
+  <data name="Click highlighting" xml:space="preserve"><value>クリックの強調表示</value></data>
+  <data name="Left click" xml:space="preserve"><value>左クリック</value></data>
+  <data name="Right click" xml:space="preserve"><value>右クリック</value></data>
+  <data name="Duration" xml:space="preserve"><value>表示時間</value></data>
+  <data name="Radius" xml:space="preserve"><value>半径</value></data>
+  <data name="No update source configured." xml:space="preserve"><value>更新元が設定されていません。</value></data>
+  <data name="Check automatically" xml:space="preserve"><value>自動的に確認</value></data>
+  <data name="Release folder" xml:space="preserve"><value>リリースフォルダー</value></data>
+  <data name="Choose a signed release folder" xml:space="preserve"><value>署名済みリリースフォルダーを選択</value></data>
+  <data name="Save a new source before checking or installing updates." xml:space="preserve"><value>更新を確認またはインストールする前に新しい更新元を保存してください。</value></data>
+  <data name="Update download" xml:space="preserve"><value>更新のダウンロード</value></data>
+  <data name="Check now" xml:space="preserve"><value>今すぐ確認</value></data>
+  <data name="Download" xml:space="preserve"><value>ダウンロード</value></data>
+  <data name="Update and restart" xml:space="preserve"><value>更新して再起動</value></data>
+  <data name="Save changes to use this release folder." xml:space="preserve"><value>このリリースフォルダーを使用するには変更を保存してください。</value></data>
+  <data name="Not checked yet" xml:space="preserve"><value>未確認</value></data>
+  <data name="Ready to check for updates" xml:space="preserve"><value>更新を確認できます</value></data>
+  <data name="Checking for updates…" xml:space="preserve"><value>更新を確認しています…</value></data>
+  <data name="Update verified and ready to install" xml:space="preserve"><value>更新を検証しました。インストールできます</value></data>
+  <data name="Up to date" xml:space="preserve"><value>最新の状態です</value></data>
+  <data name="Version {0} is available" xml:space="preserve"><value>バージョン {0} を利用できます</value></data>
+  <data name="Check cancelled" xml:space="preserve"><value>確認をキャンセルしました</value></data>
+  <data name="Download cancelled" xml:space="preserve"><value>ダウンロードをキャンセルしました</value></data>
+  <data name="SnappySnap — Settings" xml:space="preserve"><value>SnappySnap — 設定</value></data>
+  <data name="SnappySnap — Video Editor" xml:space="preserve"><value>SnappySnap — 動画エディター</value></data>
+  <data name="SnappySnap — Screenshot Editor" xml:space="preserve"><value>SnappySnap — スクリーンショットエディター</value></data>
+  <data name="SnappySnap — Capture History" xml:space="preserve"><value>SnappySnap — キャプチャ履歴</value></data>
+  <data name="Minimize" xml:space="preserve"><value>最小化</value></data>
+  <data name="Maximize / restore" xml:space="preserve"><value>最大化 / 元に戻す</value></data>
+  <data name="Close" xml:space="preserve"><value>閉じる</value></data>
+  <data name="Exit" xml:space="preserve"><value>終了</value></data>
+  <data name="Take screenshot" xml:space="preserve"><value>スクリーンショットを撮る</value></data>
+  <data name="Start/stop recording" xml:space="preserve"><value>録画を開始/停止</value></data>
+  <data name="Pause/resume recording" xml:space="preserve"><value>録画を一時停止/再開</value></data>
+  <data name="Export a copy" xml:space="preserve"><value>コピーをエクスポート</value></data>
+  <data name="Undo" xml:space="preserve"><value>元に戻す</value></data>
+  <data name="Redo" xml:space="preserve"><value>やり直し</value></data>
+  <data name="Cancel export" xml:space="preserve"><value>エクスポートをキャンセル</value></data>
+  <data name="Show in folder" xml:space="preserve"><value>フォルダーに表示</value></data>
+  <data name="Could not open the folder" xml:space="preserve"><value>フォルダーを開けませんでした</value></data>
+  <data name="Loading video…" xml:space="preserve"><value>動画を読み込んでいます…</value></data>
+  <data name="Select a fragment" xml:space="preserve"><value>範囲を選択</value></data>
+  <data name="Delete fragment" xml:space="preserve"><value>範囲を削除</value></data>
+  <data name="Keep only selection" xml:space="preserve"><value>選択範囲だけを残す</value></data>
+  <data name="Selection start (seconds)" xml:space="preserve"><value>選択開始（秒）</value></data>
+  <data name="Selection end (seconds)" xml:space="preserve"><value>選択終了（秒）</value></data>
+  <data name="Set selection" xml:space="preserve"><value>選択を設定</value></data>
+  <data name="Exact time…" xml:space="preserve"><value>正確な時間…</value></data>
+  <data name="Timeline zoom" xml:space="preserve"><value>タイムラインのズーム</value></data>
+  <data name="Play" xml:space="preserve"><value>再生</value></data>
+  <data name="Pause" xml:space="preserve"><value>一時停止</value></data>
+  <data name="Preview audio" xml:space="preserve"><value>音声をプレビュー</value></data>
+  <data name="Preview volume" xml:space="preserve"><value>プレビュー音量</value></data>
+  <data name="Mute preview" xml:space="preserve"><value>プレビューをミュート</value></data>
+  <data name="Ready" xml:space="preserve"><value>準備完了</value></data>
+  <data name="Retry adding to history" xml:space="preserve"><value>履歴への追加を再試行</value></data>
+  <data name="Refresh" xml:space="preserve"><value>更新</value></data>
+  <data name="Load older" xml:space="preserve"><value>以前の項目を読み込む</value></data>
+  <data name="Loading…" xml:space="preserve"><value>読み込んでいます…</value></data>
+  <data name="Copy" xml:space="preserve"><value>コピー</value></data>
+  <data name="Edit" xml:space="preserve"><value>編集</value></data>
+  <data name="More" xml:space="preserve"><value>その他</value></data>
+  <data name="Screenshot Shelf" xml:space="preserve"><value>キャプチャ一覧を撮影</value></data>
+  <data name="Thumbnails" xml:space="preserve"><value>サムネイル</value></data>
+  <data name="Thumbnail size" xml:space="preserve"><value>サムネイルサイズ</value></data>
+  <data name="Captures: {0}" xml:space="preserve"><value>キャプチャ：{0}</value></data>
+  <data name="Open" xml:space="preserve"><value>開く</value></data>
+  <data name="Edit / preview" xml:space="preserve"><value>編集 / プレビュー</value></data>
+  <data name="Copy path" xml:space="preserve"><value>パスをコピー</value></data>
+  <data name="Open folder" xml:space="preserve"><value>フォルダーを開く</value></data>
+  <data name="Delete" xml:space="preserve"><value>削除</value></data>
+  <data name="Delete selected ({0})" xml:space="preserve"><value>選択項目（{0}）を削除</value></data>
+  <data name="Video recording" xml:space="preserve"><value>動画録画</value></data>
+  <data name="Wait for saving to finish." xml:space="preserve"><value>保存が完了するまでお待ちください。</value></data>
+  <data name="Open recovery folder" xml:space="preserve"><value>復元フォルダーを開く</value></data>
+  <data name="Open logs" xml:space="preserve"><value>ログを開く</value></data>
+  <data name="Recovery needed" xml:space="preserve"><value>復元が必要です</value></data>
+  <data name="Save" xml:space="preserve"><value>保存</value></data>
+  <data name="Save as new" xml:space="preserve"><value>新しいコピーとして保存</value></data>
+  <data name="Save options" xml:space="preserve"><value>保存オプション</value></data>
+  <data name="Save to file…" xml:space="preserve"><value>ファイルに保存…</value></data>
+  <data name="Select" xml:space="preserve"><value>選択</value></data>
+  <data name="Arrow" xml:space="preserve"><value>矢印</value></data>
+  <data name="Rectangle" xml:space="preserve"><value>長方形</value></data>
+  <data name="Line" xml:space="preserve"><value>線</value></data>
+  <data name="Freehand" xml:space="preserve"><value>フリーハンド</value></data>
+  <data name="Text" xml:space="preserve"><value>テキスト</value></data>
+  <data name="Highlight" xml:space="preserve"><value>ハイライト</value></data>
+  <data name="Blur" xml:space="preserve"><value>ぼかし</value></data>
+  <data name="Pixelate" xml:space="preserve"><value>モザイク</value></data>
+  <data name="Step marker" xml:space="preserve"><value>手順マーカー</value></data>
+  <data name="Step" xml:space="preserve"><value>手順</value></data>
+  <data name="Crop" xml:space="preserve"><value>トリミング</value></data>
+  <data name="Insert image" xml:space="preserve"><value>画像を挿入</value></data>
+  <data name="Image" xml:space="preserve"><value>画像</value></data>
+  <data name="New annotation" xml:space="preserve"><value>新しい注釈</value></data>
+  <data name="Stroke color" xml:space="preserve"><value>線の色</value></data>
+  <data name="Fill color" xml:space="preserve"><value>塗りつぶしの色</value></data>
+  <data name="Stroke width" xml:space="preserve"><value>線の幅</value></data>
+  <data name="Text size" xml:space="preserve"><value>文字サイズ</value></data>
+  <data name="Step size" xml:space="preserve"><value>手順サイズ</value></data>
+  <data name="Opacity" xml:space="preserve"><value>不透明度</value></data>
+  <data name="Delete selection (Delete)" xml:space="preserve"><value>選択範囲を削除（Delete）</value></data>
+  <data name="Zoom out" xml:space="preserve"><value>縮小</value></data>
+  <data name="Zoom in" xml:space="preserve"><value>拡大</value></data>
+  <data name="Annotation text" xml:space="preserve"><value>注釈テキスト</value></data>
+  <data name="Copying…" xml:space="preserve"><value>コピーしています…</value></data>
+  <data name="Copied" xml:space="preserve"><value>コピーしました</value></data>
+  <data name="Saving…" xml:space="preserve"><value>保存しています…</value></data>
+  <data name="Retry" xml:space="preserve"><value>再試行</value></data>
+  <data name="Stop" xml:space="preserve"><value>停止</value></data>
+  <data name="Resume" xml:space="preserve"><value>再開</value></data>
+  <data name="Pause recording" xml:space="preserve"><value>録画を一時停止</value></data>
+  <data name="Resume recording" xml:space="preserve"><value>録画を再開</value></data>
+  <data name="Saving recording…" xml:space="preserve"><value>録画を保存しています…</value></data>
+  <data name="System ON" xml:space="preserve"><value>システム音声 オン</value></data>
+  <data name="System OFF" xml:space="preserve"><value>システム音声 オフ</value></data>
+  <data name="Audio unavailable" xml:space="preserve"><value>音声を利用できません</value></data>
+  <data name="Mic ON" xml:space="preserve"><value>マイク オン</value></data>
+  <data name="Mic OFF" xml:space="preserve"><value>マイク オフ</value></data>
+  <data name="No mic" xml:space="preserve"><value>マイクなし</value></data>
+  <data name="Starting" xml:space="preserve"><value>開始しています</value></data>
+  <data name="Finalizing" xml:space="preserve"><value>完了処理中</value></data>
+  <data name="Idle" xml:space="preserve"><value>待機中</value></data>
+  <data name="Completed" xml:space="preserve"><value>完了</value></data>
+  <data name="Paused" xml:space="preserve"><value>一時停止中</value></data>
+  <data name="Error" xml:space="preserve"><value>エラー</value></data>
+  <data name="RecoveryRequired" xml:space="preserve"><value>復元が必要です</value></data>
+  <data name="Screenshot failed" xml:space="preserve"><value>スクリーンショットに失敗しました</value></data>
+  <data name="Screenshot saved" xml:space="preserve"><value>スクリーンショットを保存しました</value></data>
+  <data name="Capture saved" xml:space="preserve"><value>キャプチャを保存しました</value></data>
+  <data name="Recording started" xml:space="preserve"><value>録画を開始しました</value></data>
+  <data name="Recording failed" xml:space="preserve"><value>録画に失敗しました</value></data>
+  <data name="Recording interrupted" xml:space="preserve"><value>録画が中断されました</value></data>
+  <data name="Audio control failed" xml:space="preserve"><value>音声の制御に失敗しました</value></data>
+  <data name="SelectingRegion" xml:space="preserve"><value>範囲を選択しています…</value></data>
+  <data name="Pausing" xml:space="preserve"><value>一時停止しています…</value></data>
+  <data name="Resuming" xml:space="preserve"><value>再開しています…</value></data>
+  <data name="Save changes to keep your preferences." xml:space="preserve"><value>設定を保持するには変更を保存してください。</value></data>
+  <data name="SnappySnap started" xml:space="preserve"><value>SnappySnap を起動しました</value></data>
+  <data name="Shortcut unavailable" xml:space="preserve"><value>利用できません</value></data>
+  <data name="Official GitHub Releases" xml:space="preserve"><value>公式 GitHub リリース</value></data>
+  <data name="Downloading and verifying the installer…" xml:space="preserve"><value>インストーラーをダウンロードして検証しています…</value></data>
+  <data name="Update failed. Check the connection and local log, then try again." xml:space="preserve"><value>更新に失敗しました。接続とローカルログを確認して再試行してください。</value></data>
+</root>

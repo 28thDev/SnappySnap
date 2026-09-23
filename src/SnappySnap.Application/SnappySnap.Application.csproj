@@ -1,0 +1,10 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <RootNamespace>SnappySnap.Application</RootNamespace>
+    <AssemblyName>SnappySnap.Application</AssemblyName>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SnappySnap.Core\SnappySnap.Core.csproj" />
+  </ItemGroup>
+</Project>

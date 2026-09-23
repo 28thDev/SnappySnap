@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" role="img" aria-labelledby="title">
+  <title id="title">SnappySnap — Frame, proposed app icon</title>
+  <rect x="8" y="8" width="240" height="240" rx="52" fill="#202325"/>
+  <path d="M110 70 H86 Q70 70 70 86 V110" fill="none" stroke="#9CC7B3" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M146 70 H170 Q186 70 186 86 V110" fill="none" stroke="#9CC7B3" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M70 146 V170 Q70 186 86 186 H110" fill="none" stroke="#9CC7B3" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M151 146 H182 Q190 146 184 152 L152 184 Q146 190 146 182 V151 Q146 146 151 146 Z" fill="#9CC7B3"/>
+</svg>

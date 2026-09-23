@@ -1,0 +1,32 @@
+{
+  "note": "Candidate values only. Replace with measured values after docs/VIDEO_QUALITY.md benchmark.",
+  "profiles": [
+    {
+      "key": "CompactCandidate",
+      "codec": "H264",
+      "fps": 30,
+      "bitrateMode": "Quality",
+      "quality": 45,
+      "hardwarePreferred": true,
+      "fastStart": true
+    },
+    {
+      "key": "BalancedCandidate",
+      "codec": "H264",
+      "fps": 30,
+      "bitrateMode": "Quality",
+      "quality": 65,
+      "hardwarePreferred": true,
+      "fastStart": true
+    },
+    {
+      "key": "HighCandidate",
+      "codec": "H264",
+      "fps": 30,
+      "bitrateMode": "Quality",
+      "quality": 75,
+      "hardwarePreferred": true,
+      "fastStart": true
+    }
+  ]
+}

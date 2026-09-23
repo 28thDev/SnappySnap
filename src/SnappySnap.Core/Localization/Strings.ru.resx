@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <data name="General" xml:space="preserve"><value>Основное</value></data>
+  <data name="Hotkeys" xml:space="preserve"><value>Горячие клавиши</value></data>
+  <data name="Screenshots" xml:space="preserve"><value>Снимки</value></data>
+  <data name="Screenshot" xml:space="preserve"><value>Снимок</value></data>
+  <data name="Recording" xml:space="preserve"><value>Запись</value></data>
+  <data name="Updates" xml:space="preserve"><value>Обновления</value></data>
+  <data name="Settings" xml:space="preserve"><value>Настройки</value></data>
+  <data name="History" xml:space="preserve"><value>Вся история</value></data>
+  <data name="Shelf" xml:space="preserve"><value>История</value></data>
+  <data name="Captures" xml:space="preserve"><value>Захваты</value></data>
+  <data name="Interface language" xml:space="preserve"><value>Язык интерфейса</value></data>
+  <data name="Appearance" xml:space="preserve"><value>Оформление</value></data>
+  <data name="System" xml:space="preserve"><value>Система</value></data>
+  <data name="Light" xml:space="preserve"><value>Светлое</value></data>
+  <data name="Dark" xml:space="preserve"><value>Тёмное</value></data>
+  <data name="Start with Windows" xml:space="preserve"><value>Запускать с Windows</value></data>
+  <data name="Capture folder" xml:space="preserve"><value>Папка снимков и видео</value></data>
+  <data name="Browse…" xml:space="preserve"><value>Выбрать…</value></data>
+  <data name="Choose folder" xml:space="preserve"><value>Выбрать папку</value></data>
+  <data name="Choose a capture folder" xml:space="preserve"><value>Выберите папку снимков и видео</value></data>
+  <data name="Recent captures in Shelf" xml:space="preserve"><value>Файлов в быстром доступе</value></data>
+  <data name="1–500. Files on disk are not deleted." xml:space="preserve"><value>От 1 до 500. Файлы на диске не удаляются.</value></data>
+  <data name="Changes apply when saved." xml:space="preserve"><value>Изменения применятся после сохранения.</value></data>
+  <data name="Save changes" xml:space="preserve"><value>Сохранить изменения</value></data>
+  <data name="Cancel" xml:space="preserve"><value>Отмена</value></data>
+  <data name="Screenshot region" xml:space="preserve"><value>Снимок области</value></data>
+  <data name="Start / stop recording" xml:space="preserve"><value>Начать / остановить запись</value></data>
+  <data name="Pause / resume recording" xml:space="preserve"><value>Пауза / продолжение записи</value></data>
+  <data name="Open Shelf" xml:space="preserve"><value>Открыть историю</value></data>
+  <data name="Try {0}" xml:space="preserve"><value>Попробовать {0}</value></data>
+  <data name="Available now; checked again when saving." xml:space="preserve"><value>Сейчас доступно; повторная проверка при сохранении.</value></data>
+  <data name="This shortcut is also occupied. Enter another combination." xml:space="preserve"><value>Это сочетание тоже занято. Укажите другое.</value></data>
+  <data name="Focus a field and press a key combination. Leave Open Shelf empty to disable its shortcut." xml:space="preserve"><value>Выберите поле и нажмите сочетание клавиш. Пустое поле «Открыть историю» отключает эту горячую клавишу.</value></data>
+  <data name="Press Ctrl/Alt/Shift and a key" xml:space="preserve"><value>Нажмите Ctrl/Alt/Shift и клавишу</value></data>
+  <data name="Use a modifier and a non-modifier key." xml:space="preserve"><value>Укажите Ctrl/Alt/Shift и обычную клавишу.</value></data>
+  <data name="This shortcut is assigned twice." xml:space="preserve"><value>Это сочетание назначено дважды.</value></data>
+  <data name="Resolve the marked shortcut errors." xml:space="preserve"><value>Исправьте отмеченные сочетания клавиш.</value></data>
+  <data name="Recent captures must be between 1 and 500." xml:space="preserve"><value>Количество файлов должно быть от 1 до 500.</value></data>
+  <data name="Choose an absolute capture folder path." xml:space="preserve"><value>Укажите полный путь к папке захватов.</value></data>
+  <data name="Shortcuts were not changed. Resolve the marked conflicts." xml:space="preserve"><value>Горячие клавиши не изменены. Устраните отмеченные конфликты.</value></data>
+  <data name="Could not save settings. Check the folder and try again." xml:space="preserve"><value>Не удалось сохранить настройки. Проверьте папку и повторите.</value></data>
+  <data name="Duplicate shortcut" xml:space="preserve"><value>Сочетание назначено дважды</value></data>
+  <data name="Invalid shortcut" xml:space="preserve"><value>Недопустимое сочетание</value></data>
+  <data name="Already used by another application" xml:space="preserve"><value>Уже используется другим приложением</value></data>
+  <data name="Windows rejected this shortcut." xml:space="preserve"><value>Windows отклонила это сочетание.</value></data>
+  <data name="Default image format" xml:space="preserve"><value>Формат новых снимков</value></data>
+  <data name="Copy saved image to clipboard" xml:space="preserve"><value>Копировать сохранённый снимок в буфер</value></data>
+  <data name="Copy keeps the editor open. Save replaces the current image; Save as new creates a copy." xml:space="preserve"><value>Копирование оставляет редактор открытым. «Сохранить» заменяет текущий снимок; «Как новый» создаёт копию.</value></data>
+  <data name="Video quality" xml:space="preserve"><value>Качество видео</value></data>
+  <data name="Compact" xml:space="preserve"><value>Компактное</value></data>
+  <data name="Balanced" xml:space="preserve"><value>Сбалансированное</value></data>
+  <data name="High" xml:space="preserve"><value>Высокое</value></data>
+  <data name="Record system audio by default" xml:space="preserve"><value>Записывать системный звук по умолчанию</value></data>
+  <data name="Record microphone by default" xml:space="preserve"><value>Записывать микрофон по умолчанию</value></data>
+  <data name="Click highlighting" xml:space="preserve"><value>Подсветка кликов</value></data>
+  <data name="Left click" xml:space="preserve"><value>Левая кнопка</value></data>
+  <data name="Right click" xml:space="preserve"><value>Правая кнопка</value></data>
+  <data name="Duration" xml:space="preserve"><value>Длительность</value></data>
+  <data name="Radius" xml:space="preserve"><value>Радиус</value></data>
+  <data name="ms" xml:space="preserve"><value>мс</value></data>
+  <data name="px" xml:space="preserve"><value>пкс</value></data>
+  <data name="No update source configured." xml:space="preserve"><value>Источник обновлений не настроен.</value></data>
+  <data name="Check automatically" xml:space="preserve"><value>Проверять автоматически</value></data>
+  <data name="Release folder" xml:space="preserve"><value>Папка релизов</value></data>
+  <data name="Choose a signed release folder" xml:space="preserve"><value>Выберите папку подписанных релизов</value></data>
+  <data name="Save a new source before checking or installing updates." xml:space="preserve"><value>Сохраните новый источник перед проверкой или установкой обновлений.</value></data>
+  <data name="Update download" xml:space="preserve"><value>Загрузка обновления</value></data>
+  <data name="Check now" xml:space="preserve"><value>Проверить сейчас</value></data>
+  <data name="Download" xml:space="preserve"><value>Скачать</value></data>
+  <data name="Update and restart" xml:space="preserve"><value>Обновить и перезапустить</value></data>
+  <data name="Save changes to use this release folder." xml:space="preserve"><value>Сохраните изменения, чтобы использовать эту папку релизов.</value></data>
+  <data name="Not checked yet" xml:space="preserve"><value>Проверка ещё не выполнялась</value></data>
+  <data name="Last checked: {0:g}" xml:space="preserve"><value>Последняя проверка: {0:g}</value></data>
+  <data name="Version {0} · {1}&#10;{2}" xml:space="preserve"><value>Версия {0} · {1}&#10;{2}</value></data>
+  <data name="Ready to check for updates" xml:space="preserve"><value>Готово к проверке обновлений</value></data>
+  <data name="Checking for updates…" xml:space="preserve"><value>Проверка обновлений…</value></data>
+  <data name="Update verified and ready to install" xml:space="preserve"><value>Обновление проверено и готово к установке</value></data>
+  <data name="Up to date" xml:space="preserve"><value>Установлена актуальная версия</value></data>
+  <data name="Version {0} is available" xml:space="preserve"><value>Доступна версия {0}</value></data>
+  <data name="Check cancelled" xml:space="preserve"><value>Проверка отменена</value></data>
+  <data name="Copying and verifying the installer…" xml:space="preserve"><value>Копирование и проверка установщика…</value></data>
+  <data name="Download cancelled" xml:space="preserve"><value>Загрузка отменена</value></data>
+  <data name="Verifying before installation…" xml:space="preserve"><value>Проверка перед установкой…</value></data>
+  <data name="Installation cancelled. The verified package is retained." xml:space="preserve"><value>Установка отменена. Проверенный пакет сохранён.</value></data>
+  <data name="Update failed. Check the release folder and local log, then try again." xml:space="preserve"><value>Не удалось обновить. Проверьте папку релизов и локальный журнал, затем повторите.</value></data>
+  <data name="Wait for the update operation or cancel it before changing the source." xml:space="preserve"><value>Дождитесь завершения обновления или отмените его перед сменой источника.</value></data>
+  <data name="SnappySnap {0} is available · Open update settings" xml:space="preserve"><value>Доступна SnappySnap {0} · Открыть настройки обновлений</value></data>
+  <data name="SnappySnap — Settings" xml:space="preserve"><value>SnappySnap — Настройки</value></data>
+  <data name="SnappySnap — Video Editor" xml:space="preserve"><value>SnappySnap — Редактор видео</value></data>
+  <data name="SnappySnap — Screenshot Editor" xml:space="preserve"><value>SnappySnap — Редактор снимков</value></data>
+  <data name="SnappySnap — Capture History" xml:space="preserve"><value>SnappySnap — История захватов</value></data>
+  <data name="Minimize" xml:space="preserve"><value>Свернуть</value></data>
+  <data name="Maximize / restore" xml:space="preserve"><value>Развернуть / восстановить</value></data>
+  <data name="Close" xml:space="preserve"><value>Закрыть</value></data>
+  <data name="Exit" xml:space="preserve"><value>Выход</value></data>
+  <data name="Take screenshot" xml:space="preserve"><value>Сделать снимок</value></data>
+  <data name="Start/stop recording" xml:space="preserve"><value>Начать / остановить запись</value></data>
+  <data name="Pause/resume recording" xml:space="preserve"><value>Пауза / продолжение записи</value></data>
+  <data name="Export a copy" xml:space="preserve"><value>Экспортировать копию</value></data>
+  <data name="Undo" xml:space="preserve"><value>Отменить</value></data>
+  <data name="Redo" xml:space="preserve"><value>Повторить</value></data>
+  <data name="Undo (Ctrl+Z)" xml:space="preserve"><value>Отменить (Ctrl+Z)</value></data>
+  <data name="Redo (Ctrl+Y)" xml:space="preserve"><value>Повторить (Ctrl+Y)</value></data>
+  <data name="Cancel export" xml:space="preserve"><value>Отменить экспорт</value></data>
+  <data name="Show in folder" xml:space="preserve"><value>Показать в папке</value></data>
+  <data name="Could not open the folder" xml:space="preserve"><value>Не удалось открыть папку</value></data>
+  <data name="Loading video…" xml:space="preserve"><value>Загрузка видео…</value></data>
+  <data name="Select a fragment" xml:space="preserve"><value>Выделите фрагмент</value></data>
+  <data name="Delete fragment" xml:space="preserve"><value>Удалить фрагмент</value></data>
+  <data name="Keep only selection" xml:space="preserve"><value>Оставить только его</value></data>
+  <data name="Selection start (seconds)" xml:space="preserve"><value>Начало выделения, секунды</value></data>
+  <data name="Selection end (seconds)" xml:space="preserve"><value>Конец выделения, секунды</value></data>
+  <data name="Set selection" xml:space="preserve"><value>Задать выделение</value></data>
+  <data name="Exact time…" xml:space="preserve"><value>Точное время…</value></data>
+  <data name="Timeline zoom" xml:space="preserve"><value>Масштаб таймлайна</value></data>
+  <data name="Play" xml:space="preserve"><value>Воспроизвести</value></data>
+  <data name="Pause" xml:space="preserve"><value>Пауза</value></data>
+  <data name="Preview audio" xml:space="preserve"><value>Звук предпросмотра</value></data>
+  <data name="Preview volume" xml:space="preserve"><value>Громкость предпросмотра</value></data>
+  <data name="Mute preview" xml:space="preserve"><value>Без звука</value></data>
+  <data name="Preview volume does not affect export." xml:space="preserve"><value>Громкость предпросмотра не влияет на экспорт.</value></data>
+  <data name="Ready" xml:space="preserve"><value>Готово</value></data>
+  <data name="Enter a range within the video in seconds (for example {0:0.0})." xml:space="preserve"><value>Укажите диапазон внутри видео в секундах (например {0:0.0}).</value></data>
+  <data name="Selected: {0:0.###} s" xml:space="preserve"><value>Выделено: {0:0.###} с</value></data>
+  <data name="Selected: {0}" xml:space="preserve"><value>Выбрано: {0}</value></data>
+  <data name="Retry adding to history" xml:space="preserve"><value>Повторить добавление в историю</value></data>
+  <data name="Original {0}  ·  Result {1}  ·  Removed {2}" xml:space="preserve"><value>Оригинал {0}  ·  Результат {1}  ·  Удалено {2}</value></data>
+  <data name="Exporting… {0:P0}" xml:space="preserve"><value>Экспорт… {0:P0}</value></data>
+  <data name="Saved {0} · {1}" xml:space="preserve"><value>Сохранено: {0} · {1}</value></data>
+  <data name="Export cancelled. Your original is unchanged." xml:space="preserve"><value>Экспорт отменён. Оригинал не изменён.</value></data>
+  <data name="Export failed. Your original is unchanged." xml:space="preserve"><value>Не удалось экспортировать видео. Оригинал не изменён.</value></data>
+  <data name="Video saved, but not added to history. Retry or show the file in its folder." xml:space="preserve"><value>Видео сохранено, но не добавлено в историю. Повторите добавление или откройте папку с файлом.</value></data>
+  <data name="Could not load video" xml:space="preserve"><value>Не удалось загрузить видео</value></data>
+  <data name="Preview failed" xml:space="preserve"><value>Не удалось запустить предпросмотр</value></data>
+  <data name="Wait for export to finish, or cancel it before closing." xml:space="preserve"><value>Дождитесь завершения экспорта или отмените его перед закрытием.</value></data>
+  <data name="The video file is saved but missing from history. Close without retrying?" xml:space="preserve"><value>Видео сохранено, но отсутствует в истории. Закрыть без повторного добавления?</value></data>
+  <data name="Discard your unsaved video edits?" xml:space="preserve"><value>Закрыть без сохранения изменений видео?</value></data>
+  <data name="Edited video timeline" xml:space="preserve"><value>Таймлайн отредактированного видео</value></data>
+  <data name="Drag to select; Delete cuts. Arrow keys seek; Shift changes the step to one second. Exact time fields provide keyboard selection." xml:space="preserve"><value>Перетаскивание выделяет, Delete удаляет фрагмент. Стрелки перемещают позицию; Shift меняет шаг на секунду. Для выделения с клавиатуры используйте поля точного времени.</value></data>
+  <data name="Selection: {0:0.###} to {1:0.###} seconds" xml:space="preserve"><value>Выделение: от {0:0.###} до {1:0.###} секунды</value></data>
+  <data name="Drag to select · Delete to cut · Edge handles trim" xml:space="preserve"><value>Потяните для выделения · Delete — удалить · Крайние ручки — обрезать</value></data>
+  <data name="Refresh" xml:space="preserve"><value>Обновить</value></data>
+  <data name="Load older" xml:space="preserve"><value>Загрузить предыдущие</value></data>
+  <data name="Loading…" xml:space="preserve"><value>Загрузка…</value></data>
+  <data name="Copy" xml:space="preserve"><value>Копировать</value></data>
+  <data name="Edit" xml:space="preserve"><value>Изменить</value></data>
+  <data name="More" xml:space="preserve"><value>Ещё</value></data>
+  <data name="Screenshot Shelf" xml:space="preserve"><value>Снимок окна истории</value></data>
+  <data name="Thumbnails" xml:space="preserve"><value>Превью</value></data>
+  <data name="Thumbnail size" xml:space="preserve"><value>Размер превью</value></data>
+  <data name="Captures: {0}" xml:space="preserve"><value>Файлов: {0}</value></data>
+  <data name="No captures yet. {0}: screenshot. {1}: recording." xml:space="preserve"><value>Захватов пока нет. {0} — снимок. {1} — запись видео.</value></data>
+  <data name="Could not load captures. Try Refresh." xml:space="preserve"><value>Не удалось загрузить историю. Нажмите «Обновить».</value></data>
+  <data name="All captures are loaded." xml:space="preserve"><value>Загружены все файлы.</value></data>
+  <data name="Could not load older captures. Try again." xml:space="preserve"><value>Не удалось загрузить предыдущие файлы. Повторите.</value></data>
+  <data name="Open" xml:space="preserve"><value>Открыть</value></data>
+  <data name="Edit / preview" xml:space="preserve"><value>Изменить / просмотреть</value></data>
+  <data name="Copy path" xml:space="preserve"><value>Копировать путь</value></data>
+  <data name="Open folder" xml:space="preserve"><value>Открыть папку</value></data>
+  <data name="Delete" xml:space="preserve"><value>Удалить</value></data>
+  <data name="Delete selected ({0})" xml:space="preserve"><value>Удалить выбранные ({0})</value></data>
+  <data name="Could not open capture. Check whether the file was moved or deleted." xml:space="preserve"><value>Не удалось открыть файл. Возможно, он перемещён или удалён.</value></data>
+  <data name="Could not copy capture. Check the file and try again when the clipboard is available." xml:space="preserve"><value>Не удалось скопировать. Проверьте файл и повторите, когда буфер обмена будет доступен.</value></data>
+  <data name="Clipboard is busy. Try Copy path again." xml:space="preserve"><value>Буфер обмена занят. Повторите копирование пути.</value></data>
+  <data name="Could not open capture folder. Check the file path." xml:space="preserve"><value>Не удалось открыть папку. Проверьте путь к файлу.</value></data>
+  <data name="Could not open video editor. Check the file and try again." xml:space="preserve"><value>Не удалось открыть редактор видео. Проверьте файл и повторите.</value></data>
+  <data name="Could not delete capture. Close apps using the file and try again." xml:space="preserve"><value>Не удалось удалить файл. Закройте использующие его приложения и повторите.</value></data>
+  <data name="Could not delete all selected captures. Close apps using the files and try again." xml:space="preserve"><value>Не удалось удалить все выбранные файлы. Закройте использующие их приложения и повторите.</value></data>
+  <data name="Delete {0}?&#10;&#10;The file will be permanently deleted from disk and removed from Shelf." xml:space="preserve"><value>Удалить {0}?&#10;&#10;Файл будет окончательно удалён с диска и из истории.</value></data>
+  <data name="Delete {0} selected captures?&#10;&#10;The files will be permanently deleted from disk and removed from Shelf." xml:space="preserve"><value>Удалить выбранные файлы ({0})?&#10;&#10;Файлы будут окончательно удалены с диска и из истории.</value></data>
+  <data name="Video recording" xml:space="preserve"><value>Видеозапись</value></data>
+  <data name="Wait for saving to finish." xml:space="preserve"><value>Дождитесь завершения сохранения.</value></data>
+  <data name="Some selected files were moved or deleted. Refresh or change the selection and try again." xml:space="preserve"><value>Некоторые выбранные файлы перемещены или удалены. Обновите список или измените выделение и повторите.</value></data>
+  <data name="Ctrl+click toggles a capture; Shift+click selects a range; Ctrl+A selects all. Drag empty space to select an area, or drag selected captures to another app." xml:space="preserve"><value>Ctrl+щелчок — изменить выбор, Shift+щелчок — выделить диапазон, Ctrl+A — выбрать всё. Потяните по пустому месту для выделения области или перетащите выбранные файлы в другое приложение.</value></data>
+  <data name="A recording needs recovery." xml:space="preserve"><value>Запись требует восстановления.</value></data>
+  <data name="Open recovery folder" xml:space="preserve"><value>Открыть папку записи</value></data>
+  <data name="Open logs" xml:space="preserve"><value>Открыть журнал</value></data>
+  <data name="Recovery needed" xml:space="preserve"><value>Требуется восстановление</value></data>
+  <data name="The temporary artifact was retained for recovery." xml:space="preserve"><value>Временный файл сохранён для восстановления.</value></data>
+  <data name="The recording artifact was retained for recovery. Try starting a new recording." xml:space="preserve"><value>Файл записи сохранён для восстановления. Попробуйте начать новую запись.</value></data>
+  <data name="The recording artifact was retained. Try starting a new recording." xml:space="preserve"><value>Файл записи сохранён. Попробуйте начать новую запись.</value></data>
+  <data name="Save" xml:space="preserve"><value>Сохранить</value></data>
+  <data name="Save as new" xml:space="preserve"><value>Как новый</value></data>
+  <data name="Save options" xml:space="preserve"><value>Параметры сохранения</value></data>
+  <data name="Save to file…" xml:space="preserve"><value>Сохранить в файл…</value></data>
+  <data name="New copy format" xml:space="preserve"><value>Формат новой копии</value></data>
+  <data name="Format for new copies; Save keeps the current file format" xml:space="preserve"><value>Формат новых копий; «Сохранить» оставляет формат текущего файла</value></data>
+  <data name="Choose a file name and location" xml:space="preserve"><value>Выбрать имя файла и папку</value></data>
+  <data name="Replace this screenshot and close (Ctrl+S / Enter)" xml:space="preserve"><value>Заменить этот снимок и закрыть (Ctrl+S / Enter)</value></data>
+  <data name="Save a separate copy to Shelf and close (Ctrl+Shift+S)" xml:space="preserve"><value>Сохранить отдельную копию в историю и закрыть (Ctrl+Shift+S)</value></data>
+  <data name="Copy the current image without saving or closing (Ctrl+C)" xml:space="preserve"><value>Копировать текущий снимок без сохранения и закрытия (Ctrl+C)</value></data>
+  <data name="Select" xml:space="preserve"><value>Выбор</value></data>
+  <data name="Arrow" xml:space="preserve"><value>Стрелка</value></data>
+  <data name="Rectangle" xml:space="preserve"><value>Рамка</value></data>
+  <data name="Line" xml:space="preserve"><value>Линия</value></data>
+  <data name="Freehand" xml:space="preserve"><value>Перо</value></data>
+  <data name="Text" xml:space="preserve"><value>Текст</value></data>
+  <data name="Highlight" xml:space="preserve"><value>Маркер</value></data>
+  <data name="Blur" xml:space="preserve"><value>Размытие</value></data>
+  <data name="Pixelate" xml:space="preserve"><value>Пикселизация</value></data>
+  <data name="Step marker" xml:space="preserve"><value>Нумерация</value></data>
+  <data name="StepMarker" xml:space="preserve"><value>Нумерация</value></data>
+  <data name="Step" xml:space="preserve"><value>Шаг</value></data>
+  <data name="Crop" xml:space="preserve"><value>Обрезка</value></data>
+  <data name="Insert image" xml:space="preserve"><value>Вставить изображение</value></data>
+  <data name="Image" xml:space="preserve"><value>Изображение</value></data>
+  <data name="New annotation" xml:space="preserve"><value>Новая аннотация</value></data>
+  <data name="Stroke color" xml:space="preserve"><value>Цвет обводки</value></data>
+  <data name="Fill color" xml:space="preserve"><value>Цвет заливки</value></data>
+  <data name="Stroke width" xml:space="preserve"><value>Толщина</value></data>
+  <data name="Text size" xml:space="preserve"><value>Размер текста</value></data>
+  <data name="Step size" xml:space="preserve"><value>Размер номера</value></data>
+  <data name="Opacity" xml:space="preserve"><value>Непрозрачность</value></data>
+  <data name="Stroke" xml:space="preserve"><value>Обводка</value></data>
+  <data name="Fill" xml:space="preserve"><value>Заливка</value></data>
+  <data name="Delete selection (Delete)" xml:space="preserve"><value>Удалить выделенное (Delete)</value></data>
+  <data name="Zoom out" xml:space="preserve"><value>Уменьшить</value></data>
+  <data name="Zoom in" xml:space="preserve"><value>Увеличить</value></data>
+  <data name="Fit to window (Ctrl+0)" xml:space="preserve"><value>Вписать в окно (Ctrl+0)</value></data>
+  <data name="Arrow · Drag to draw · Select to bend or move · Enter to save" xml:space="preserve"><value>Стрелка · Потяните для рисования · Выбор — изменить форму или положение · Enter — сохранить</value></data>
+  <data name="Select · Drag body to move · Drag handles to reshape" xml:space="preserve"><value>Выбор · Потяните объект для перемещения, ручки — для изменения формы</value></data>
+  <data name="{0} · Drag on the image" xml:space="preserve"><value>{0} · Потяните по изображению</value></data>
+  <data name="Cropped · Ctrl+Z to restore · Drag to crop again" xml:space="preserve"><value>Обрезано · Ctrl+Z — восстановить · Потяните для новой обрезки</value></data>
+  <data name="Annotation text" xml:space="preserve"><value>Текст аннотации</value></data>
+  <data name="Enter for a new line · Ctrl+Enter to apply · Esc to cancel" xml:space="preserve"><value>Enter — новая строка · Ctrl+Enter — применить · Esc — отмена</value></data>
+  <data name="Enter for a new line; Ctrl+Enter to apply; Escape to cancel." xml:space="preserve"><value>Enter — новая строка; Ctrl+Enter — применить; Escape — отменить.</value></data>
+  <data name="Text · Double-click a label or select it and press F2 to edit" xml:space="preserve"><value>Текст · Двойной клик по подписи или F2 после выбора — редактировать</value></data>
+  <data name="This screenshot was not saved to Shelf. Close without saving?" xml:space="preserve"><value>Снимок не сохранён в историю. Закрыть без сохранения?</value></data>
+  <data name="Discard your unsaved annotations? The saved screenshot will stay in Shelf." xml:space="preserve"><value>Закрыть без сохранения аннотаций? Сохранённый снимок останется в истории.</value></data>
+  <data name="PNG image|*.png|JPEG image|*.jpg" xml:space="preserve"><value>Изображение PNG|*.png|Изображение JPEG|*.jpg</value></data>
+  <data name="Images|*.png;*.jpg;*.jpeg;*.bmp;*.gif|All files|*.*" xml:space="preserve"><value>Изображения|*.png;*.jpg;*.jpeg;*.bmp;*.gif|Все файлы|*.*</value></data>
+  <data name="Choose a .png or .jpg file name." xml:space="preserve"><value>Укажите имя файла с расширением .png или .jpg.</value></data>
+  <data name="Could not open the image. Check the file and try again." xml:space="preserve"><value>Не удалось открыть изображение. Проверьте файл и повторите.</value></data>
+  <data name="Could not open the dropped image." xml:space="preserve"><value>Не удалось открыть перетащенное изображение.</value></data>
+  <data name="Copying…" xml:space="preserve"><value>Копирование…</value></data>
+  <data name="Copied" xml:space="preserve"><value>Скопировано</value></data>
+  <data name="Could not copy the image. Clipboard may be busy; press Copy or Ctrl+C to retry." xml:space="preserve"><value>Не удалось скопировать изображение. Возможно, буфер обмена занят; повторите кнопкой «Копировать» или Ctrl+C.</value></data>
+  <data name="Saving…" xml:space="preserve"><value>Сохранение…</value></data>
+  <data name="Retry" xml:space="preserve"><value>Повторить</value></data>
+  <data name="Could not write the image. Retry or choose another location with Save to file…" xml:space="preserve"><value>Не удалось записать изображение. Повторите или выберите другую папку через «Сохранить в файл…».</value></data>
+  <data name="File saved at {0}. Could not add it to Shelf. Retry to finish." xml:space="preserve"><value>Файл сохранён: {0}. Не удалось добавить его в историю. Повторите для завершения.</value></data>
+  <data name="File saved. Clipboard is busy; copy the image from Shelf." xml:space="preserve"><value>Файл сохранён. Буфер обмена занят; скопируйте снимок из истории.</value></data>
+  <data name="Stop" xml:space="preserve"><value>Стоп</value></data>
+  <data name="Resume" xml:space="preserve"><value>Продолжить</value></data>
+  <data name="Pause recording" xml:space="preserve"><value>Приостановить запись</value></data>
+  <data name="Resume recording" xml:space="preserve"><value>Продолжить запись</value></data>
+  <data name="{0} · Paused" xml:space="preserve"><value>{0} · Пауза</value></data>
+  <data name="Saving recording…" xml:space="preserve"><value>Сохраняем запись…</value></data>
+  <data name="System ON" xml:space="preserve"><value>Система вкл.</value></data>
+  <data name="System OFF" xml:space="preserve"><value>Система выкл.</value></data>
+  <data name="Audio ON" xml:space="preserve"><value>Звук вкл.</value></data>
+  <data name="Audio OFF" xml:space="preserve"><value>Звук выкл.</value></data>
+  <data name="Audio unavailable" xml:space="preserve"><value>Звук недоступен</value></data>
+  <data name="System audio ON" xml:space="preserve"><value>Системный звук включён</value></data>
+  <data name="System audio OFF" xml:space="preserve"><value>Системный звук выключен</value></data>
+  <data name="System audio unavailable" xml:space="preserve"><value>Системный звук недоступен</value></data>
+  <data name="Mic ON" xml:space="preserve"><value>Микрофон вкл.</value></data>
+  <data name="Mic OFF" xml:space="preserve"><value>Микрофон выкл.</value></data>
+  <data name="No mic" xml:space="preserve"><value>Нет микрофона</value></data>
+  <data name="Microphone ON" xml:space="preserve"><value>Микрофон включён</value></data>
+  <data name="Microphone OFF" xml:space="preserve"><value>Микрофон выключен</value></data>
+  <data name="Microphone unavailable" xml:space="preserve"><value>Микрофон недоступен</value></data>
+  <data name="Toggle microphone in this recording" xml:space="preserve"><value>Включить или выключить микрофон в этой записи</value></data>
+  <data name="No microphone is available. Recording continues without it." xml:space="preserve"><value>Микрофон недоступен. Запись продолжается без него.</value></data>
+  <data name="Toggle system audio in this recording" xml:space="preserve"><value>Включить или выключить системный звук в этой записи</value></data>
+  <data name="System audio is unavailable. Recording continues without it." xml:space="preserve"><value>Системный звук недоступен. Запись продолжается без него.</value></data>
+  <data name="Drag to select · Double-click: monitor under pointer · Esc: cancel" xml:space="preserve"><value>Выделите область · Двойной клик — монитор под курсором · Esc — отмена</value></data>
+  <data name="Drag to select region · Esc to cancel" xml:space="preserve"><value>Выделите область · Esc — отмена</value></data>
+  <data name="Starting" xml:space="preserve"><value>Запуск</value></data>
+  <data name="Finalizing" xml:space="preserve"><value>Сохранение</value></data>
+  <data name="Idle" xml:space="preserve"><value>Готово</value></data>
+  <data name="Completed" xml:space="preserve"><value>Завершено</value></data>
+  <data name="Paused" xml:space="preserve"><value>Пауза</value></data>
+  <data name="Error" xml:space="preserve"><value>Ошибка</value></data>
+  <data name="RecoveryRequired" xml:space="preserve"><value>Требуется восстановление</value></data>
+  <data name="Screenshot failed" xml:space="preserve"><value>Не удалось сделать снимок</value></data>
+  <data name="Screenshot saved" xml:space="preserve"><value>Снимок сохранён</value></data>
+  <data name="Shelf screenshot failed" xml:space="preserve"><value>Не удалось сделать снимок истории</value></data>
+  <data name="The Shelf window is not ready to capture. Try again." xml:space="preserve"><value>Окно истории ещё не готово к захвату. Повторите.</value></data>
+  <data name="Capture saved" xml:space="preserve"><value>Файл сохранён</value></data>
+  <data name="Could not open Shelf. Use the tray menu to try again." xml:space="preserve"><value>Не удалось открыть историю. Повторите через меню в трее.</value></data>
+  <data name="Recording started" xml:space="preserve"><value>Запись началась</value></data>
+  <data name="Ctrl+Alt+E stops; Ctrl+Alt+Space pauses." xml:space="preserve"><value>Ctrl+Alt+E — остановить; Ctrl+Alt+Space — пауза.</value></data>
+  <data name="Recording failed" xml:space="preserve"><value>Не удалось начать запись</value></data>
+  <data name="Recording interrupted" xml:space="preserve"><value>Запись прервана</value></data>
+  <data name="Recording finalization failed" xml:space="preserve"><value>Не удалось завершить запись</value></data>
+  <data name="Audio control failed" xml:space="preserve"><value>Не удалось переключить звук</value></data>
+  <data name="Check the audio device and try again." xml:space="preserve"><value>Проверьте звуковое устройство и повторите.</value></data>
+  <data name="Finish the capture, save or export before exiting SnappySnap." xml:space="preserve"><value>Завершите захват, сохранение или экспорт перед выходом из SnappySnap.</value></data>
+  <data name="Could not finish shutdown or update. Check the local log and try again." xml:space="preserve"><value>Не удалось завершить выход или обновление. Проверьте локальный журнал и повторите.</value></data>
+  <data name="SnappySnap could not start.&#10;&#10;{0}" xml:space="preserve"><value>Не удалось запустить SnappySnap.&#10;&#10;{0}</value></data>
+  <data name="Changes work for this session but could not be saved for the next launch." xml:space="preserve"><value>Изменения действуют в этой сессии, но не удалось сохранить их для следующего запуска.</value></data>
+  <data name="Could not apply this edit. Select a smaller fragment and try again." xml:space="preserve"><value>Не удалось применить правку. Выделите меньший фрагмент и повторите.</value></data>
+  <data name="SnappySnap is already running. Open it from the system tray." xml:space="preserve"><value>SnappySnap уже запущен. Откройте его через значок в области уведомлений.</value></data>
+  <data name="SnappySnap is being installed or removed. Please wait until Setup finishes." xml:space="preserve"><value>Идёт установка или удаление SnappySnap. Дождитесь завершения.</value></data>
+  <data name="Update did not finish. Verified installer and logs are available in:&#10;{0}" xml:space="preserve"><value>Обновление не завершено. Проверенный установщик и журналы находятся в:&#10;{0}</value></data>
+  <data name="SnappySnap — Update" xml:space="preserve"><value>SnappySnap — Обновление</value></data>
+  <data name="Stroke width {0}" xml:space="preserve"><value>Толщина {0}</value></data>
+  <data name="Text size {0}" xml:space="preserve"><value>Кегль {0}</value></data>
+  <data name="Step size {0}" xml:space="preserve"><value>Размер номера {0}</value></data>
+  <data name="Opacity {0}" xml:space="preserve"><value>Непрозрачность {0}</value></data>
+  <data name="Stroke color {0}" xml:space="preserve"><value>Цвет контура {0}</value></data>
+  <data name="Fill color {0}" xml:space="preserve"><value>Цвет заливки {0}</value></data>
+  <data name="Left click {0}" xml:space="preserve"><value>Левая кнопка {0}</value></data>
+  <data name="Right click {0}" xml:space="preserve"><value>Правая кнопка {0}</value></data>
+  <data name="MP4 / H.264 · 30 fps" xml:space="preserve"><value>MP4 / H.264 · 30 кадров/с</value></data>
+  <data name="Could not save the edited screenshot. Check the folder and try again." xml:space="preserve"><value>Не удалось сохранить снимок с правками. Проверьте папку и повторите.</value></data>
+  <data name="Could not capture the selected region. Try again or check the local log." xml:space="preserve"><value>Не удалось захватить выбранную область. Повторите попытку или проверьте локальный журнал.</value></data>
+  <data name="Could not start recording. Check audio devices and the destination folder." xml:space="preserve"><value>Не удалось начать запись. Проверьте звуковые устройства и папку сохранения.</value></data>
+  <data name="SelectingRegion" xml:space="preserve"><value>Выбор области…</value></data>
+  <data name="Pausing" xml:space="preserve"><value>Переход на паузу…</value></data>
+  <data name="Resuming" xml:space="preserve"><value>Возобновление…</value></data>
+  <data name="Save changes to keep your preferences." xml:space="preserve"><value>Нажмите «Сохранить изменения», чтобы запомнить настройки.</value></data>
+  <data name="SnappySnap started" xml:space="preserve"><value>SnappySnap запущен</value></data>
+  <data name="Shortcut unavailable" xml:space="preserve"><value>Недоступно</value></data>
+  <data name="Official GitHub Releases" xml:space="preserve"><value>Официальные релизы GitHub</value></data>
+  <data name="Downloading and verifying the installer…" xml:space="preserve"><value>Загрузка и проверка установщика…</value></data>
+  <data name="Update failed. Check the connection and local log, then try again." xml:space="preserve"><value>Не удалось проверить обновление. Проверьте соединение и локальный журнал, затем повторите.</value></data>
+</root>

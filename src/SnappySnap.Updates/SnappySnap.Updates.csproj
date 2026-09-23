@@ -1,0 +1,6 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup><InternalsVisibleTo Include="SnappySnap.IntegrationTests" /></ItemGroup>
+  <PropertyGroup><TargetFramework>net10.0</TargetFramework></PropertyGroup>
+  <ItemGroup><ProjectReference Include="..\SnappySnap.Core\SnappySnap.Core.csproj" /></ItemGroup>
+  <ItemGroup><EmbeddedResource Include="release-public.pem" /></ItemGroup>
+</Project>

@@ -1,0 +1,45 @@
+name: CI
+
+on:
+  push:
+    branches: [master, 'release/**']
+  pull_request:
+    branches: [master, 'release/**']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-test:
+    name: Windows build and tests
+    runs-on: windows-2025
+    timeout-minutes: 20
+    defaults:
+      run:
+        shell: pwsh
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6.0.0
+        with:
+          global-json-file: global.json
+      - name: Check public source contents
+        run: ./tools/release/Test-PublicTree.ps1 -RequireLicense
+      - name: Restore pinned dependencies
+        run: dotnet restore SnappySnap.sln --locked-mode
+      - name: Build
+        run: dotnet build SnappySnap.sln --configuration Release --no-restore --nologo -p:Platform=x64
+      - name: Test
+        run: ./test.ps1 -Configuration Release -NoBuild
+      - name: Test release tooling in isolated fixtures
+        run: |
+          ./tools/release/Export-PublicSource.ps1 -OutputDirectory ./artifacts/release-test-source
+          ./tests/Test-ReleaseTools.ps1 -PublicSourceDirectory ./artifacts/release-test-source -VersionedExe ./src/SnappySnap.App/bin/x64/Release/net10.0-windows10.0.19041.0/SnappySnap.exe
+
+# No publishing, tagging, installation, signing keys or desktop capture on CI.

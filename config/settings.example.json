@@ -1,0 +1,80 @@
+{
+  "schemaVersion": 4,
+  "updates": {
+    "automaticChecks": true
+  },
+  "shelf": {
+    "thumbnailHeight": 164,
+    "compact": null,
+    "history": null
+  },
+  "general": {
+    "startWithWindows": true,
+    "theme": "System",
+    "language": "en",
+    "captureRoot": "%USERPROFILE%\\Pictures\\SnappySnap",
+    "shelfRecentCount": 50
+  },
+  "hotkeys": {
+    "regionScreenshot": "Ctrl+E",
+    "regionVideo": "Ctrl+Alt+E",
+    "pauseResumeVideo": "Ctrl+Alt+Space",
+    "fastRegionScreenshot": null,
+    "openShelf": null
+  },
+  "screenshot": {
+    "format": "Png",
+    "openEditor": true,
+    "copyToClipboard": true
+  },
+  "recording": {
+    "qualityProfile": "Compact",
+    "frameRate": 30,
+    "systemAudioDefault": true,
+    "microphoneDefault": false,
+    "mousePointer": true,
+    "leftClickColor": "#FFFFC107",
+    "rightClickColor": "#FFFF6B35",
+    "clickRippleRadiusPx": 26,
+    "clickRippleDurationMs": 220
+  },
+  "editor": {
+    "styles": {
+      "Arrow": {
+        "color": "#FFFF3B30",
+        "strokeWidth": 5,
+        "opacity": 1
+      },
+      "Rectangle": {
+        "color": "#FFFF3B30",
+        "fillColor": "#00FFFFFF",
+        "strokeWidth": 5,
+        "opacity": 1
+      },
+      "Line": {
+        "color": "#FFFF3B30",
+        "strokeWidth": 5,
+        "opacity": 1
+      },
+      "Freehand": {
+        "color": "#FFFF3B30",
+        "strokeWidth": 5,
+        "opacity": 1
+      },
+      "Text": {
+        "color": "#FFFF3B30",
+        "opacity": 1,
+        "fontSize": 20
+      },
+      "Highlight": {
+        "color": "#FFFFD700",
+        "opacity": 0.35
+      },
+      "StepMarker": {
+        "color": "#FFFF3B30",
+        "opacity": 1,
+        "stepDiameter": 64
+      }
+    }
+  }
+}

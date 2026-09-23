@@ -1,0 +1,18 @@
+* text=auto
+*.ps1 text eol=crlf
+*.cs text eol=crlf
+*.xaml text eol=crlf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.md text eol=lf
+*.json text eol=lf
+*.png binary
+*.jpg binary
+*.ico binary
+
+# These remain in private development history, never in source archives.
+/SnappySnap_Generated_Pics_ByGPT export-ignore
+/docs/ui-revision-2026-09-22 export-ignore
+/IMPLEMENTATION_STATUS.md export-ignore
+/MASTER_PROMPT.md export-ignore
+/HANDOFF_CHECKLIST.md export-ignore

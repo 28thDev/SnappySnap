@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <data name="General" xml:space="preserve"><value>General</value></data>
+  <data name="Hotkeys" xml:space="preserve"><value>Atajos de teclado</value></data>
+  <data name="Screenshots" xml:space="preserve"><value>Capturas de pantalla</value></data>
+  <data name="Screenshot" xml:space="preserve"><value>Captura de pantalla</value></data>
+  <data name="Recording" xml:space="preserve"><value>Grabación</value></data>
+  <data name="Updates" xml:space="preserve"><value>Actualizaciones</value></data>
+  <data name="Settings" xml:space="preserve"><value>Configuración</value></data>
+  <data name="History" xml:space="preserve"><value>Historial</value></data>
+  <data name="Shelf" xml:space="preserve"><value>Panel</value></data>
+  <data name="Captures" xml:space="preserve"><value>Capturas</value></data>
+  <data name="Interface language" xml:space="preserve"><value>Idioma de la interfaz</value></data>
+  <data name="Appearance" xml:space="preserve"><value>Apariencia</value></data>
+  <data name="System" xml:space="preserve"><value>Sistema</value></data>
+  <data name="Light" xml:space="preserve"><value>Claro</value></data>
+  <data name="Dark" xml:space="preserve"><value>Oscuro</value></data>
+  <data name="Start with Windows" xml:space="preserve"><value>Iniciar con Windows</value></data>
+  <data name="Capture folder" xml:space="preserve"><value>Carpeta de capturas</value></data>
+  <data name="Browse…" xml:space="preserve"><value>Examinar…</value></data>
+  <data name="Choose folder" xml:space="preserve"><value>Elegir carpeta</value></data>
+  <data name="Choose a capture folder" xml:space="preserve"><value>Elegir una carpeta de capturas</value></data>
+  <data name="Recent captures in Shelf" xml:space="preserve"><value>Capturas recientes en el panel</value></data>
+  <data name="Changes apply when saved." xml:space="preserve"><value>Los cambios se aplican al guardarlos.</value></data>
+  <data name="Save changes" xml:space="preserve"><value>Guardar cambios</value></data>
+  <data name="Cancel" xml:space="preserve"><value>Cancelar</value></data>
+  <data name="Screenshot region" xml:space="preserve"><value>Región de captura</value></data>
+  <data name="Start / stop recording" xml:space="preserve"><value>Iniciar / detener grabación</value></data>
+  <data name="Pause / resume recording" xml:space="preserve"><value>Pausar / reanudar grabación</value></data>
+  <data name="Open Shelf" xml:space="preserve"><value>Abrir panel</value></data>
+  <data name="Available now; checked again when saving." xml:space="preserve"><value>Disponible ahora; se comprobará de nuevo al guardar.</value></data>
+  <data name="This shortcut is also occupied. Enter another combination." xml:space="preserve"><value>Este atajo también está ocupado. Introduce otra combinación.</value></data>
+  <data name="Focus a field and press a key combination. Leave Open Shelf empty to disable its shortcut." xml:space="preserve"><value>Enfoca un campo y pulsa una combinación. Déjalo vacío para desactivar el atajo del panel.</value></data>
+  <data name="Press Ctrl/Alt/Shift and a key" xml:space="preserve"><value>Pulsa Ctrl/Alt/Shift y una tecla</value></data>
+  <data name="Use a modifier and a non-modifier key." xml:space="preserve"><value>Usa una tecla modificadora y una tecla normal.</value></data>
+  <data name="This shortcut is assigned twice." xml:space="preserve"><value>Este atajo está asignado dos veces.</value></data>
+  <data name="Resolve the marked shortcut errors." xml:space="preserve"><value>Resuelve los errores de atajos marcados.</value></data>
+  <data name="Default image format" xml:space="preserve"><value>Formato de imagen predeterminado</value></data>
+  <data name="Copy saved image to clipboard" xml:space="preserve"><value>Copiar la imagen guardada al portapapeles</value></data>
+  <data name="Video quality" xml:space="preserve"><value>Calidad de vídeo</value></data>
+  <data name="Compact" xml:space="preserve"><value>Compacta</value></data>
+  <data name="Balanced" xml:space="preserve"><value>Equilibrada</value></data>
+  <data name="High" xml:space="preserve"><value>Alta</value></data>
+  <data name="Record system audio by default" xml:space="preserve"><value>Grabar el audio del sistema de forma predeterminada</value></data>
+  <data name="Record microphone by default" xml:space="preserve"><value>Grabar el micrófono de forma predeterminada</value></data>
+  <data name="Click highlighting" xml:space="preserve"><value>Resaltado de clics</value></data>
+  <data name="Left click" xml:space="preserve"><value>Clic izquierdo</value></data>
+  <data name="Right click" xml:space="preserve"><value>Clic derecho</value></data>
+  <data name="Duration" xml:space="preserve"><value>Duración</value></data>
+  <data name="Radius" xml:space="preserve"><value>Radio</value></data>
+  <data name="No update source configured." xml:space="preserve"><value>No se ha configurado ninguna fuente de actualización.</value></data>
+  <data name="Check automatically" xml:space="preserve"><value>Comprobar automáticamente</value></data>
+  <data name="Release folder" xml:space="preserve"><value>Carpeta de versión</value></data>
+  <data name="Choose a signed release folder" xml:space="preserve"><value>Elegir una carpeta de versión firmada</value></data>
+  <data name="Save a new source before checking or installing updates." xml:space="preserve"><value>Guarda una nueva fuente antes de comprobar o instalar actualizaciones.</value></data>
+  <data name="Update download" xml:space="preserve"><value>Descarga de actualización</value></data>
+  <data name="Check now" xml:space="preserve"><value>Comprobar ahora</value></data>
+  <data name="Download" xml:space="preserve"><value>Descargar</value></data>
+  <data name="Update and restart" xml:space="preserve"><value>Actualizar y reiniciar</value></data>
+  <data name="Save changes to use this release folder." xml:space="preserve"><value>Guarda los cambios para usar esta carpeta de versión.</value></data>
+  <data name="Not checked yet" xml:space="preserve"><value>Aún no se ha comprobado</value></data>
+  <data name="Ready to check for updates" xml:space="preserve"><value>Listo para comprobar actualizaciones</value></data>
+  <data name="Checking for updates…" xml:space="preserve"><value>Comprobando actualizaciones…</value></data>
+  <data name="Update verified and ready to install" xml:space="preserve"><value>Actualización verificada y lista para instalar</value></data>
+  <data name="Up to date" xml:space="preserve"><value>Está actualizado</value></data>
+  <data name="Version {0} is available" xml:space="preserve"><value>La versión {0} está disponible</value></data>
+  <data name="Check cancelled" xml:space="preserve"><value>Comprobación cancelada</value></data>
+  <data name="Download cancelled" xml:space="preserve"><value>Descarga cancelada</value></data>
+  <data name="SnappySnap — Settings" xml:space="preserve"><value>SnappySnap — Configuración</value></data>
+  <data name="SnappySnap — Video Editor" xml:space="preserve"><value>SnappySnap — Editor de vídeo</value></data>
+  <data name="SnappySnap — Screenshot Editor" xml:space="preserve"><value>SnappySnap — Editor de capturas</value></data>
+  <data name="SnappySnap — Capture History" xml:space="preserve"><value>SnappySnap — Historial de capturas</value></data>
+  <data name="Minimize" xml:space="preserve"><value>Minimizar</value></data>
+  <data name="Maximize / restore" xml:space="preserve"><value>Maximizar / restaurar</value></data>
+  <data name="Close" xml:space="preserve"><value>Cerrar</value></data>
+  <data name="Exit" xml:space="preserve"><value>Salir</value></data>
+  <data name="Take screenshot" xml:space="preserve"><value>Hacer una captura</value></data>
+  <data name="Start/stop recording" xml:space="preserve"><value>Iniciar/detener grabación</value></data>
+  <data name="Pause/resume recording" xml:space="preserve"><value>Pausar/reanudar grabación</value></data>
+  <data name="Export a copy" xml:space="preserve"><value>Exportar una copia</value></data>
+  <data name="Undo" xml:space="preserve"><value>Deshacer</value></data>
+  <data name="Redo" xml:space="preserve"><value>Rehacer</value></data>
+  <data name="Cancel export" xml:space="preserve"><value>Cancelar exportación</value></data>
+  <data name="Show in folder" xml:space="preserve"><value>Mostrar en la carpeta</value></data>
+  <data name="Could not open the folder" xml:space="preserve"><value>No se pudo abrir la carpeta</value></data>
+  <data name="Loading video…" xml:space="preserve"><value>Cargando vídeo…</value></data>
+  <data name="Select a fragment" xml:space="preserve"><value>Seleccionar un fragmento</value></data>
+  <data name="Delete fragment" xml:space="preserve"><value>Eliminar fragmento</value></data>
+  <data name="Keep only selection" xml:space="preserve"><value>Conservar solo la selección</value></data>
+  <data name="Selection start (seconds)" xml:space="preserve"><value>Inicio de selección (segundos)</value></data>
+  <data name="Selection end (seconds)" xml:space="preserve"><value>Fin de selección (segundos)</value></data>
+  <data name="Set selection" xml:space="preserve"><value>Establecer selección</value></data>
+  <data name="Exact time…" xml:space="preserve"><value>Hora exacta…</value></data>
+  <data name="Timeline zoom" xml:space="preserve"><value>Zoom de la línea de tiempo</value></data>
+  <data name="Play" xml:space="preserve"><value>Reproducir</value></data>
+  <data name="Pause" xml:space="preserve"><value>Pausar</value></data>
+  <data name="Preview audio" xml:space="preserve"><value>Previsualizar audio</value></data>
+  <data name="Preview volume" xml:space="preserve"><value>Volumen de previsualización</value></data>
+  <data name="Mute preview" xml:space="preserve"><value>Silenciar previsualización</value></data>
+  <data name="Ready" xml:space="preserve"><value>Listo</value></data>
+  <data name="Retry adding to history" xml:space="preserve"><value>Reintentar añadir al historial</value></data>
+  <data name="Refresh" xml:space="preserve"><value>Actualizar</value></data>
+  <data name="Load older" xml:space="preserve"><value>Cargar anteriores</value></data>
+  <data name="Loading…" xml:space="preserve"><value>Cargando…</value></data>
+  <data name="Copy" xml:space="preserve"><value>Copiar</value></data>
+  <data name="Edit" xml:space="preserve"><value>Editar</value></data>
+  <data name="More" xml:space="preserve"><value>Más</value></data>
+  <data name="Screenshot Shelf" xml:space="preserve"><value>Capturar el panel</value></data>
+  <data name="Thumbnails" xml:space="preserve"><value>Miniaturas</value></data>
+  <data name="Thumbnail size" xml:space="preserve"><value>Tamaño de miniatura</value></data>
+  <data name="Captures: {0}" xml:space="preserve"><value>Capturas: {0}</value></data>
+  <data name="Open" xml:space="preserve"><value>Abrir</value></data>
+  <data name="Edit / preview" xml:space="preserve"><value>Editar / previsualizar</value></data>
+  <data name="Copy path" xml:space="preserve"><value>Copiar ruta</value></data>
+  <data name="Open folder" xml:space="preserve"><value>Abrir carpeta</value></data>
+  <data name="Delete" xml:space="preserve"><value>Eliminar</value></data>
+  <data name="Delete selected ({0})" xml:space="preserve"><value>Eliminar seleccionadas ({0})</value></data>
+  <data name="Video recording" xml:space="preserve"><value>Grabación de vídeo</value></data>
+  <data name="Wait for saving to finish." xml:space="preserve"><value>Espera a que termine de guardar.</value></data>
+  <data name="Open recovery folder" xml:space="preserve"><value>Abrir carpeta de recuperación</value></data>
+  <data name="Open logs" xml:space="preserve"><value>Abrir registros</value></data>
+  <data name="Recovery needed" xml:space="preserve"><value>Se necesita recuperación</value></data>
+  <data name="Save" xml:space="preserve"><value>Guardar</value></data>
+  <data name="Save as new" xml:space="preserve"><value>Guardar como nuevo</value></data>
+  <data name="Save options" xml:space="preserve"><value>Opciones de guardado</value></data>
+  <data name="Save to file…" xml:space="preserve"><value>Guardar en un archivo…</value></data>
+  <data name="Select" xml:space="preserve"><value>Seleccionar</value></data>
+  <data name="Arrow" xml:space="preserve"><value>Flecha</value></data>
+  <data name="Rectangle" xml:space="preserve"><value>Rectángulo</value></data>
+  <data name="Line" xml:space="preserve"><value>Línea</value></data>
+  <data name="Freehand" xml:space="preserve"><value>A mano alzada</value></data>
+  <data name="Text" xml:space="preserve"><value>Texto</value></data>
+  <data name="Highlight" xml:space="preserve"><value>Resaltado</value></data>
+  <data name="Blur" xml:space="preserve"><value>Desenfoque</value></data>
+  <data name="Pixelate" xml:space="preserve"><value>Pixelar</value></data>
+  <data name="Step marker" xml:space="preserve"><value>Marcador de paso</value></data>
+  <data name="Step" xml:space="preserve"><value>Paso</value></data>
+  <data name="Crop" xml:space="preserve"><value>Recortar</value></data>
+  <data name="Insert image" xml:space="preserve"><value>Insertar imagen</value></data>
+  <data name="Image" xml:space="preserve"><value>Imagen</value></data>
+  <data name="New annotation" xml:space="preserve"><value>Nueva anotación</value></data>
+  <data name="Stroke color" xml:space="preserve"><value>Color del trazo</value></data>
+  <data name="Fill color" xml:space="preserve"><value>Color de relleno</value></data>
+  <data name="Stroke width" xml:space="preserve"><value>Grosor del trazo</value></data>
+  <data name="Text size" xml:space="preserve"><value>Tamaño del texto</value></data>
+  <data name="Step size" xml:space="preserve"><value>Tamaño del paso</value></data>
+  <data name="Opacity" xml:space="preserve"><value>Opacidad</value></data>
+  <data name="Delete selection (Delete)" xml:space="preserve"><value>Eliminar selección (Delete)</value></data>
+  <data name="Zoom out" xml:space="preserve"><value>Reducir</value></data>
+  <data name="Zoom in" xml:space="preserve"><value>Ampliar</value></data>
+  <data name="Annotation text" xml:space="preserve"><value>Texto de anotación</value></data>
+  <data name="Copying…" xml:space="preserve"><value>Copiando…</value></data>
+  <data name="Copied" xml:space="preserve"><value>Copiado</value></data>
+  <data name="Saving…" xml:space="preserve"><value>Guardando…</value></data>
+  <data name="Retry" xml:space="preserve"><value>Reintentar</value></data>
+  <data name="Stop" xml:space="preserve"><value>Detener</value></data>
+  <data name="Resume" xml:space="preserve"><value>Reanudar</value></data>
+  <data name="Pause recording" xml:space="preserve"><value>Pausar grabación</value></data>
+  <data name="Resume recording" xml:space="preserve"><value>Reanudar grabación</value></data>
+  <data name="Saving recording…" xml:space="preserve"><value>Guardando grabación…</value></data>
+  <data name="System ON" xml:space="preserve"><value>Sistema ACTIVADO</value></data>
+  <data name="System OFF" xml:space="preserve"><value>Sistema DESACTIVADO</value></data>
+  <data name="Audio unavailable" xml:space="preserve"><value>Audio no disponible</value></data>
+  <data name="Mic ON" xml:space="preserve"><value>Micrófono ACTIVADO</value></data>
+  <data name="Mic OFF" xml:space="preserve"><value>Micrófono DESACTIVADO</value></data>
+  <data name="No mic" xml:space="preserve"><value>Sin micrófono</value></data>
+  <data name="Starting" xml:space="preserve"><value>Iniciando</value></data>
+  <data name="Finalizing" xml:space="preserve"><value>Finalizando</value></data>
+  <data name="Idle" xml:space="preserve"><value>En espera</value></data>
+  <data name="Completed" xml:space="preserve"><value>Completado</value></data>
+  <data name="Paused" xml:space="preserve"><value>Pausado</value></data>
+  <data name="Error" xml:space="preserve"><value>Error</value></data>
+  <data name="RecoveryRequired" xml:space="preserve"><value>Se necesita recuperación</value></data>
+  <data name="Screenshot failed" xml:space="preserve"><value>La captura falló</value></data>
+  <data name="Screenshot saved" xml:space="preserve"><value>Captura guardada</value></data>
+  <data name="Capture saved" xml:space="preserve"><value>Captura guardada</value></data>
+  <data name="Recording started" xml:space="preserve"><value>Grabación iniciada</value></data>
+  <data name="Recording failed" xml:space="preserve"><value>La grabación falló</value></data>
+  <data name="Recording interrupted" xml:space="preserve"><value>Grabación interrumpida</value></data>
+  <data name="Audio control failed" xml:space="preserve"><value>Falló el control de audio</value></data>
+  <data name="SelectingRegion" xml:space="preserve"><value>Seleccionando región…</value></data>
+  <data name="Pausing" xml:space="preserve"><value>Pausando…</value></data>
+  <data name="Resuming" xml:space="preserve"><value>Reanudando…</value></data>
+  <data name="Save changes to keep your preferences." xml:space="preserve"><value>Guarda los cambios para conservar tus preferencias.</value></data>
+  <data name="SnappySnap started" xml:space="preserve"><value>SnappySnap iniciado</value></data>
+  <data name="Shortcut unavailable" xml:space="preserve"><value>No disponible</value></data>
+  <data name="Official GitHub Releases" xml:space="preserve"><value>Versiones oficiales de GitHub</value></data>
+  <data name="Downloading and verifying the installer…" xml:space="preserve"><value>Descargando y verificando el instalador…</value></data>
+  <data name="Update failed. Check the connection and local log, then try again." xml:space="preserve"><value>Error de actualización. Comprueba la conexión y el registro local e inténtalo de nuevo.</value></data>
+</root>

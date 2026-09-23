@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0-windows10.0.19041.0</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
+    <RootNamespace>SnappySnap.Editor</RootNamespace>
+    <AssemblyName>SnappySnap.Editor</AssemblyName>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SnappySnap.Core\SnappySnap.Core.csproj" />
+    <Resource Include="..\..\installer\assets\mark.png" Link="Presentation\SnappySnap.png" />
+  </ItemGroup>
+</Project>

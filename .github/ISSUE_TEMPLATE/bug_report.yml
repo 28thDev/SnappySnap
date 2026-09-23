@@ -1,0 +1,32 @@
+name: Bug report
+description: Report a reproducible problem in SnappySnap.
+body:
+  - type: markdown
+    attributes:
+      value: Please remove personal information from screenshots and logs. Report vulnerabilities privately through the Security tab, not in a public issue.
+  - type: input
+    id: version
+    attributes:
+      label: SnappySnap version
+      placeholder: Version shown in Settings
+    validations:
+      required: true
+  - type: input
+    id: system
+    attributes:
+      label: Windows version and display setup
+      description: Windows build, monitor count and scaling; GPU if recording is affected.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce
+      description: Include expected behavior and what actually happened.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Sanitized evidence
+      description: Optional screenshot, error text or relevant log excerpt. Never upload your whole profile or recordings with personal data.

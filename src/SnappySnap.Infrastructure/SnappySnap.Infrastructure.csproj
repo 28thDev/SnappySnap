@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup><InternalsVisibleTo Include="SnappySnap.IntegrationTests" /></ItemGroup>
+  <PropertyGroup>
+    <TargetFramework>net10.0-windows10.0.19041.0</TargetFramework>
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
+    <RootNamespace>SnappySnap.Infrastructure</RootNamespace>
+    <AssemblyName>SnappySnap.Infrastructure</AssemblyName>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SnappySnap.Core\SnappySnap.Core.csproj" />
+    <ProjectReference Include="..\SnappySnap.Updates\SnappySnap.Updates.csproj" />
+    <PackageReference Include="SharpDX.Direct3D11" Version="4.2.0" />
+    <PackageReference Include="SharpDX.DXGI" Version="4.2.0" />
+  </ItemGroup>
+</Project>

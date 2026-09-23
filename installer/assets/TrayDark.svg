@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" role="img" aria-labelledby="title">
+  <title id="title">SnappySnap — light mark for a dark tray</title>
+  <path d="M9 4 H6 Q4 4 4 6 V9" fill="none" stroke="#EEF0F1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M15 4 H18 Q20 4 20 6 V9" fill="none" stroke="#EEF0F1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M4 15 V18 Q4 20 6 20 H9" fill="none" stroke="#EEF0F1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M15 14 H19 Q20 14 19.3 14.7 L14.7 19.3 Q14 20 14 19 V15 Q14 14 15 14 Z" fill="#EEF0F1"/>
+</svg>

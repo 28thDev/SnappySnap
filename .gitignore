@@ -1,0 +1,77 @@
+# Build output
+[Bb]in/
+[Oo]bj/
+/artifacts/
+/publish/
+
+# Visual Studio / IDE state
+.vs/
+.idea/
+.vscode/
+*.user
+*.userosscache
+*.suo
+*.sln.docstates
+*.rsuser
+
+# Test, coverage and profiling output
+[Tt]est[Rr]esult*/
+TestResults/
+coverage/
+*.trx
+*.coverage
+*.coveragexml
+*.opencover.xml
+
+# NuGet packages and local package caches
+packages/
+*.nupkg
+*.snupkg
+
+# Local-only configuration and secrets
+.env
+.env.*
+!.env.example
+/config/settings.json
+/config/*.local.json
+/config/*.local.*
+
+# Local-only implementation history, design evidence and agent instructions
+/internal/
+/AGENTS.md
+
+# Runtime data, logs and temporary files
+*.log
+*.tmp
+*.temp
+*.partial
+*.partial.mp4
+*.db
+*.sqlite
+*.sqlite3
+
+# OS-generated files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Signing material, authentication and local publication workspaces
+*.pfx
+*.p12
+*.key
+*.dpapi
+*.pem
+!/src/SnappySnap.Updates/release-public.pem
+.ssh/
+.secrets/
+*.credentials.json
+*.local.json
+
+# Never add installer/runtime bundles to source control
+*.exe
+*.dll
+*.pdb
+*.msi
+*.zip
+*.7z

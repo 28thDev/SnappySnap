@@ -1,0 +1,28 @@
+root = true
+
+# Test names use underscore-separated clauses for readability; this is a test-only convention.
+[tests/**/*.cs]
+dotnet_diagnostic.CA1707.severity = none
+
+# These are app-internal C# contracts, not cross-language public APIs. Keep their natural domain names.
+[src/SnappySnap.Core/Contracts.cs]
+dotnet_diagnostic.CA1716.severity = none
+
+[src/SnappySnap.Core/VideoEditSession.cs]
+dotnet_diagnostic.CA1716.severity = none
+
+# Keep the video editor dependent on Core interfaces rather than concrete Infrastructure implementations.
+[src/SnappySnap.App/VideoEditorWindow.cs]
+dotnet_diagnostic.CA1859.severity = none
+
+# The native preview harness deliberately consumes the Core interface for backend isolation.
+[src/SnappySnap.App/UsabilityHarness.cs]
+dotnet_diagnostic.CA1859.severity = none
+
+# The editor harness also accepts the logging contract rather than a concrete logger.
+[src/SnappySnap.App/EditorRedesignHarness.cs]
+dotnet_diagnostic.CA1859.severity = none
+
+# This stateless Windows adapter is passed as an instance collaborator to the settings surface.
+[src/SnappySnap.Infrastructure/WindowsStartupRegistration.cs]
+dotnet_diagnostic.CA1822.severity = none

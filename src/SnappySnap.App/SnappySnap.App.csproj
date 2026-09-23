@@ -1,0 +1,40 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows10.0.19041.0</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
+    <RootNamespace>SnappySnap.App</RootNamespace>
+    <AssemblyName>SnappySnap</AssemblyName>
+    <ApplicationIcon>..\..\installer\assets\SnappySnap.ico</ApplicationIcon>
+    <Platforms>x64</Platforms>
+    <DefineConstants Condition="'$(PerformanceHarness)' == 'true'">$(DefineConstants);PERFORMANCE_HARNESS</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SnappySnap.Core\SnappySnap.Core.csproj" />
+    <ProjectReference Include="..\SnappySnap.Updates\SnappySnap.Updates.csproj" />
+    <ProjectReference Include="..\SnappySnap.Application\SnappySnap.Application.csproj" />
+    <ProjectReference Include="..\SnappySnap.Capture\SnappySnap.Capture.csproj" />
+    <ProjectReference Include="..\SnappySnap.Editor\SnappySnap.Editor.csproj" />
+    <ProjectReference Include="..\SnappySnap.History\SnappySnap.History.csproj" />
+    <ProjectReference Include="..\SnappySnap.Infrastructure\SnappySnap.Infrastructure.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\config\settings.example.json" Link="config\settings.example.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\..\config\quality-profiles.example.json" Link="config\quality-profiles.example.json" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="..\..\installer\assets\TrayDark.ico" Link="Resources\TrayDark.ico" />
+    <Resource Include="..\..\installer\assets\TrayLight.ico" Link="Resources\TrayLight.ico" />
+  </ItemGroup>
+  <Target Name="GenerateVersionedManifest" BeforeTargets="_SetEmbeddedWin32ManifestProperties;_SetExternalWin32ManifestProperties">
+    <PropertyGroup>
+      <ApplicationManifest>$(IntermediateOutputPath)SnappySnap.manifest</ApplicationManifest>
+    </PropertyGroup>
+    <MakeDir Directories="$(IntermediateOutputPath)" />
+    <Copy SourceFiles="$(MSBuildProjectDirectory)\app.manifest" DestinationFiles="$(ApplicationManifest)" />
+    <XmlPoke XmlInputPath="$(ApplicationManifest)" Query="/*[local-name()='assembly']/*[local-name()='assemblyIdentity']/@version" Value="$(Version).0" />
+  </Target>
+</Project>
