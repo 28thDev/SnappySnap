@@ -1,52 +1,18 @@
 # Changelog
 
-Entries marked release candidate below are unpublished tester history, not public releases. Their numbers do not reserve public versions. The intended next public release is 1.1.0, with consolidated changes since 1.0.0; final release notes and acceptance are still pending.
-
-## 1.1.5 — release candidate
-
-- Window and browser capture suggestions are clipped to the visible desktop, fixing region capture failures for maximized or partly offscreen windows.
-- The first screenshot opens an editor. While an editor remains open, subsequent captures save directly to Shelf. When all editors close, the next capture opens an editor again. A failed save always retains the image in an editor for retry.
-
-This PATCH improves the existing screenshot workflow and supersedes the 1.1.4 tester candidate. Owner acceptance and publication are pending.
-
-## 1.1.4 — release candidate
-
-- Fixed opacity slider keyboard steps sticking at some percentages because of floating-point conversion.
-- Reviewed all editor property sliders with exhaustive step, boundary, undo/redo and settings round-trip checks.
-
-This PATCH fixes an existing editor interaction and supersedes the 1.1.3 tester candidate. Owner acceptance and publication remain pending.
-
-## 1.1.3 — release candidate
-
-- Take successive screenshots while earlier editors remain open. Each editor saves its own capture independently.
-- Opacity shows a rounded percentage instead of a long floating-point fraction.
-- Shelf context commands use distinct Open, Edit, Refresh and Screenshot icons.
-
-This PATCH candidate fixes existing capture and editing workflows and supersedes the 1.1.2 tester build. Owner acceptance and publication are pending.
-
-## 1.1.2 — release candidate
-
-- Fixed the default Print Screen shortcut being shown as invalid after installation. The key now keeps the same display name through input, normalization and registration.
-
-This PATCH candidate supersedes the 1.1.1 tester installer. It awaits owner testing and is not published.
-
-## 1.1.1 — release candidate
-
-- Rectangle, line and freehand annotations also start at 10 px and reach 24 px; former saved defaults move once while custom widths remain.
-- Right-click cancels region selection. Print Screen captures the full virtual desktop directly, then saves it and opens the editor.
-- Double-click or Enter on a Shelf item opens SnappySnap's editor. The Open action still uses the Windows default app.
-- Browser address-and-page capture begins at the detected toolbar's top edge so the URL controls are included.
-
-This candidate also includes the automatic window and browser region proposals and thicker arrows from the unreleased 1.1.0 tester build. It was superseded by 1.1.2 before publication.
-The PATCH increment reflects compatible improvements to the existing capture, editor and Shelf workflows.
-
 ## 1.1.0 — release candidate
 
-- Arrow annotations start at 10 px and can reach 24 px; an old saved default of 5 px migrates once to 10 px.
-- The region selector highlights the window under the pointer. In Chrome, Edge and Firefox it proposes the whole browser over tabs, the address bar plus visible page over the toolbar, and the visible page over page content.
-- A click accepts the proposed region; dragging selects a custom rectangle. Screenshot double-click still selects the full monitor. If browser zones cannot be determined reliably, the selector clearly offers the whole browser including tabs.
+- Fixed region capture failing when a proposed window extends outside the desktop. The highlight and captured output now use the visible intersection.
+- The first screenshot opens the editor. While any screenshot editor remains open, including minimized, subsequent captures save directly to Shelf without opening additional editors. After all editors close, the next screenshot opens an editor again. A failed save opens an editor so the capture can be recovered.
+- Fixed opacity slider steps sticking and removed fractional tails from property labels.
+- Print Screen captures the full virtual desktop; right-click cancels region selection.
+- Window and browser hover suggestions support full browser, address toolbar with page, and page content. Unrecognized browser layouts explicitly offer the full window with tabs.
+- Arrow, rectangle, line and freehand widths default to 10 px and reach 24 px; custom preferences are preserved.
+- Double-click, Enter or Edit in Shelf opens the built-in editor. Context actions have distinct icons. Open still uses the Windows default app.
 
-The 1.1.0 tester build was superseded before publication. Its installer remains available for comparison; see the newest candidate entry above.
+Region screenshots use the frame frozen at hotkey time. Video records a fixed rectangle. Saved captures remain individually editable through Shelf.
+
+Owner testing and publication are pending.
 
 ## 1.0.0
 
