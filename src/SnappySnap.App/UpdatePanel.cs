@@ -13,7 +13,7 @@ public sealed class UpdatePanel : StackPanel
 {
     public UpdatePanel(UpdateSettings draft, UpdateCoordinator updates, Func<Task> install, Func<Task> checkNow)
     {
-        Children.Add(Ui.Text("SnappySnap " + AppVersion.Current, 17));
+        Children.Add(Ui.Text("SnappySnap " + AppVersion.Display, 17));
         var automatic = new CheckBox { Content = Ui.Text("Check automatically"), IsChecked = draft.AutomaticChecks, Margin = new Thickness(0, 12, 0, 10) };
         automatic.Checked += (_, _) => draft.AutomaticChecks = true; automatic.Unchecked += (_, _) => draft.AutomaticChecks = false;
         Children.Add(automatic);

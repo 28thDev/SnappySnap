@@ -1,7 +1,8 @@
 [CmdletBinding()]
 param(
     [Parameter(Mandatory)][string]$PublicSourceDirectory,
-    [Parameter(Mandatory)][string]$VersionedExe
+    [Parameter(Mandatory)][string]$VersionedExe,
+    [string]$TestBuildExe
 )
 $ErrorActionPreference = 'Stop'
 $repo = (Resolve-Path (Join-Path $PSScriptRoot '..')).Path
@@ -14,6 +15,7 @@ Copy-Item -LiteralPath (Join-Path $PublicSourceDirectory 'Directory.Build.props'
 $fixtureVersion = (Get-Item -LiteralPath $VersionedExe).VersionInfo.FileVersion.Trim() -replace '\.0$', ''
 $fixturePropsPath = Join-Path $fixture 'Directory.Build.props'
 $fixtureProps = [IO.File]::ReadAllText($fixturePropsPath) -replace '<Version>[^<]+</Version>', "<Version>$fixtureVersion</Version>"
+$fixtureProps = $fixtureProps -replace '<TestBuildLabel>[^<]*</TestBuildLabel>', '<TestBuildLabel></TestBuildLabel>'
 [IO.File]::WriteAllText($fixturePropsPath, $fixtureProps)
 $testKey = [Security.Cryptography.ECDsa]::Create()
 $testKey.GenerateKey([Security.Cryptography.ECCurve]::CreateFromFriendlyName('nistP256'))
@@ -37,6 +39,15 @@ function Reject([string]$Name, [scriptblock]$Action, [string]$ExpectedMessage = 
     if (!$rejected) { throw "Expected rejection: $Name" }
     $results.Add("PASS: $Name")
 }
+$stableProps = [IO.File]::ReadAllText($fixturePropsPath)
+[IO.File]::WriteAllText($fixturePropsPath, $stableProps.Replace('<TestBuildLabel></TestBuildLabel>', '<TestBuildLabel>a</TestBuildLabel>'))
+git -C $fixture add Directory.Build.props
+git -C $fixture commit -m 'Synthetic test label' | Out-Null
+Reject 'test-labelled source cannot be tagged' { & (Join-Path $fixture 'tools/release/New-ReleaseTag.ps1') -Version $fixtureVersion } 'Clear TestBuildLabel and rebuild before public release.'
+Reject 'test-labelled source cannot be staged' { & (Join-Path $fixture 'tools/release/Stage-Release.ps1') -InstallerPath missing -SignedCatalogDirectory missing -NotesPath missing -OutputDirectory missing } 'Clear TestBuildLabel and rebuild before public release.'
+[IO.File]::WriteAllText($fixturePropsPath, $stableProps)
+git -C $fixture add Directory.Build.props
+git -C $fixture commit -m 'Synthetic public build' | Out-Null
 $audit = Join-Path $fixture 'tools/release/Test-PublicTree.ps1'
 $tagger = Join-Path $fixture 'tools/release/New-ReleaseTag.ps1'
 $stage = Join-Path $fixture 'tools/release/Stage-Release.ps1'
@@ -119,6 +130,10 @@ $savedSignature = [IO.File]::ReadAllBytes((Join-Path $catalogDir 'latest.sig'))
 Reject 'invalid catalog signature is refused' { & $stage -InstallerPath $installer -SignedCatalogDirectory $catalogDir -NotesPath $notes -OutputDirectory (Join-Path $root 'signature') }
 [IO.File]::WriteAllBytes((Join-Path $catalogDir 'latest.sig'), $savedSignature)
 $testKey.Dispose()
+if ($TestBuildExe) {
+    Copy-Item -LiteralPath $TestBuildExe -Destination $installer -Force
+    Reject 'renamed test executable cannot be staged as public' { & $stage -InstallerPath $installer -SignedCatalogDirectory $catalogDir -NotesPath $notes -OutputDirectory (Join-Path $root 'renamed-test') } 'Test installers cannot be staged for public release.'
+}
 $results | Set-Content -LiteralPath (Join-Path $root 'results.txt')
 $results
 Write-Output "Evidence: $root. Fixture tags/identity are isolated; no remote or installer execution."

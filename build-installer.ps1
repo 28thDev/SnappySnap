@@ -13,18 +13,22 @@ $Compiler = (Resolve-Path -LiteralPath $Compiler).Path
 if ((& $Compiler --version) -ne '7.1.0') { throw 'Only Inno Setup 7.1.0 is supported.' }
 [xml]$properties = Get-Content (Join-Path $PSScriptRoot 'Directory.Build.props')
 $version = [string]$properties.Project.PropertyGroup.Version
+$testLabel = [string]$properties.Project.PropertyGroup.TestBuildLabel
+if ($testLabel -and $testLabel -cnotmatch '^[a-z]+$') { throw 'TestBuildLabel must contain lowercase letters only.' }
+$displayVersion = if ($testLabel) { "$version-$testLabel" } else { $version }
 if ($version -notmatch '^\d+\.\d+\.\d+$') { throw 'Installer requires a numeric major.minor.patch version.' }
 $published = Join-Path $PSScriptRoot "artifacts\releases\$version"
 if (Test-Path -LiteralPath $published) { throw "Version $version is already published. Choose the next version under docs/public/RELEASE_PROCESS.md." }
 # A fresh directory avoids stale dependencies without deleting arbitrary output paths.
 $stage = Join-Path $PSScriptRoot ('artifacts\installer-staging\' + [guid]::NewGuid().ToString('N'))
 $output = [IO.Path]::GetFullPath($OutputDirectory)
-$installer = Join-Path $output "SnappySnap-Setup-$version-x64.exe"
+$installer = Join-Path $output "SnappySnap-Setup-$displayVersion-x64.exe"
 if (Test-Path -LiteralPath $installer) { throw "Installer already exists: $installer. Choose a fresh version or a separate output directory for local testing." }
 New-Item -ItemType Directory -Force $stage,$output | Out-Null
 & (Join-Path $PSScriptRoot 'publish.ps1') -Configuration Release -Output $stage
 $app = Join-Path $stage 'SnappySnap.exe'
 if ((Get-Item $app).VersionInfo.FileVersion -ne "$version.0") { throw 'Published EXE version mismatch.' }
+if ((Get-Item $app).VersionInfo.ProductVersion.Split('+')[0] -cne $displayVersion) { throw 'Published EXE test label mismatch.' }
 $manifest = Join-Path $PSScriptRoot 'src\SnappySnap.App\obj\x64\Release\net10.0-windows10.0.19041.0\win-x64\SnappySnap.manifest'
 [xml]$manifestXml = Get-Content $manifest
 if ($manifestXml.assembly.assemblyIdentity.version -ne "$version.0") { throw 'Manifest version mismatch.' }
@@ -57,13 +61,15 @@ foreach ($pack in $assets.project.frameworks.PSObject.Properties.Value.downloadD
     }
 }
 & (Join-Path $PSScriptRoot 'installer\verify-payload.ps1') -Directory $stage -Version $version
-& $Compiler "/DAppVersion=$version" "/DPublishDir=$stage" "/DInstallerOutput=$output" (Join-Path $PSScriptRoot 'installer\SnappySnap.iss')
+& $Compiler "/DAppVersion=$version" "/DDisplayVersion=$displayVersion" "/DPublishDir=$stage" "/DInstallerOutput=$output" (Join-Path $PSScriptRoot 'installer\SnappySnap.iss')
 if ($LASTEXITCODE -ne 0) { throw "Installer compilation failed ($LASTEXITCODE)." }
 if ((Get-Item $installer).VersionInfo.FileVersion.Trim() -ne "$version.0") { throw 'Installer version mismatch.' }
 $endCommit = (& git -C $PSScriptRoot rev-parse HEAD).Trim()
 if ($endCommit -ne $sourceCommit -or @(& git -C $PSScriptRoot status --porcelain).Count) { $sourceDirty = $true }
 $provenance = [ordered]@{
     version = $version
+    testBuildLabel = $testLabel
+    displayVersion = $displayVersion
     sourceCommit = $sourceCommit
     sourceDirty = $sourceDirty
     builtUtc = [DateTimeOffset]::UtcNow.ToString('o')

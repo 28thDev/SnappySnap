@@ -29,7 +29,7 @@ public sealed class FileLogger : IAppLogger, IDisposable
             ["timestampUtc"] = DateTimeOffset.UtcNow,
             ["level"] = level,
             ["message"] = message,
-            ["appVersion"] = AppVersion.Current,
+            ["appVersion"] = AppVersion.Display,
             ["osVersion"] = Environment.OSVersion.VersionString
         };
         if (exception is not null)

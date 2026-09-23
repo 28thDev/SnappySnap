@@ -10,11 +10,13 @@ $ErrorActionPreference = 'Stop'
 if ($PSVersionTable.PSVersion.Major -lt 7) { throw 'Use PowerShell 7.' }
 $repo = Split-Path $PSScriptRoot -Parent
 [xml]$props = Get-Content (Join-Path $repo 'Directory.Build.props')
+if ([string]$props.Project.PropertyGroup.TestBuildLabel) { throw 'Clear TestBuildLabel and rebuild before public release.' }
 $version = [string]$props.Project.PropertyGroup.Version
 if ($version -notmatch '^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)$') { throw 'Version must be numeric major.minor.patch.' }
 $name = "SnappySnap-Setup-$version-x64.exe"
 if (!$InstallerPath) { $InstallerPath = Join-Path $repo "artifacts\installer\$name" }
 foreach ($file in @($InstallerPath, $PublishedAppPath)) {
+    if ((Get-Item -LiteralPath $file).VersionInfo.ProductVersion -match '^\d+\.\d+\.\d+-[a-z]+(\+|$)') { throw 'Test builds cannot be signed for public release.' }
     if ((Get-Item -LiteralPath $file).VersionInfo.FileVersion.Trim() -ne "$version.0") { throw "Version mismatch: $file" }
 }
 $notes = [IO.File]::ReadAllText((Resolve-Path -LiteralPath $NotesPath))

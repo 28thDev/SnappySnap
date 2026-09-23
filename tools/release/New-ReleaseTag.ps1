@@ -8,6 +8,7 @@ $branch = & git -C $repo branch --show-current
 if ($branch -cne 'master' -and $branch -cne "release/$Version") { throw "Tag this version from master or release/$Version only." }
 if (@(& git -C $repo status --porcelain).Count) { throw 'Commit reviewed changes before tagging.' }
 [xml]$props = Get-Content (Join-Path $repo 'Directory.Build.props')
+if ([string]$props.Project.PropertyGroup.TestBuildLabel) { throw 'Clear TestBuildLabel and rebuild before public release.' }
 if ([string]$props.Project.PropertyGroup.Version -ne $Version) { throw 'Tag version must match Directory.Build.props.' }
 & (Join-Path $PSScriptRoot 'Test-PublicTree.ps1') -Directory $repo -RequireLicense
 $tag = "v$Version"

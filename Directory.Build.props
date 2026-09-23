@@ -1,6 +1,10 @@
 <Project>
   <PropertyGroup>
     <Version>1.1.0</Version>
+    <!-- Empty for public releases; a, b, ... for owner test builds. -->
+    <TestBuildLabel>a</TestBuildLabel>
+    <InformationalVersion>$(Version)</InformationalVersion>
+    <InformationalVersion Condition="'$(TestBuildLabel)' != ''">$(Version)-$(TestBuildLabel)</InformationalVersion>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <LangVersion>preview</LangVersion>
@@ -15,4 +19,7 @@
     <RuntimeIdentifiers>win-x64</RuntimeIdentifiers>
     <RestoreLockedMode Condition="'$(CI)' == 'true'">true</RestoreLockedMode>
   </PropertyGroup>
+  <Target Name="ValidateTestBuildLabel" BeforeTargets="PrepareForBuild">
+    <Error Condition="'$(TestBuildLabel)' != '' and !$([System.Text.RegularExpressions.Regex]::IsMatch('$(TestBuildLabel)', '^[a-z]+$'))" Text="TestBuildLabel must be empty or lowercase letters (a, b, ...)." />
+  </Target>
 </Project>

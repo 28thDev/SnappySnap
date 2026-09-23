@@ -11,11 +11,14 @@ if (!(Test-Path -LiteralPath (Join-Path $repo '.git'))) { throw 'Stage from an i
 $commit = (& git -C $repo rev-parse HEAD).Trim()
 if ($LASTEXITCODE -ne 0 -or @(& git -C $repo status --porcelain).Count) { throw 'Release staging requires a clean committed checkout.' }
 [xml]$props = Get-Content (Join-Path $repo 'Directory.Build.props')
+if ([string]$props.Project.PropertyGroup.TestBuildLabel) { throw 'Clear TestBuildLabel and rebuild before public release.' }
 $version = [string]$props.Project.PropertyGroup.Version
 $name = "SnappySnap-Setup-$version-x64.exe"
 $installer = Get-Item -LiteralPath $InstallerPath
+if ($installer.VersionInfo.ProductVersion -match '^\d+\.\d+\.\d+-[a-z]+(\+|$)') { throw 'Test installers cannot be staged for public release.' }
 if ($installer.Name -cne $name -or $installer.VersionInfo.FileVersion.Trim() -ne "$version.0") { throw 'Installer name/version does not match source.' }
 $proof = Get-Content -LiteralPath ($installer.FullName + '.build.json') -Raw | ConvertFrom-Json
+if ($proof.testBuildLabel) { throw 'Test installers cannot be staged for public release.' }
 $hash = (Get-FileHash -LiteralPath $installer.FullName -Algorithm SHA256).Hash
 if ($proof.sourceDirty -ne $false -or $proof.sourceCommit -ne $commit -or $proof.version -ne $version -or $proof.sha256 -ne $hash -or $proof.bytes -ne $installer.Length) { throw 'Installer provenance does not match this clean source revision.' }
 $catalogPath = Join-Path $SignedCatalogDirectory 'latest.json'

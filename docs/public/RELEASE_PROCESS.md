@@ -18,17 +18,27 @@ Size or number of commits alone does not determine the increment. For a mixed ba
 
 Choose a public version from the last **published** release and the complete accepted change set, using the table above. Test iterations do not count as public PATCH releases. Record an owner-selected target explicitly; do not silently change it because more bugs were fixed during testing.
 
-Use ordinary numeric versions only. Do not introduce `rc`, prerelease channels, a second assembly-version scheme or a build counter for this process. `Directory.Build.props` remains the single version source for each actual build.
+### Lettered test builds
 
-Internal tester versions may advance when useful for identifying installed builds, but a bump is not required for every fix or handoff. Those internal numbers do not reserve future public version numbers. Multiple unpublished builds with the same version must use separate output directories and retain their original installer, build log and existing commit/hash sidecar. Identify the exact tested artifact by path and commit, not version alone. Do not silently overwrite an artifact handed to a tester. Keep the current candidate and its provenance; obsolete unpublished installers, exports and reports may be deleted at the owner's request. There is no requirement to archive every tester iteration. Once a version is publicly released, its installer/catalog and tag are immutable; changed shipped code requires a new public version.
+`Directory.Build.props` contains the numeric `<Version>1.1.0</Version>` and `<TestBuildLabel>a</TestBuildLabel>`. The label is lowercase letters only: a, b, ... z, then aa, ab if needed. Advance it only when delivering a changed test installer; start at a for the next public version. Do not bump the numeric product version for test iterations, rename the branch, or introduce rc/counters/channels.
+
+- Test: app Settings -> Updates, diagnostic logs and Setup display `1.1.0-a`; filename is `SnappySnap-Setup-1.1.0-a-x64.exe`.
+- Public: set `<TestBuildLabel></TestBuildLabel>`, commit and rebuild. Display/name become `1.1.0` / `SnappySnap-Setup-1.1.0-x64.exe`.
+- Assembly/FileVersion, app manifest and installer registration remain numeric `1.1.0.0` / `1.1.0`. Labels never enter updater comparison or signed catalogs.
+- Same-number a -> b -> public installs use Setup's existing same-version repair path. The updater does not offer equal numeric versions: testers install these transitions manually. Verify retained settings/history/captures before claiming installation acceptance.
+- Existing higher numeric tester installs such as 1.1.5 still require the separate transition below; letters do not bypass downgrade protection.
+
+The label is explicitly committed, not inferred from Git, time or artifact directories. Build metadata already records numeric version, display version, label, commit and hash. Tagging, release staging and catalog signing reject labelled source; staging/signing also reject labelled binaries even if renamed. Clearing the label without rebuilding cannot turn a test binary into a public release.
+
+Keep the current candidate and its provenance in a fresh output directory. Old unpublished artifacts may be removed at the owner's request; their letters are not reused for different delivered bytes. Published versions, catalogs and tags remain immutable. Public release notes consolidate all accepted changes since the last published version.
 
 Keep one working branch through the entire preparation cycle. Do not create or rename a branch just because a tester version changed. Its name is a work label, not a version authority. `master` is the permanent branch; use a temporary stabilization branch when the owner requests one or parallel work requires it. Normal publication follows the separately approved merge into master, then the final build and tag there. The tag helper also supports an exact `release/<public-version>` branch for deliberate parallel maintenance; that exception does not require renaming the current tester branch.
 
 ### Agent decision sequence
 
 1. Establish the last published release, owner-approved public target, current source version and last installed tester version. Do not infer publication from a branch, local tag or artifact folder alone. If public state is uncertain, verify it before changing the public target.
-2. Continue fixes in the current working branch. Keep internal version numbers distinct from the public release decision. Documentation/test-only changes do not require another installer.
-3. For a requested tester build, choose the internal numeric version as needed, commit the source and use a fresh output directory. Record version, commit, hash and acceptance status. Replace obsolete tester deliverables through explicit cleanup when requested.
+2. Continue fixes in the current working branch. Keep the numeric version fixed during testing and use TestBuildLabel. Documentation/test-only changes do not require another installer.
+3. For a requested tester build, advance TestBuildLabel for a new delivery, commit the source and use a fresh output directory. Record version, commit, hash and acceptance status. Replace obsolete tester deliverables through explicit cleanup when requested.
 4. Before public release, set `Directory.Build.props` to the agreed public target; prepare one set of public release notes covering changes since the last published release. Consolidate unpublished tester notes into the upcoming public release; remove obsolete standalone notes.
 5. Perform the approved merge, commit the final versioned source and build the exact final installer. Revalidate version, payload, signing/provenance, normal upgrade and acceptance. Never relabel or rename a higher-version executable as a lower release. If merge/source changes after a candidate was built, rebuild from the final commit.
 6. Publish only after explicit owner approval for the exact final artifact. Tag, catalog, notes and executable versions must agree.
@@ -37,7 +47,7 @@ Keep one working branch through the entire preparation cycle. Do not create or r
 
 The updater offers only newer versions. Setup also refuses a lower version while a higher one is registered. Therefore a tester running 1.1.5 cannot install 1.1.0 over it or receive 1.1.0 automatically.
 
-For the current cycle, the intended public release is **1.1.0** over the public 1.0.0 baseline; 1.1.1–1.1.5 are unpublished tester history. The current working branch is denis/release-1.1.0 and builds now use 1.1.0 for owner testing. This is an explicit owner-selected target, not a rule that every future batch warrants MINOR.
+For the current cycle, the intended public release is **1.1.0** over the public 1.0.0 baseline; 1.1.1–1.1.5 are legacy unpublished tester history; new candidates use 1.1.0-a, b, etc. The current working branch is denis/release-1.1.0 and builds now use 1.1.0 for owner testing. This is an explicit owner-selected target, not a rule that every future batch warrants MINOR.
 
 Before handing off the final build, verify in a disposable profile: preserve/back up the tester's settings, history and captures, uninstall the higher tester version normally, install the public version, and confirm retained data and normal operation. The uninstaller is designed to retain user data, but this exact transition still needs acceptance. Do not edit installed-version registry values, delete the user's profile or weaken downgrade protection. Host uninstall/install requires the user's authorization. Also test the ordinary 1.0.0 -> 1.1.0 upgrade separately. If data compatibility fails, stop and resolve that transition before release.
 

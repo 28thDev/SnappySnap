@@ -1,6 +1,9 @@
 #ifndef AppVersion
   #error AppVersion must be supplied by build-installer.ps1
 #endif
+#ifndef DisplayVersion
+  #define DisplayVersion AppVersion
+#endif
 #ifndef PublishDir
   #error PublishDir must be supplied by build-installer.ps1
 #endif
@@ -13,8 +16,9 @@
 AppId={{DC69B5B3-5B91-4678-BDA3-C0F0F6AB5102}
 AppName=SnappySnap
 AppVersion={#AppVersion}
-AppVerName=SnappySnap {#AppVersion}
+AppVerName=SnappySnap {#DisplayVersion}
 VersionInfoVersion={#AppVersion}.0
+VersionInfoProductTextVersion={#DisplayVersion}
 DefaultDirName={localappdata}\Programs\SnappySnap
 UsePreviousAppDir=no
 DisableDirPage=yes
@@ -41,7 +45,7 @@ ShowLanguageDialog=no
 LanguageDetectionMethod=none
 UsePreviousLanguage=no
 OutputDir={#InstallerOutput}
-OutputBaseFilename=SnappySnap-Setup-{#AppVersion}-x64
+OutputBaseFilename=SnappySnap-Setup-{#DisplayVersion}-x64
 Compression=lzma2
 SolidCompression=yes
 SetupLogging=yes

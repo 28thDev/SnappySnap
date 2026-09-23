@@ -52,7 +52,14 @@ internal static partial class VisualHarness
             var window = new Window { Width = 860, Height = 530, Title = "SnappySnap — Updates" };
             Ui.Shell(window, "", Ui.Card(new UpdatePanel(settings.Updates, coordinator, () => Task.CompletedTask, async () => { await coordinator.CheckAsync(); }))); return window;
         }
-        await Snapshot(PanelWindow(), output, "updates-unconfigured");
+        await Snapshot(PanelWindow(), output, "updates-unconfigured", exercise: window =>
+        {
+            if (!Descendants<TextBlock>(window).Any(text => text.Text == "SnappySnap " + AppVersion.Display))
+                throw new InvalidOperationException("Update settings must show the installed build label.");
+            if (!Version.TryParse(AppVersion.Current, out _) || AppVersion.Display.Split('-')[0] != AppVersion.Current)
+                throw new InvalidOperationException("Build label changed the numeric updater version.");
+            return Task.CompletedTask;
+        });
         await coordinator.CheckAsync();
         if (coordinator.State != UpdateState.Available) throw new InvalidOperationException("Signed fixture was not offered.");
         await Snapshot(PanelWindow(), output, "updates-available");

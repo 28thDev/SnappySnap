@@ -2,6 +2,8 @@
 
 ## 1.1.0 — release candidate
 
+- Test builds show a letter (1.1.0-a, b, ...) in Settings, logs and Setup; the public release has no letter.
+
 - Fixed region capture failing when a proposed window extends outside the desktop. The highlight and captured output now use the visible intersection.
 - The first screenshot opens the editor. While any screenshot editor remains open, including minimized, subsequent captures save directly to Shelf without opening additional editors. After all editors close, the next screenshot opens an editor again. A failed save opens an editor so the capture can be recovered.
 - Open any number of screenshot editors manually from Shelf; each window keeps its own edits and save session. Concurrent saves remain tracked until all finish.

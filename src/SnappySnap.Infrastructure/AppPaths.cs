@@ -40,4 +40,7 @@ public sealed class AppPaths
 public sealed class AppVersion
 {
     public static string Current => typeof(AppVersion).Assembly.GetName().Version!.ToString(3);
+    public static string Display => System.Reflection.CustomAttributeExtensions
+        .GetCustomAttribute<System.Reflection.AssemblyInformationalVersionAttribute>(typeof(AppVersion).Assembly)!
+        .InformationalVersion.Split('+')[0];
 }
