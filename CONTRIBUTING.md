@@ -10,7 +10,7 @@ SnappySnap targets Windows 11 x64. Please keep changes focused on a concrete use
 
 `master` is the only permanent development branch. The maintainer may commit small, reviewed and locally verified fixes directly to it. Ordinary releases use a version tag on a verified commit; a temporary release branch is needed only for stabilization alongside newer development. See the [release procedure](docs/public/RELEASE_PROCESS.md).
 
-Use the central version in `Directory.Build.props`. Backward-compatible features increment MINOR and reset PATCH; fixes increment PATCH. A breaking change requires an explicit major-version decision. Documentation/build-only changes that do not alter shipped behavior need no bump. Build Setup only after the versioned source is committed; never replace a distributed package with a same-version binary.
+Use the central version in `Directory.Build.props` and the [version decision table](docs/public/RELEASE_PROCESS.md#versions-and-source). Compatible improvements to an existing workflow, including small shortcuts or controls, use PATCH. A new independent product workflow or substantial capability uses MINOR; an approved incompatible change uses MAJOR. Documentation/build-only changes without shipped behavior need no bump. Build Setup only after the versioned source is committed; never replace a tester-delivered or published package with a same-version binary.
 
 Do not include personal captures, account details, logs, private keys, build output or generated test evidence. Use synthetic fixtures. Keep dependencies pinned and document their purpose and license. Do not silently add telemetry, cloud services or bundled capture/codec applications.
 

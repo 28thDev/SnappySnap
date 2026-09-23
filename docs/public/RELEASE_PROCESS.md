@@ -4,9 +4,24 @@ A release is a verified source revision plus its exact installer and signed upda
 
 ## Versions and source
 
-`Directory.Build.props` is the version source for the application, helper and installer. Use `MAJOR.MINOR.PATCH`: increment MINOR for backward-compatible features, PATCH for fixes and MAJOR for an explicitly accepted breaking change. Documentation, artwork and build-only changes that do not alter shipped behavior do not require a bump.
+`Directory.Build.props` is the only version source for the application, helper and installer. SnappySnap uses `MAJOR.MINOR.PATCH` as a product release policy, rather than treating every added control as a SemVer MINOR feature:
 
-Use numeric versions without prerelease suffixes. Never replace a distributed version with different installer bytes or move its tag. Fix a published build with a new version.
+| Increment | Choose it when | Examples |
+| --- | --- | --- |
+| PATCH | The change improves an existing capture, recording, editor, Shelf or settings workflow, preserves user data and keeps prior capabilities accessible. This includes small new controls, entry points or a changed default gesture with an equivalent path to the prior action. | A hotkey for the existing screenshot flow, right-click cancellation, annotation defaults, a more accurate browser region, opening the existing editor from Shelf while retaining Open for the default app. |
+| MINOR | The release introduces a new independently useful product workflow or a substantial new capability with its own acceptance plan, while remaining compatible with existing installations. | The first recording workflow or a new media-editing mode. |
+| MAJOR | An approved change removes an existing capability without an equivalent path or requires an incompatible data/settings, installer or updater transition. | An upgrade requiring manual migration or loss of compatibility with older captures. |
+
+Size or number of commits alone does not determine the increment. For a mixed batch, use the highest applicable category. Documentation, tests, artwork or build changes with no change in shipped behavior need no bump. If the category is unclear, document the affected workflow and compatibility before choosing; prefer PATCH for a contained improvement to an existing workflow. Record the choice in the changelog or candidate notes.
+
+For each candidate, decide in this order:
+
+1. Check `Directory.Build.props`, existing tags and the last installer handed to testers. A candidate may exist even without a GitHub release.
+2. Ask whether shipped behavior changes. If it does not, keep the current version and do not build a replacement installer solely for documentation.
+3. If the change is incompatible, seek approval for MAJOR. Otherwise choose MINOR only for an independent new workflow or substantial capability; choose PATCH for a contained improvement to an existing workflow.
+4. Update the changelog and candidate notes with the selected number and rationale. Commit the versioned source before building into a fresh output path.
+
+Use numeric versions without prerelease suffixes. Assign the next unused version before handing an installer to a tester or publishing it. A handed-off candidate consumes its version even if it is never released: any changed binary needs another version. Do not replace a distributed installer with different bytes or move a published tag. Preserve old candidates for provenance and explicitly mark superseded ones. If a mistaken candidate number is withdrawn, record the correction and check updater ordering before handing off a lower-numbered replacement; automatic updates do not perform downgrades.
 
 `master` is the permanent development branch. Use temporary feature/fix branches for larger changes. A temporary `release/<version>` branch is only needed to stabilize a release alongside newer development. Tags use `v<version>` and point to the exact accepted commit.
 

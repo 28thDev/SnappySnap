@@ -15,10 +15,12 @@ if ((& $Compiler --version) -ne '7.1.0') { throw 'Only Inno Setup 7.1.0 is suppo
 $version = [string]$properties.Project.PropertyGroup.Version
 if ($version -notmatch '^\d+\.\d+\.\d+$') { throw 'Installer requires a numeric major.minor.patch version.' }
 $published = Join-Path $PSScriptRoot "artifacts\releases\$version"
-if (Test-Path -LiteralPath $published) { throw "Version $version is already published. Choose the next version: increment minor for a feature or patch for a fix." }
+if (Test-Path -LiteralPath $published) { throw "Version $version is already published. Choose the next version under docs/public/RELEASE_PROCESS.md." }
 # A fresh directory avoids stale dependencies without deleting arbitrary output paths.
 $stage = Join-Path $PSScriptRoot ('artifacts\installer-staging\' + [guid]::NewGuid().ToString('N'))
 $output = [IO.Path]::GetFullPath($OutputDirectory)
+$installer = Join-Path $output "SnappySnap-Setup-$version-x64.exe"
+if (Test-Path -LiteralPath $installer) { throw "Installer already exists: $installer. Choose a fresh version or a separate output directory for local testing." }
 New-Item -ItemType Directory -Force $stage,$output | Out-Null
 & (Join-Path $PSScriptRoot 'publish.ps1') -Configuration Release -Output $stage
 $app = Join-Path $stage 'SnappySnap.exe'
@@ -57,7 +59,6 @@ foreach ($pack in $assets.project.frameworks.PSObject.Properties.Value.downloadD
 & (Join-Path $PSScriptRoot 'installer\verify-payload.ps1') -Directory $stage -Version $version
 & $Compiler "/DAppVersion=$version" "/DPublishDir=$stage" "/DInstallerOutput=$output" (Join-Path $PSScriptRoot 'installer\SnappySnap.iss')
 if ($LASTEXITCODE -ne 0) { throw "Installer compilation failed ($LASTEXITCODE)." }
-$installer = Join-Path $output "SnappySnap-Setup-$version-x64.exe"
 if ((Get-Item $installer).VersionInfo.FileVersion.Trim() -ne "$version.0") { throw 'Installer version mismatch.' }
 $endCommit = (& git -C $PSScriptRoot rev-parse HEAD).Trim()
 if ($endCommit -ne $sourceCommit -or @(& git -C $PSScriptRoot status --porcelain).Count) { $sourceDirty = $true }
