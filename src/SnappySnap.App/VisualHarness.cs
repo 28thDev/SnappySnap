@@ -131,6 +131,7 @@ internal static partial class VisualHarness
             if (!Descendants<TextBlock>(window).Any(text => text.Text == "Opacity 57%")) throw new InvalidOperationException("Opacity must show rounded percent.");
             return Task.CompletedTask;
         });
+        await CheckPropertySlidersAsync(output, captured, logger);
         await CheckScreenshotSeriesAsync(output, logger);
         var editor = new EditorWindow(captured, logger);
         editor.Document.Elements.Add(new ArrowElement(new Point(250, 160), new Point(570, 235)) { Color = Colors.Crimson, StrokeWidth = 4 });
@@ -338,6 +339,48 @@ internal static partial class VisualHarness
         }
         finally { ripple?.Close(); pill?.Close(); border?.Close(); fixture.Close(); }
     }
+    private static async Task CheckPropertySlidersAsync(string output, CapturedImage image, IAppLogger logger)
+    {
+        var checks = new List<string>();
+        foreach (var (field, label, element, read) in new (string, string, EditorElement, Func<EditorElement, double>)[]
+        {
+            ("_stroke", "Stroke width", new RectangleElement(new Rect(50, 50, 200, 100)), e => e.StrokeWidth),
+            ("_font", "Text size", new TextElement("Slider test", new Point(50, 50)), e => ((TextElement)e).FontSize),
+            ("_stepSize", "Step size", new StepMarkerElement(1, new Point(100, 100)), e => ElementStyle.Read(e).StepDiameter),
+            ("_opacity", "Opacity", new HighlightElement(new Rect(50, 50, 200, 100)) { Opacity = .57 }, e => e.Opacity * 100)
+        })
+        {
+            var editor = new EditorWindow(image, logger); element.IsSelected = true; editor.Document.Elements.Add(element);
+            AnnotationStyleSettings? saved = null; editor.StyleChanged += (_, style) => saved = style;
+            await Snapshot(editor, output, "slider-" + label.Replace(' ', '-'), exercise: window =>
+            {
+                var slider = (Slider)typeof(EditorWindow).GetField(field, BindingFlags.Instance | BindingFlags.NonPublic)!.GetValue(editor)!;
+                if (saved is not null) throw new InvalidOperationException("Selecting an annotation rewrote its style.");
+                void Check(double expected)
+                {
+                    var text = label + " " + expected.ToString("0", L.Culture) + (field == "_opacity" ? "%" : "");
+                    if (Math.Abs(slider.Value - expected) > 1e-9 || Math.Abs(read(element) - expected) > 1e-9
+                        || !Descendants<TextBlock>(window).Any(block => block.Text == text) || !Equals(slider.ToolTip, text))
+                        throw new InvalidOperationException($"{label}: value, caption or tooltip disagrees at {expected}: slider={slider.Value:R}, model={read(element):R}, tooltip={slider.ToolTip}.");
+                }
+                slider.Value = slider.Minimum; Check(slider.Minimum);
+                for (var tick = slider.Minimum + 1; tick <= slider.Maximum; tick++) { Slider.IncreaseSmall.Execute(null, slider); Check(tick); }
+                Slider.IncreaseSmall.Execute(null, slider); Check(slider.Maximum);
+                for (var tick = slider.Maximum - 1; tick >= slider.Minimum; tick--) { Slider.DecreaseSmall.Execute(null, slider); Check(tick); }
+                Slider.DecreaseSmall.Execute(null, slider); Check(slider.Minimum);
+                Descendants<Button>(window).Single(button => Name(button) == "Undo (Ctrl+Z)").RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent)); Check(slider.Minimum + 1);
+                Descendants<Button>(window).Single(button => Name(button) == "Redo (Ctrl+Y)").RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent)); Check(slider.Minimum);
+                var loaded = System.Text.Json.JsonSerializer.Deserialize<AnnotationStyleSettings>(System.Text.Json.JsonSerializer.Serialize(saved))!;
+                var tool = EditorToolStyles.ToolOf(element)!.Value;
+                var settings = new EditorSettings(); settings.Styles[tool.ToString()] = loaded;
+                var restored = new EditorToolStyles(settings).Get(tool); restored.Apply(element); Check(slider.Minimum);
+                checks.Add($"PASS {label}: all integer ticks {slider.Minimum}..{slider.Maximum} up/down; bounds; caption/tooltip; Undo/Redo; JSON style round trip.");
+                return Task.CompletedTask;
+            });
+        }
+        await File.WriteAllLinesAsync(Path.Combine(output, "slider-results.txt"), checks);
+    }
+
     private static async Task CheckScreenshotSeriesAsync(string output, IAppLogger logger)
     {
         var root = Path.Combine(output, "series"); Directory.CreateDirectory(root);

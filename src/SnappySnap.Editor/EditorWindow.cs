@@ -630,7 +630,9 @@ public sealed class EditorWindow : Window
         foreach (var pair in _toolButtons) pair.Value.IsChecked = pair.Key == _tool;
         var style = _selected is null ? _defaultStyle : ElementStyle.Read(_selected);
         _syncingProperties = true; _stroke.Maximum = EditorSettings.MaximumStrokeWidth;
-        _stroke.Value = style.StrokeWidth; _font.Value = style.FontSize; _stepSize.Value = style.StepDiameter; _opacity.Value = style.Opacity * 100; _syncingProperties = false;
+        // Keep percentage ticks exact: .14 * 100 can be 14.000000000000002,
+        // which makes WPF's next snapped keyboard step return to the same tick.
+        _stroke.Value = style.StrokeWidth; _font.Value = style.FontSize; _stepSize.Value = style.StepDiameter; _opacity.Value = Math.Round(style.Opacity * 100); _syncingProperties = false;
         foreach (var swatch in _strokePalette.Children.OfType<ToggleButton>()) swatch.IsChecked = (Color)swatch.Tag == style.Color;
         foreach (var swatch in _fillPalette.Children.OfType<ToggleButton>()) swatch.IsChecked = (Color)swatch.Tag == style.FillColor;
         _fillPalette.IsEnabled = _selected is null or RectangleElement;

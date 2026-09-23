@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.1.4 — release candidate
+
+- Fixed opacity slider keyboard steps sticking at some percentages because of floating-point conversion.
+- Reviewed all editor property sliders with exhaustive step, boundary, undo/redo and settings round-trip checks.
+
+This PATCH fixes an existing editor interaction and supersedes the 1.1.3 tester candidate. Owner acceptance and publication remain pending.
+
 ## 1.1.3 — release candidate
 
 - Take successive screenshots while earlier editors remain open. Each editor saves its own capture independently.
