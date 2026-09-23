@@ -114,14 +114,33 @@ internal sealed class WindowRegionCatalog
         var editCondition = new PropertyCondition(AutomationElement.ControlTypeProperty, ControlType.Edit);
         var edits = root.FindAll(TreeScope.Descendants, editCondition);
         VirtualPixelRect? address = null;
+        AutomationElement? addressElement = null;
         for (var i = 0; i < edits.Count; i++)
         {
             var bounds = PhysicalBounds(edits[i].Current.BoundingRectangle);
             if (bounds is null || bounds.Value.Y >= content.Value.Y || bounds.Value.Width < window.Width * .2) continue;
-            if (address is null || bounds.Value.Y < address.Value.Y) address = bounds;
+            if (address is null || bounds.Value.Y < address.Value.Y)
+            {
+                address = bounds;
+                addressElement = edits[i];
+            }
         }
-        if (address is null) return null;
-        var result = new BrowserChromeBounds(address.Value, content.Value);
+        if (address is null || addressElement is null) return null;
+        VirtualPixelRect? toolbar = null;
+        var walker = TreeWalker.ControlViewWalker;
+        for (var ancestor = walker.GetParent(addressElement); ancestor is not null && ancestor != root; ancestor = walker.GetParent(ancestor))
+        {
+            var bounds = PhysicalBounds(ancestor.Current.BoundingRectangle);
+            if (bounds is not { } candidate || candidate.Y <= window.Y || candidate.Y >= address.Value.Y
+                || candidate.Y < address.Value.Y - address.Value.Height || candidate.Height > address.Value.Height * 2.5
+                || candidate.Width < window.Width * .7 || candidate.Y + candidate.Height > content.Value.Y
+                || candidate.X > address.Value.X || candidate.X + candidate.Width < address.Value.X + address.Value.Width
+                || candidate.Y + candidate.Height < address.Value.Y + address.Value.Height) continue;
+            toolbar = candidate;
+            break;
+        }
+        if (toolbar is null) return null;
+        var result = new BrowserChromeBounds(toolbar.Value, address.Value, content.Value);
         return result.IsValidFor(window) ? result : null;
     }
 

@@ -4,7 +4,7 @@ namespace SnappySnap.Core;
 
 public sealed class AppSettings
 {
-    public int SchemaVersion { get; set; } = 5;
+    public int SchemaVersion { get; set; } = 6;
     public ShelfPreferences Shelf { get; set; } = new();
     public EditorSettings Editor { get; set; } = new();
     public UpdateSettings Updates { get; set; } = new();
@@ -28,6 +28,7 @@ public sealed class GeneralSettings
 public sealed class HotkeySettings
 {
     public string RegionScreenshot { get; set; } = "Ctrl+E";
+    public string FullScreenshot { get; set; } = "PrintScreen";
     public string RegionVideo { get; set; } = "Ctrl+Alt+E";
     public string PauseResumeVideo { get; set; } = "Ctrl+Alt+Space";
     public string? FastRegionScreenshot { get; set; }

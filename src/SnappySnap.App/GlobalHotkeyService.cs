@@ -27,7 +27,9 @@ public static class HotkeyParser
         if (string.IsNullOrWhiteSpace(display)) return false;
 
         var tokens = display.Split('+', StringSplitOptions.TrimEntries);
-        if (tokens.Length < 2) return false;
+        if (tokens.Length == 1 && tokens[0].Equals("PrtSc", StringComparison.OrdinalIgnoreCase))
+            tokens[0] = "PrintScreen";
+        if (tokens.Length < 2 && !tokens[0].Equals("PrintScreen", StringComparison.OrdinalIgnoreCase)) return false;
         foreach (var token in tokens[..^1])
         {
             switch (token.ToLowerInvariant())
@@ -73,7 +75,7 @@ public static class HotkeyParser
             return false;
         }
 
-        return modifiers != HotkeyModifiers.None && key != Key.None && KeyInterop.VirtualKeyFromKey(key) != 0 && key is not (Key.LeftCtrl or Key.RightCtrl or Key.LeftAlt or Key.RightAlt or Key.LeftShift or Key.RightShift or Key.LWin or Key.RWin);
+        return (modifiers != HotkeyModifiers.None || key == Key.PrintScreen) && key != Key.None && KeyInterop.VirtualKeyFromKey(key) != 0 && key is not (Key.LeftCtrl or Key.RightCtrl or Key.LeftAlt or Key.RightAlt or Key.LeftShift or Key.RightShift or Key.LWin or Key.RWin);
     }
 }
 
@@ -94,7 +96,7 @@ public sealed class GlobalHotkeyService : IDisposable
     public string Warning => string.Join("\n", Results.Where(r => !r.Registered).Select(r => $"{r.Shortcut}: {L.T(r.Error ?? "")}"));
     public static Dictionary<int, string> Bindings(HotkeySettings settings)
     {
-        var bindings = new Dictionary<int, string> { [1001] = settings.RegionScreenshot, [1002] = settings.RegionVideo, [1003] = settings.PauseResumeVideo };
+        var bindings = new Dictionary<int, string> { [1001] = settings.RegionScreenshot, [1002] = settings.RegionVideo, [1003] = settings.PauseResumeVideo, [1005] = settings.FullScreenshot };
         if (!string.IsNullOrWhiteSpace(settings.OpenShelf)) bindings.Add(1004, settings.OpenShelf);
         return bindings;
     }
@@ -185,7 +187,6 @@ public sealed class GlobalHotkeyService : IDisposable
             });
             return false;
         }
-        _registered[id] = Normalize($"{modifiers.ToString().Replace(", ", "+")}+{key}");
         return true;
     }
 

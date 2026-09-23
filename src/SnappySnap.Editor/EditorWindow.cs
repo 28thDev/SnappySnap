@@ -132,7 +132,7 @@ public sealed class EditorWindow : Window
         var properties = new WrapPanel { Margin = new Thickness(8, 3, 8, 3), VerticalAlignment = VerticalAlignment.Center };
         _selectionLabel = Ui.Text("New annotation", 12, "Muted"); properties.Children.Add(_selectionLabel);
         _strokePalette = AddPalette(properties, "Stroke color", false); _fillPalette = AddPalette(properties, "Fill color", true);
-        _stroke = PropertySlider(properties, "Stroke width", 1, 12, 5, value => ApplyStyle(style => style with { StrokeWidth = value }));
+        _stroke = PropertySlider(properties, "Stroke width", 1, EditorSettings.MaximumStrokeWidth, EditorSettings.DefaultStrokeWidth, value => ApplyStyle(style => style with { StrokeWidth = value }));
         _font = PropertySlider(properties, "Text size", 12, 48, 20, value => ApplyStyle(style => style with { FontSize = value }));
         _stepSize = PropertySlider(properties, "Step size", EditorSettings.MinimumStepDiameter, EditorSettings.MaximumStepDiameter,
             EditorSettings.DefaultStepDiameter, value => ApplyStyle(style => style with { StepDiameter = value }));
@@ -628,8 +628,7 @@ public sealed class EditorWindow : Window
         _surface.InvalidateVisual(); _undo.IsEnabled = _history.CanUndo; _redo.IsEnabled = _history.CanRedo; _delete.IsEnabled = _selected is not null;
         foreach (var pair in _toolButtons) pair.Value.IsChecked = pair.Key == _tool;
         var style = _selected is null ? _defaultStyle : ElementStyle.Read(_selected);
-        _syncingProperties = true; _stroke.Maximum = _selected is ArrowElement || (_selected is null && _tool == EditorTool.Arrow)
-            ? EditorSettings.MaximumArrowStrokeWidth : 12;
+        _syncingProperties = true; _stroke.Maximum = EditorSettings.MaximumStrokeWidth;
         _stroke.Value = style.StrokeWidth; _font.Value = style.FontSize; _stepSize.Value = style.StepDiameter; _opacity.Value = style.Opacity * 100; _syncingProperties = false;
         foreach (var swatch in _strokePalette.Children.OfType<ToggleButton>()) swatch.IsChecked = (Color)swatch.Tag == style.Color;
         foreach (var swatch in _fillPalette.Children.OfType<ToggleButton>()) swatch.IsChecked = (Color)swatch.Tag == style.FillColor;

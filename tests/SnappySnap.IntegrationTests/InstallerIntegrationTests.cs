@@ -95,7 +95,7 @@ public sealed class InstallerIntegrationTests
             var store = new JsonSettingsStore(paths, logger);
             await File.WriteAllTextAsync(paths.SettingsPath, "{\"schemaVersion\":3,\"updates\":{\"automaticChecks\":false,\"sourceFolder\":\"C:\\\\old\"},\"general\":{\"startWithWindows\":false,\"shelfRecentCount\":37},\"screenshot\":{\"format\":\"Jpg\"}}");
             var settings = await store.LoadAsync(default);
-            Assert.False(settings.Updates.AutomaticChecks); Assert.Equal(5, settings.SchemaVersion);
+            Assert.False(settings.Updates.AutomaticChecks); Assert.Equal(6, settings.SchemaVersion);
             settings.Updates.AutomaticChecks = false; await store.SaveAsync(settings, default);
             var loaded = await store.LoadAsync(default);
             Assert.False(loaded.General.StartWithWindows); Assert.Equal(37, loaded.General.ShelfRecentCount); Assert.Equal("Jpg", loaded.Screenshot.Format);

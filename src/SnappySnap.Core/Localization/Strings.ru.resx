@@ -28,6 +28,9 @@
   <data name="Save changes" xml:space="preserve"><value>Сохранить изменения</value></data>
   <data name="Cancel" xml:space="preserve"><value>Отмена</value></data>
   <data name="Screenshot region" xml:space="preserve"><value>Снимок области</value></data>
+  <data name="Screenshot full screen" xml:space="preserve"><value>Снимок всего экрана</value></data>
+  <data name="Focus a field and press a key combination. Print Screen also works alone. Leave Open Shelf empty to disable its shortcut." xml:space="preserve"><value>Выберите поле и нажмите сочетание клавиш. Print Screen работает и без модификаторов. Оставьте «Открыть Shelf» пустым, чтобы отключить его сочетание.</value></data>
+  <data name="Could not capture the full screen. Try again or check the local log." xml:space="preserve"><value>Не удалось захватить весь экран. Повторите попытку или проверьте локальный журнал.</value></data>
   <data name="Start / stop recording" xml:space="preserve"><value>Начать / остановить запись</value></data>
   <data name="Pause / resume recording" xml:space="preserve"><value>Пауза / продолжение записи</value></data>
   <data name="Open Shelf" xml:space="preserve"><value>Открыть историю</value></data>
@@ -320,8 +323,8 @@
   <data name="Official GitHub Releases" xml:space="preserve"><value>Официальные релизы GitHub</value></data>
   <data name="Downloading and verifying the installer…" xml:space="preserve"><value>Загрузка и проверка установщика…</value></data>
   <data name="Update failed. Check the connection and local log, then try again." xml:space="preserve"><value>Не удалось проверить обновление. Проверьте соединение и локальный журнал, затем повторите.</value></data>
-  <data name="Click: suggested area · Drag: custom area · Double-click: monitor · Esc: cancel" xml:space="preserve"><value>Клик — предложенная область · Перетаскивание — своя область · Двойной клик — монитор · Esc — отмена</value></data>
-  <data name="Click: suggested area · Drag: custom area · Esc: cancel" xml:space="preserve"><value>Клик — предложенная область · Перетаскивание — своя область · Esc — отмена</value></data>
+  <data name="Click: suggested area · Drag: custom area · Double-click: monitor · Right-click or Esc: cancel" xml:space="preserve"><value>Клик — предложенная область · Перетаскивание — своя область · Двойной клик — монитор · ПКМ или Esc — отмена</value></data>
+  <data name="Click: suggested area · Drag: custom area · Right-click or Esc: cancel" xml:space="preserve"><value>Клик — предложенная область · Перетаскивание — своя область · ПКМ или Esc — отмена</value></data>
   <data name="Address bar and page · click to capture" xml:space="preserve"><value>Адресная строка и страница · клик для захвата</value></data>
   <data name="Page content · click to capture" xml:space="preserve"><value>Содержимое страницы · клик для захвата</value></data>
   <data name="Full browser · tabs included" xml:space="preserve"><value>Весь браузер · вкладки попадут в кадр</value></data>

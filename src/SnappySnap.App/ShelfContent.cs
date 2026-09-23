@@ -99,7 +99,7 @@ public sealed partial class ShelfContent : UserControl, IDisposable
         _list.AddHandler(ScrollViewer.ScrollChangedEvent, new ScrollChangedEventHandler((_, _) => LoadVisibleThumbnails()));
         _list.MouseDoubleClick += OnDoubleClick;
         ConfigureSelection();
-        _list.KeyDown += async (_, e) => { if (e.Key == Key.Enter) OpenSelected(); else if (e.Key == Key.Delete) await DeleteSelectedAsync(); else if (e.Key == Key.C && Keyboard.Modifiers == ModifierKeys.Control) CopySelected(); else if (e.Key == Key.C && Keyboard.Modifiers == (ModifierKeys.Control | ModifierKeys.Shift)) CopyPathSelected(); };
+        _list.KeyDown += async (_, e) => { if (e.Key == Key.Enter) EditSelected(); else if (e.Key == Key.Delete) await DeleteSelectedAsync(); else if (e.Key == Key.C && Keyboard.Modifiers == ModifierKeys.Control) CopySelected(); else if (e.Key == Key.C && Keyboard.Modifiers == (ModifierKeys.Control | ModifierKeys.Shift)) CopyPathSelected(); };
         _list.ContextMenu = CreateContextMenu();
         var listHost = new Grid { ClipToBounds = true }; listHost.Children.Add(_list); listHost.Children.Add(_selectionCanvas);
         Grid.SetRow(listHost, 5); body.Children.Add(listHost);
@@ -305,7 +305,10 @@ public sealed partial class ShelfContent : UserControl, IDisposable
     private void OnDoubleClick(object sender, MouseButtonEventArgs e)
     {
         if (Keyboard.Modifiers == ModifierKeys.None && ItemsControl.ContainerFromElement(_list, e.OriginalSource as DependencyObject) is ListViewItem)
-            OpenSelected();
+        {
+            EditSelected();
+            e.Handled = true;
+        }
     }
 
     private void OpenSelected()

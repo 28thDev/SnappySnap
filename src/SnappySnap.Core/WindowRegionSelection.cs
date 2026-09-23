@@ -1,9 +1,15 @@
 namespace SnappySnap.Core;
 
-public readonly record struct BrowserChromeBounds(VirtualPixelRect Address, VirtualPixelRect Content)
+public readonly record struct BrowserChromeBounds(VirtualPixelRect Toolbar, VirtualPixelRect Address, VirtualPixelRect Content)
 {
     public bool IsValidFor(VirtualPixelRect window) =>
-        Inside(window, Address) && Inside(window, Content)
+        Inside(window, Toolbar) && Inside(window, Address) && Inside(window, Content)
+        && Toolbar.Width >= window.Width * .7
+        && Toolbar.Y < Address.Y && Toolbar.Y > window.Y
+        && Toolbar.Y >= Address.Y - Address.Height
+        && Toolbar.Height <= Address.Height * 2.5
+        && Toolbar.Y + Toolbar.Height >= Address.Y + Address.Height
+        && Toolbar.Y + Toolbar.Height <= Content.Y
         && Address.Width >= window.Width * .2 && Address.Height >= 12
         && Content.Width >= window.Width * .4 && Content.Height >= window.Height * .25
         && Address.Y < Content.Y && Address.Y + Address.Height <= Content.Y;
@@ -36,9 +42,9 @@ public static class WindowRegionSelection
             if (candidate.Chrome is not { } chrome || !chrome.IsValidFor(window))
                 return new(candidate.Id, window, HoverRegionKind.BrowserUnknown);
             if (chrome.Content.Contains(point)) return new(candidate.Id, chrome.Content, HoverRegionKind.BrowserContent);
-            if (point.Y >= chrome.Address.Y && point.Y < chrome.Content.Y)
-                return new(candidate.Id, new VirtualPixelRect(window.X, chrome.Address.Y,
-                    window.Width, window.Y + window.Height - chrome.Address.Y), HoverRegionKind.BrowserWithAddress);
+            if (point.Y >= chrome.Toolbar.Y && point.Y < chrome.Content.Y)
+                return new(candidate.Id, new VirtualPixelRect(window.X, chrome.Toolbar.Y,
+                    window.Width, window.Y + window.Height - chrome.Toolbar.Y), HoverRegionKind.BrowserWithAddress);
             return new(candidate.Id, window, HoverRegionKind.BrowserFull);
         }
         return null;

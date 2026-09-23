@@ -61,6 +61,7 @@ internal sealed class StartupNoticeWindow : Window
             Grid.SetColumn(shortcut, 1); row.Children.Add(shortcut); content.Children.Add(row);
         }
         Shortcut(1001, "Screenshot region", hotkeys.RegionScreenshot);
+        Shortcut(1005, "Screenshot full screen", hotkeys.FullScreenshot);
         Shortcut(1002, "Start / stop recording", hotkeys.RegionVideo);
         Shortcut(1003, "Pause / resume recording", hotkeys.PauseResumeVideo);
         Shortcut(1004, "Open Shelf", hotkeys.OpenShelf);

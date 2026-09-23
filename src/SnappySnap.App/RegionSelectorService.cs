@@ -208,6 +208,14 @@ public sealed class RegionSelectorWindow : Window
         MouseLeftButtonDown += OnMouseDown;
         MouseMove += OnMouseMove;
         MouseLeftButtonUp += OnMouseUp;
+        PreviewMouseRightButtonDown += (_, e) =>
+        {
+            _cancelPendingClicks?.Invoke();
+            CancelPendingClick();
+            if (_dragging) { _dragging = false; ReleaseMouseCapture(); }
+            _cancelled();
+            e.Handled = true;
+        };
 
         var canvas = new Canvas { ClipToBounds = true };
         if (frozenImage is not null)
@@ -227,8 +235,8 @@ public sealed class RegionSelectorWindow : Window
         }
         _dimmer = new System.Windows.Shapes.Path { Fill = new SolidColorBrush(Color.FromArgb(140, 8, 14, 20)), IsHitTestVisible = false, Data = new RectangleGeometry(new Rect(0, 0, Width, Height)) }; canvas.Children.Add(_dimmer);
         var hint = Ui.Text(L.T(allowFullMonitor
-            ? "Click: suggested area · Drag: custom area · Double-click: monitor · Esc: cancel"
-            : "Click: suggested area · Drag: custom area · Esc: cancel"), 12);
+            ? "Click: suggested area · Drag: custom area · Double-click: monitor · Right-click or Esc: cancel"
+            : "Click: suggested area · Drag: custom area · Right-click or Esc: cancel"), 12);
         hint.IsHitTestVisible = false; Canvas.SetLeft(hint, 20); Canvas.SetTop(hint, 20); canvas.Children.Add(hint);
         _selectionBorder = new System.Windows.Shapes.Rectangle { Stroke = Ui.Brush("Accent"), StrokeThickness = 1.5, StrokeDashArray = new DoubleCollection { 5, 3 }, Fill = Brushes.Transparent, Visibility = Visibility.Collapsed, IsHitTestVisible = false };
         canvas.Children.Add(_selectionBorder);

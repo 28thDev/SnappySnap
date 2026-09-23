@@ -99,6 +99,14 @@ public sealed class JsonSettingsStore : ISettingsStore
                 settings.Editor.Styles["Arrow"] = arrow with { StrokeWidth = EditorSettings.DefaultArrowStrokeWidth };
             settings.SchemaVersion = 5;
         }
+        if (settings.SchemaVersion < 6)
+        {
+            if (settings.Editor?.Styles is not null)
+                foreach (var tool in new[] { "Rectangle", "Line", "Freehand" })
+                    if (settings.Editor.Styles.TryGetValue(tool, out var style) && style?.StrokeWidth == 5)
+                        settings.Editor.Styles[tool] = style with { StrokeWidth = EditorSettings.DefaultStrokeWidth };
+            settings.SchemaVersion = 6;
+        }
         return settings;
     }
 

@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 5,
+  "schemaVersion": 6,
   "updates": {
     "automaticChecks": true
   },
@@ -17,6 +17,7 @@
   },
   "hotkeys": {
     "regionScreenshot": "Ctrl+E",
+    "fullScreenshot": "PrintScreen",
     "regionVideo": "Ctrl+Alt+E",
     "pauseResumeVideo": "Ctrl+Alt+Space",
     "fastRegionScreenshot": null,
@@ -42,23 +43,23 @@
     "styles": {
       "Arrow": {
         "color": "#FFFF3B30",
-        "strokeWidth": 5,
+        "strokeWidth": 10,
         "opacity": 1
       },
       "Rectangle": {
         "color": "#FFFF3B30",
         "fillColor": "#00FFFFFF",
-        "strokeWidth": 5,
+        "strokeWidth": 10,
         "opacity": 1
       },
       "Line": {
         "color": "#FFFF3B30",
-        "strokeWidth": 5,
+        "strokeWidth": 10,
         "opacity": 1
       },
       "Freehand": {
         "color": "#FFFF3B30",
-        "strokeWidth": 5,
+        "strokeWidth": 10,
         "opacity": 1
       },
       "Text": {

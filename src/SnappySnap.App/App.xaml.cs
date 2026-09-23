@@ -265,6 +265,7 @@ public partial class App : System.Windows.Application
 public sealed class SnappySnapRuntime : IAsyncDisposable
 {
     private const int ScreenshotHotkeyId = 1001;
+    private const int FullScreenshotHotkeyId = 1005;
     private const int VideoHotkeyId = 1002;
     private const int PauseHotkeyId = 1003;
     private readonly AppPaths _paths;
@@ -550,6 +551,9 @@ public sealed class SnappySnapRuntime : IAsyncDisposable
             case ScreenshotHotkeyId:
                 _ = StartScreenshotAsync();
                 break;
+            case FullScreenshotHotkeyId:
+                _ = StartFullScreenshotAsync();
+                break;
             case VideoHotkeyId:
                 _ = ToggleVideoAsync();
                 break;
@@ -603,6 +607,33 @@ public sealed class SnappySnapRuntime : IAsyncDisposable
         finally
         {
             frozenSnapshot = null;
+            SetShelfCaptureInProgress(false);
+            _screenshotRunning = false;
+        }
+    }
+
+    private async Task StartFullScreenshotAsync()
+    {
+        if (IsExiting || _screenshotRunning || _videoStarting || _recording.Snapshot.State is not (RecordingState.Idle or RecordingState.Completed)) return;
+        _screenshotRunning = true;
+        SetShelfCaptureInProgress(true);
+        try
+        {
+            _topology.Invalidate();
+            _screenshots.Begin();
+            var plan = _planBuilder.Build(_topology.VirtualDesktopBounds, _topology.GetMonitors());
+            var image = await _screenshots.CaptureDirectAsync(plan, CancellationToken.None);
+            await CompleteScreenshotAsync(plan, image);
+        }
+        catch (Exception ex)
+        {
+            _logger.Error("Full-screen screenshot flow failed.", ex);
+            if (_screenshots.Snapshot.State == ScreenshotState.Exporting) _screenshots.FailExport(ex);
+            _screenshots.Cancel();
+            ShowBalloon("Screenshot failed", "Could not capture the full screen. Try again or check the local log.");
+        }
+        finally
+        {
             SetShelfCaptureInProgress(false);
             _screenshotRunning = false;
         }

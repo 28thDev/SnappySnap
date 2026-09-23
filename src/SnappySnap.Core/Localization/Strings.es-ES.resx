@@ -27,6 +27,9 @@
   <data name="Save changes" xml:space="preserve"><value>Guardar cambios</value></data>
   <data name="Cancel" xml:space="preserve"><value>Cancelar</value></data>
   <data name="Screenshot region" xml:space="preserve"><value>Región de captura</value></data>
+  <data name="Screenshot full screen" xml:space="preserve"><value>Capturar toda la pantalla</value></data>
+  <data name="Focus a field and press a key combination. Print Screen also works alone. Leave Open Shelf empty to disable its shortcut." xml:space="preserve"><value>Seleccione un campo y pulse una combinación. Print Screen también funciona sola. Deje Abrir Shelf vacío para desactivar su atajo.</value></data>
+  <data name="Could not capture the full screen. Try again or check the local log." xml:space="preserve"><value>No se pudo capturar toda la pantalla. Inténtelo de nuevo o revise el registro local.</value></data>
   <data name="Start / stop recording" xml:space="preserve"><value>Iniciar / detener grabación</value></data>
   <data name="Pause / resume recording" xml:space="preserve"><value>Pausar / reanudar grabación</value></data>
   <data name="Open Shelf" xml:space="preserve"><value>Abrir panel</value></data>
@@ -189,8 +192,8 @@
   <data name="Official GitHub Releases" xml:space="preserve"><value>Versiones oficiales de GitHub</value></data>
   <data name="Downloading and verifying the installer…" xml:space="preserve"><value>Descargando y verificando el instalador…</value></data>
   <data name="Update failed. Check the connection and local log, then try again." xml:space="preserve"><value>Error de actualización. Comprueba la conexión y el registro local e inténtalo de nuevo.</value></data>
-  <data name="Click: suggested area · Drag: custom area · Double-click: monitor · Esc: cancel" xml:space="preserve"><value>Clic: área sugerida · Arrastrar: área personalizada · Doble clic: monitor · Esc: cancelar</value></data>
-  <data name="Click: suggested area · Drag: custom area · Esc: cancel" xml:space="preserve"><value>Clic: área sugerida · Arrastrar: área personalizada · Esc: cancelar</value></data>
+  <data name="Click: suggested area · Drag: custom area · Double-click: monitor · Right-click or Esc: cancel" xml:space="preserve"><value>Clic: área sugerida · Arrastrar: área personalizada · Doble clic: monitor · Clic derecho o Esc: cancelar</value></data>
+  <data name="Click: suggested area · Drag: custom area · Right-click or Esc: cancel" xml:space="preserve"><value>Clic: área sugerida · Arrastrar: área personalizada · Clic derecho o Esc: cancelar</value></data>
   <data name="Address bar and page · click to capture" xml:space="preserve"><value>Barra de direcciones y página · clic para capturar</value></data>
   <data name="Page content · click to capture" xml:space="preserve"><value>Contenido de la página · clic para capturar</value></data>
   <data name="Full browser · tabs included" xml:space="preserve"><value>Navegador completo · incluye pestañas</value></data>

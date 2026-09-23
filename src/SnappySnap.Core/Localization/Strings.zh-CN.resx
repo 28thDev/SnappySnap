@@ -27,6 +27,9 @@
   <data name="Save changes" xml:space="preserve"><value>保存更改</value></data>
   <data name="Cancel" xml:space="preserve"><value>取消</value></data>
   <data name="Screenshot region" xml:space="preserve"><value>截图区域</value></data>
+  <data name="Screenshot full screen" xml:space="preserve"><value>截取整个屏幕</value></data>
+  <data name="Focus a field and press a key combination. Print Screen also works alone. Leave Open Shelf empty to disable its shortcut." xml:space="preserve"><value>选中输入框并按下快捷键。Print Screen 也可单独使用。留空“打开 Shelf”可禁用其快捷键。</value></data>
+  <data name="Could not capture the full screen. Try again or check the local log." xml:space="preserve"><value>无法截取整个屏幕。请重试或查看本地日志。</value></data>
   <data name="Start / stop recording" xml:space="preserve"><value>开始 / 停止录制</value></data>
   <data name="Pause / resume recording" xml:space="preserve"><value>暂停 / 继续录制</value></data>
   <data name="Open Shelf" xml:space="preserve"><value>打开素材架</value></data>
@@ -189,8 +192,8 @@
   <data name="Official GitHub Releases" xml:space="preserve"><value>GitHub 官方版本</value></data>
   <data name="Downloading and verifying the installer…" xml:space="preserve"><value>正在下载并验证安装程序…</value></data>
   <data name="Update failed. Check the connection and local log, then try again." xml:space="preserve"><value>更新失败。请检查网络连接和本地日志，然后重试。</value></data>
-  <data name="Click: suggested area · Drag: custom area · Double-click: monitor · Esc: cancel" xml:space="preserve"><value>单击：建议区域 · 拖动：自选区域 · 双击：整个显示器 · Esc：取消</value></data>
-  <data name="Click: suggested area · Drag: custom area · Esc: cancel" xml:space="preserve"><value>单击：建议区域 · 拖动：自选区域 · Esc：取消</value></data>
+  <data name="Click: suggested area · Drag: custom area · Double-click: monitor · Right-click or Esc: cancel" xml:space="preserve"><value>单击：建议区域 · 拖动：自选区域 · 双击：整个显示器 · 右键或 Esc：取消</value></data>
+  <data name="Click: suggested area · Drag: custom area · Right-click or Esc: cancel" xml:space="preserve"><value>单击：建议区域 · 拖动：自选区域 · 右键或 Esc：取消</value></data>
   <data name="Address bar and page · click to capture" xml:space="preserve"><value>地址栏和网页 · 单击捕获</value></data>
   <data name="Page content · click to capture" xml:space="preserve"><value>网页内容 · 单击捕获</value></data>
   <data name="Full browser · tabs included" xml:space="preserve"><value>整个浏览器 · 包含标签页</value></data>

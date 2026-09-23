@@ -8,6 +8,19 @@ namespace SnappySnap.Editor.Tests;
 
 public sealed class ToolStyleTests
 {
+    [Theory]
+    [InlineData(EditorTool.Rectangle)]
+    [InlineData(EditorTool.Line)]
+    [InlineData(EditorTool.Freehand)]
+    public void Drawing_tools_start_at_ten_and_accept_twenty_four(EditorTool tool)
+    {
+        var styles = new EditorToolStyles();
+        Assert.Equal(10, styles.Get(tool).StrokeWidth);
+        var selected = styles.Get(tool) with { StrokeWidth = 24 };
+        Assert.Equal(24, styles.Set(tool, selected).StrokeWidth);
+        Assert.Equal(24, styles.Get(tool).StrokeWidth);
+    }
+
     [Fact]
     public void Styles_are_independent_and_keep_only_applicable_properties()
     {

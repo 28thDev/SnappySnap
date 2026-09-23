@@ -69,6 +69,11 @@ internal static partial class VisualHarness
 
     public static async Task RunAsync(string output)
     {
+        if (!HotkeyParser.TryParse("PrintScreen", out var modifiers, out var key)
+            || modifiers != HotkeyModifiers.None || key != System.Windows.Input.Key.PrintScreen
+            || HotkeyParser.TryParse("A", out _, out _)
+            || GlobalHotkeyService.Bindings(AppSettings.Defaults().Hotkeys)[1005] != "PrintScreen")
+            throw new InvalidOperationException("Print Screen shortcut configuration is invalid.");
         L.SetLanguage("en"); Ui.ApplyTheme("Dark");
         Directory.CreateDirectory(output);
         var paths = new AppPaths(Path.Combine(output, "data"), output); paths.EnsureDirectories();
@@ -120,7 +125,7 @@ internal static partial class VisualHarness
             typeof(EditorWindow).GetMethod("BeginPreview", BindingFlags.Instance | BindingFlags.NonPublic)!.Invoke(window, null);
             typeof(EditorWindow).GetMethod("UpdatePreview", BindingFlags.Instance | BindingFlags.NonPublic)!.Invoke(window, [new Point(450, 280)]);
             var preview = (System.Windows.Shapes.Shape)typeof(EditorWindow).GetField("_gesturePreview", BindingFlags.Instance | BindingFlags.NonPublic)!.GetValue(window)!;
-            if (preview.StrokeThickness != 5 || ((SolidColorBrush)preview.Stroke).Color != Color.FromRgb(255, 59, 48)) throw new InvalidOperationException("Annotation preview does not match the default style.");
+            if (preview.StrokeThickness != EditorSettings.DefaultStrokeWidth || ((SolidColorBrush)preview.Stroke).Color != Color.FromRgb(255, 59, 48)) throw new InvalidOperationException("Annotation preview does not match the default style.");
             ((ComboBox)typeof(EditorWindow).GetField("_format", BindingFlags.Instance | BindingFlags.NonPublic)!.GetValue(window)!).SelectedItem = "Jpg";
             if (((EditorWindow)window).SaveFormat != "Jpg") throw new InvalidOperationException("Document save format did not update.");
             CaptureContent(window, Path.Combine(output, "annotation-red-preview-jpg.png"));
@@ -128,6 +133,16 @@ internal static partial class VisualHarness
         var monitor = new MonitorDescriptor("visual-fixture", new VirtualPixelRect(0, 0, 1280, 800), new VirtualPixelRect(0, 0, 1280, 760), 96, 96, true);
         var region = new VirtualPixelRect(180, 150, 840, 520);
         var selector = new RegionSelectorWindow(monitor, _ => { }, () => { }); selector.DrawSelection(region); await Snapshot(selector, output, "region-selector");
+        var rightClickCancelled = false;
+        await Snapshot(new RegionSelectorWindow(monitor, _ => throw new InvalidOperationException("Right click selected a region."), () => rightClickCancelled = true),
+            output, "region-selector-cancel", exercise: window =>
+            {
+                window.RaiseEvent(new System.Windows.Input.MouseButtonEventArgs(System.Windows.Input.Mouse.PrimaryDevice,
+                    Environment.TickCount, System.Windows.Input.MouseButton.Right)
+                { RoutedEvent = UIElement.PreviewMouseRightButtonDownEvent });
+                if (!rightClickCancelled) throw new InvalidOperationException("Right-click did not cancel the region selector.");
+                return Task.CompletedTask;
+            });
         var frozenSnapshot = new FrozenDesktopSnapshot(new VirtualPixelRect(160, 100, fixture.PixelWidth, fixture.PixelHeight), captured);
         var frozenBitmap = EditorRenderer.ToBitmapSource(frozenSnapshot.CapturedImage);
         var frozenSelector = new RegionSelectorWindow(monitor, _ => { }, () => { }, allowFullMonitor: true, monitors: new[] { monitor },
@@ -140,7 +155,7 @@ internal static partial class VisualHarness
         });
         await File.WriteAllTextAsync(Path.Combine(output, "frozen-selector-results.txt"), "PASS: WPF selector rendered one shared frozen BitmapSource under dimmer/selection chrome; live selector path remains covered separately.\n");
         var browserWindow = new VirtualPixelRect(180, 110, 920, 620);
-        var browserChrome = new BrowserChromeBounds(new(270, 165, 670, 42), new(180, 250, 920, 480));
+        var browserChrome = new BrowserChromeBounds(new(180, 145, 920, 65), new(270, 165, 670, 42), new(180, 250, 920, 480));
         var browserCandidate = new WindowRegionCandidate(1, browserWindow, true, browserChrome);
         var browserSelector = new RegionSelectorWindow(monitor, _ => { }, () => { }, allowFullMonitor: true);
         await Snapshot(browserSelector, output, "region-selector-browser", exercise: window =>

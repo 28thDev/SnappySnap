@@ -16,7 +16,7 @@ public sealed class EditorPreferencesTests : IDisposable
         var paths = new AppPaths(_root, _root); paths.EnsureDirectories();
         await File.WriteAllTextAsync(paths.SettingsPath, """{"schemaVersion":1,"general":{"shelfRecentCount":73},"screenshot":{"format":"Jpg"}}""");
         var store = new JsonSettingsStore(paths, new Logger()); var current = await store.LoadAsync(default);
-        Assert.Equal(5, current.SchemaVersion); Assert.Equal(.35, current.Editor.Styles["Highlight"].Opacity);
+        Assert.Equal(6, current.SchemaVersion); Assert.Equal(.35, current.Editor.Styles["Highlight"].Opacity);
         var session = new SettingsSession(current, store);
         session.SetStyle("Arrow", current.Editor.Styles["Arrow"] with { Color = "#FF123456", StrokeWidth = 9 });
         Assert.Equal(64, current.Editor.Styles["StepMarker"].StepDiameter);
@@ -37,12 +37,29 @@ public sealed class EditorPreferencesTests : IDisposable
         await File.WriteAllTextAsync(paths.SettingsPath, """{"schemaVersion":4,"editor":{"styles":{"Arrow":{"color":"#FFFF3B30","strokeWidth":5,"opacity":1}}}}""");
         var store = new JsonSettingsStore(paths, new Logger());
         var migrated = await store.LoadAsync(default);
-        Assert.Equal(5, migrated.SchemaVersion);
+        Assert.Equal(6, migrated.SchemaVersion);
         Assert.Equal(10, migrated.Editor.Styles["Arrow"].StrokeWidth);
         Assert.Equal(10, (await store.LoadAsync(default)).Editor.Styles["Arrow"].StrokeWidth);
         migrated.Editor.Styles["Arrow"] = migrated.Editor.Styles["Arrow"] with { StrokeWidth = 24 };
         await store.SaveAsync(migrated, default);
         Assert.Equal(24, (await store.LoadAsync(default)).Editor.Styles["Arrow"].StrokeWidth);
+    }
+
+    [Fact]
+    public async Task Old_stroke_defaults_upgrade_once_while_custom_widths_survive()
+    {
+        var paths = new AppPaths(_root, _root); paths.EnsureDirectories();
+        await File.WriteAllTextAsync(paths.SettingsPath, """{"schemaVersion":5,"editor":{"styles":{"Rectangle":{"strokeWidth":5},"Line":{"strokeWidth":7},"Freehand":{"strokeWidth":5},"Arrow":{"strokeWidth":24}}}}""");
+        var store = new JsonSettingsStore(paths, new Logger());
+        var migrated = await store.LoadAsync(default);
+        Assert.Equal(6, migrated.SchemaVersion);
+        Assert.Equal(10, migrated.Editor.Styles["Rectangle"].StrokeWidth);
+        Assert.Equal(7, migrated.Editor.Styles["Line"].StrokeWidth);
+        Assert.Equal(10, migrated.Editor.Styles["Freehand"].StrokeWidth);
+        Assert.Equal(24, migrated.Editor.Styles["Arrow"].StrokeWidth);
+        migrated.Editor.Styles["Rectangle"] = migrated.Editor.Styles["Rectangle"] with { StrokeWidth = 24 };
+        await store.SaveAsync(migrated, default);
+        Assert.Equal(24, (await store.LoadAsync(default)).Editor.Styles["Rectangle"].StrokeWidth);
     }
 
     [Fact]

@@ -22,7 +22,7 @@ public sealed class ShelfPreferencesTests : IDisposable
         Paths.EnsureDirectories();
         await File.WriteAllTextAsync(Paths.SettingsPath, JsonSerializer.Serialize(new { schemaVersion = version, general = new { shelfRecentCount = count } }));
         var loaded = await Store.LoadAsync(default);
-        Assert.Equal(5, loaded.SchemaVersion); Assert.Equal(expected, loaded.General.ShelfRecentCount);
+        Assert.Equal(6, loaded.SchemaVersion); Assert.Equal(expected, loaded.General.ShelfRecentCount);
         Assert.Equal(expected, (await Store.LoadAsync(default)).General.ShelfRecentCount);
     }
 

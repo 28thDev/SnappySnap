@@ -28,6 +28,9 @@
   <data name="Save changes" xml:space="preserve"><value>Save changes</value></data>
   <data name="Cancel" xml:space="preserve"><value>Cancel</value></data>
   <data name="Screenshot region" xml:space="preserve"><value>Screenshot region</value></data>
+  <data name="Screenshot full screen" xml:space="preserve"><value>Screenshot full screen</value></data>
+  <data name="Focus a field and press a key combination. Print Screen also works alone. Leave Open Shelf empty to disable its shortcut." xml:space="preserve"><value>Focus a field and press a key combination. Print Screen also works alone. Leave Open Shelf empty to disable its shortcut.</value></data>
+  <data name="Could not capture the full screen. Try again or check the local log." xml:space="preserve"><value>Could not capture the full screen. Try again or check the local log.</value></data>
   <data name="Start / stop recording" xml:space="preserve"><value>Start / stop recording</value></data>
   <data name="Pause / resume recording" xml:space="preserve"><value>Pause / resume recording</value></data>
   <data name="Open Shelf" xml:space="preserve"><value>Open Shelf</value></data>
@@ -320,8 +323,8 @@
   <data name="Official GitHub Releases" xml:space="preserve"><value>Official GitHub Releases</value></data>
   <data name="Downloading and verifying the installer…" xml:space="preserve"><value>Downloading and verifying the installer…</value></data>
   <data name="Update failed. Check the connection and local log, then try again." xml:space="preserve"><value>Update failed. Check the connection and local log, then try again.</value></data>
-  <data name="Click: suggested area · Drag: custom area · Double-click: monitor · Esc: cancel" xml:space="preserve"><value>Click: suggested area · Drag: custom area · Double-click: monitor · Esc: cancel</value></data>
-  <data name="Click: suggested area · Drag: custom area · Esc: cancel" xml:space="preserve"><value>Click: suggested area · Drag: custom area · Esc: cancel</value></data>
+  <data name="Click: suggested area · Drag: custom area · Double-click: monitor · Right-click or Esc: cancel" xml:space="preserve"><value>Click: suggested area · Drag: custom area · Double-click: monitor · Right-click or Esc: cancel</value></data>
+  <data name="Click: suggested area · Drag: custom area · Right-click or Esc: cancel" xml:space="preserve"><value>Click: suggested area · Drag: custom area · Right-click or Esc: cancel</value></data>
   <data name="Address bar and page · click to capture" xml:space="preserve"><value>Address bar and page · click to capture</value></data>
   <data name="Page content · click to capture" xml:space="preserve"><value>Page content · click to capture</value></data>
   <data name="Full browser · tabs included" xml:space="preserve"><value>Full browser · tabs included</value></data>

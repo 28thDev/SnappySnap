@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.2.0 — release candidate
+
+- Rectangle, line and freehand annotations also start at 10 px and reach 24 px; former saved defaults move once while custom widths remain.
+- Right-click cancels region selection. Print Screen captures the full virtual desktop directly, then saves it and opens the editor.
+- Double-click or Enter on a Shelf item opens SnappySnap's editor. The Open action still uses the Windows default app.
+- Browser address-and-page capture begins at the detected toolbar's top edge so the URL controls are included.
+
+This candidate awaits owner testing. It is not published.
+
 ## 1.1.0 — release candidate
 
 - Arrow annotations start at 10 px and can reach 24 px; an old saved default of 5 px migrates once to 10 px.

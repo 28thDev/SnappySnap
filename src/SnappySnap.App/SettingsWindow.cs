@@ -37,7 +37,7 @@ public sealed class SettingsWindow : Window
     private readonly WindowsStartupRegistration _startup;
     private readonly IAppLogger _logger;
     private readonly CheckBox _start, _systemAudio, _microphone, _clipboard;
-    private readonly TextBox _screenshotHotkey, _videoHotkey, _pauseHotkey, _shelfHotkey, _folder, _recent;
+    private readonly TextBox _screenshotHotkey, _fullScreenshotHotkey, _videoHotkey, _pauseHotkey, _shelfHotkey, _folder, _recent;
     private readonly ComboBox _duration, _radius, _format, _language, _theme;
     private readonly TextBlock _status;
     private readonly List<ToggleButton> _qualityButtons = new();
@@ -89,10 +89,11 @@ public sealed class SettingsWindow : Window
 
         var hotkeys = Section("Hotkeys", "\uE765");
         _screenshotHotkey = Shortcut(hotkeys, "Screenshot region", settings.Hotkeys.RegionScreenshot);
+        _fullScreenshotHotkey = Shortcut(hotkeys, "Screenshot full screen", settings.Hotkeys.FullScreenshot);
         _videoHotkey = Shortcut(hotkeys, "Start / stop recording", settings.Hotkeys.RegionVideo);
         _pauseHotkey = Shortcut(hotkeys, "Pause / resume recording", settings.Hotkeys.PauseResumeVideo);
         _shelfHotkey = Shortcut(hotkeys, "Open Shelf", settings.Hotkeys.OpenShelf ?? "", optional: true);
-        foreach (var entry in new[] { (1001, _screenshotHotkey, "Ctrl+Shift+F9"), (1002, _videoHotkey, "Ctrl+Shift+F10"), (1003, _pauseHotkey, ""), (1004, _shelfHotkey, "") })
+        foreach (var entry in new[] { (1001, _screenshotHotkey, "Ctrl+Shift+F9"), (1005, _fullScreenshotHotkey, ""), (1002, _videoHotkey, "Ctrl+Shift+F10"), (1003, _pauseHotkey, ""), (1004, _shelfHotkey, "") })
         {
             var error = Ui.Text(_hotkeys?.Results.FirstOrDefault(r => r.Id == entry.Item1)?.Error ?? "", 12, "Danger");
             _hotkeyErrors[entry.Item1] = error; hotkeys.Children.Insert(hotkeys.Children.IndexOf((UIElement)entry.Item2.Parent) + 1, error);
@@ -106,7 +107,7 @@ public sealed class SettingsWindow : Window
                 }, "GhostButton"));
             }
         }
-        hotkeys.Children.Add(Ui.Text("Focus a field and press a key combination. Leave Open Shelf empty to disable its shortcut.", 12, "Muted"));
+        hotkeys.Children.Add(Ui.Text("Focus a field and press a key combination. Print Screen also works alone. Leave Open Shelf empty to disable its shortcut.", 12, "Muted"));
 
         var screenshot = Section("Screenshots", "\uEB9F");
         _format = Choice(screenshot, "Default image format", ImageFormats, settings.Screenshot.Format, "");
@@ -171,13 +172,14 @@ public sealed class SettingsWindow : Window
     }
     private static TextBox Shortcut(Panel parent, string label, string value, bool optional = false)
     {
-        var box = Field(parent, label, value); Ui.Localize(box, ToolTipProperty, "Press Ctrl/Alt/Shift and a key");
+        var box = Field(parent, label, value);
+        if (label != "Screenshot full screen") Ui.Localize(box, ToolTipProperty, "Press Ctrl/Alt/Shift and a key");
         box.PreviewKeyDown += (_, e) =>
         {
             if (e.Key == Key.Tab) return;
             e.Handled = true; var key = e.Key == Key.System ? e.SystemKey : e.Key; var modifiers = Keyboard.Modifiers;
             if (optional && modifiers == ModifierKeys.None && key is Key.Back or Key.Delete) { box.Clear(); return; }
-            if (key is Key.LeftCtrl or Key.RightCtrl or Key.LeftAlt or Key.RightAlt or Key.LeftShift or Key.RightShift or Key.LWin or Key.RWin || modifiers == ModifierKeys.None) return;
+            if (key is Key.LeftCtrl or Key.RightCtrl or Key.LeftAlt or Key.RightAlt or Key.LeftShift or Key.RightShift or Key.LWin or Key.RWin || (modifiers == ModifierKeys.None && key != Key.PrintScreen)) return;
             box.Text = (modifiers.HasFlag(ModifierKeys.Control) ? "Ctrl+" : "") + (modifiers.HasFlag(ModifierKeys.Alt) ? "Alt+" : "") + (modifiers.HasFlag(ModifierKeys.Shift) ? "Shift+" : "") + (modifiers.HasFlag(ModifierKeys.Windows) ? "Win+" : "") + key;
         }; return box;
     }
@@ -201,12 +203,13 @@ public sealed class SettingsWindow : Window
         if (_saving) return; _saving = true;
         try
         {
-            var keys = new[] { _screenshotHotkey.Text, _videoHotkey.Text, _pauseHotkey.Text, _shelfHotkey.Text }.Select(GlobalHotkeyService.Normalize).ToArray();
+            var fields = new[] { (1001, _screenshotHotkey.Text), (1005, _fullScreenshotHotkey.Text), (1002, _videoHotkey.Text), (1003, _pauseHotkey.Text), (1004, _shelfHotkey.Text) };
+            var keys = fields.Select(field => GlobalHotkeyService.Normalize(field.Item2)).ToArray();
             var invalidKeys = false;
             for (var i = 0; i < keys.Length; i++)
             {
-                var error = i == 3 && keys[i].Length == 0 ? "" : !HotkeyParser.TryParse(keys[i], out _, out _) ? "Use a modifier and a non-modifier key." : keys.Count(k => k.Equals(keys[i], StringComparison.OrdinalIgnoreCase)) > 1 ? "This shortcut is assigned twice." : "";
-                _hotkeyErrors[1001 + i].Text = L.T(error); invalidKeys |= error.Length > 0;
+                var error = fields[i].Item1 == 1004 && keys[i].Length == 0 ? "" : !HotkeyParser.TryParse(keys[i], out _, out _) ? "Use a modifier and a non-modifier key." : keys.Count(k => k.Equals(keys[i], StringComparison.OrdinalIgnoreCase)) > 1 ? "This shortcut is assigned twice." : "";
+                _hotkeyErrors[fields[i].Item1].Text = L.T(error); invalidKeys |= error.Length > 0;
             }
             if (invalidKeys) { SelectSection("Hotkeys"); Ui.Localize(_status, TextBlock.TextProperty, "Resolve the marked shortcut errors."); return; }
             if (!int.TryParse(_recent.Text, out var recent) || recent < 1 || recent > 500) { SelectSection("General"); Ui.Localize(_status, TextBlock.TextProperty, "Recent captures must be between 1 and 500."); return; }
@@ -215,7 +218,7 @@ public sealed class SettingsWindow : Window
             _ = Path.GetFullPath(folder);
             _settings.General.Language = (string)_language.SelectedValue; _settings.General.Theme = (string)_theme.SelectedValue;
             _settings.General.StartWithWindows = _start.IsChecked == true; _settings.General.CaptureRoot = folder; _settings.General.ShelfRecentCount = recent;
-            _settings.Hotkeys.RegionScreenshot = keys[0]; _settings.Hotkeys.RegionVideo = keys[1]; _settings.Hotkeys.PauseResumeVideo = keys[2]; _settings.Hotkeys.OpenShelf = keys[3].Length == 0 ? null : keys[3];
+            _settings.Hotkeys.RegionScreenshot = keys[0]; _settings.Hotkeys.FullScreenshot = keys[1]; _settings.Hotkeys.RegionVideo = keys[2]; _settings.Hotkeys.PauseResumeVideo = keys[3]; _settings.Hotkeys.OpenShelf = keys[4].Length == 0 ? null : keys[4];
             _settings.Screenshot.Format = (string)_format.SelectedItem;
             _settings.Screenshot.CopyToClipboard = _clipboard.IsChecked == true;
             _settings.Recording.QualityProfile = _quality; _settings.Recording.SystemAudioDefault = _systemAudio.IsChecked == true; _settings.Recording.MicrophoneDefault = _microphone.IsChecked == true;
