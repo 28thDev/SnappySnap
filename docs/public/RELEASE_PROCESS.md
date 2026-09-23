@@ -14,16 +14,32 @@ A release is a verified source revision plus its exact installer and signed upda
 
 Size or number of commits alone does not determine the increment. For a mixed batch, use the highest applicable category. Documentation, tests, artwork or build changes with no change in shipped behavior need no bump. If the category is unclear, document the affected workflow and compatibility before choosing; prefer PATCH for a contained improvement to an existing workflow. Record the choice in the changelog or candidate notes.
 
-For each candidate, decide in this order:
+## Public versions and internal testing
 
-1. Check `Directory.Build.props`, existing tags and the last installer handed to testers. A candidate may exist even without a GitHub release.
-2. Ask whether shipped behavior changes. If it does not, keep the current version and do not build a replacement installer solely for documentation.
-3. If the change is incompatible, seek approval for MAJOR. Otherwise choose MINOR only for an independent new workflow or substantial capability; choose PATCH for a contained improvement to an existing workflow.
-4. Update the changelog and candidate notes with the selected number and rationale. Commit the versioned source before building into a fresh output path.
+Choose a public version from the last **published** release and the complete accepted change set, using the table above. Test iterations do not count as public PATCH releases. Record an owner-selected target explicitly; do not silently change it because more bugs were fixed during testing.
 
-Use numeric versions without prerelease suffixes. Assign the next unused version before handing an installer to a tester or publishing it. A handed-off candidate consumes its version even if it is never released: any changed binary needs another version. Do not replace a distributed installer with different bytes or move a published tag. Preserve old candidates for provenance and explicitly mark superseded ones. If a mistaken candidate number is withdrawn, record the correction and check updater ordering before handing off a lower-numbered replacement; automatic updates do not perform downgrades.
+Use ordinary numeric versions only. Do not introduce `rc`, prerelease channels, a second assembly-version scheme or a build counter for this process. `Directory.Build.props` remains the single version source for each actual build.
 
-`master` is the permanent development branch. Use temporary feature/fix branches for larger changes. A temporary `release/<version>` branch is only needed to stabilize a release alongside newer development. Tags use `v<version>` and point to the exact accepted commit.
+Internal tester versions may advance when useful for identifying installed builds, but a bump is not required for every fix or handoff. Those internal numbers do not reserve future public version numbers. Multiple unpublished builds with the same version must use separate output directories and retain their original installer, build log and existing commit/hash sidecar. Identify the exact tested artifact by path and commit, not version alone. Never overwrite an earlier artifact. Once a version is publicly released, its installer/catalog and tag are immutable; changed shipped code requires a new public version.
+
+Keep one working branch through the entire preparation cycle. Do not create or rename a branch just because a tester version changed. Its name is a work label, not a version authority. `master` is the permanent branch; use a temporary stabilization branch when the owner requests one or parallel work requires it. Normal publication follows the separately approved merge into master, then the final build and tag there. The tag helper also supports an exact `release/<public-version>` branch for deliberate parallel maintenance; that exception does not require renaming the current tester branch.
+
+### Agent decision sequence
+
+1. Establish the last published release, owner-approved public target, current source version and last installed tester version. Do not infer publication from a branch, local tag or artifact folder alone. If public state is uncertain, verify it before changing the public target.
+2. Continue fixes in the current working branch. Keep internal version numbers distinct from the public release decision. Documentation/test-only changes do not require another installer.
+3. For a requested tester build, choose the internal numeric version as needed, commit the source and use a fresh output directory. Record version, commit, hash and acceptance status. Preserve previous builds.
+4. Before public release, set `Directory.Build.props` to the agreed public target; prepare one set of public release notes covering changes since the last published release. Retain tester history as explicitly unpublished history, not a sequence of public releases.
+5. Perform the approved merge, commit the final versioned source and build the exact final installer. Revalidate version, payload, signing/provenance, normal upgrade and acceptance. Never relabel or rename a higher-version executable as a lower release. If merge/source changes after a candidate was built, rebuild from the final commit.
+6. Publish only after explicit owner approval for the exact final artifact. Tag, catalog, notes and executable versions must agree.
+
+### Higher-version testers moving to the public release
+
+The updater offers only newer versions. Setup also refuses a lower version while a higher one is registered. Therefore a tester running 1.1.5 cannot install 1.1.0 over it or receive 1.1.0 automatically.
+
+For the current cycle, the intended public release is **1.1.0** over the public 1.0.0 baseline; 1.1.1–1.1.5 are unpublished tester history. Keep the current working branch and build version until final release preparation. This is an explicit owner-selected target, not a rule that every future batch warrants MINOR.
+
+Before handing off the final build, verify in a disposable profile: preserve/back up the tester's settings, history and captures, uninstall the higher tester version normally, install the public version, and confirm retained data and normal operation. The uninstaller is designed to retain user data, but this exact transition still needs acceptance. Do not edit installed-version registry values, delete the user's profile or weaken downgrade protection. Host uninstall/install requires the user's authorization. Also test the ordinary 1.0.0 -> 1.1.0 upgrade separately. If data compatibility fails, stop and resolve that transition before release.
 
 ## Candidate checks
 
@@ -37,27 +53,27 @@ Use numeric versions without prerelease suffixes. Assign the next unused version
 
 ## Build and stage
 
-Start from a clean, committed candidate. Replace `<version>` and `<build-id>` below with that candidate's values.
+Start from a clean, committed candidate. Replace `<version>` with the final source version, `<candidate-id>` with a fresh directory name (for example date and short commit), and `<build-id>` with the payload staging ID printed by the builder. These directory names are not extra product versions.
 
 ```powershell
 dotnet restore SnappySnap.sln --locked-mode
 ./build.ps1 -Configuration Release
 ./test.ps1 -Configuration Release -NoBuild
 ./tools/release/Test-PublicTree.ps1 -RequireLicense
-./build-installer.ps1
+./build-installer.ps1 -OutputDirectory ./artifacts/installer/<candidate-id>
 ```
 
 Retain the build log and `.exe.build.json` sidecar locally. Use the fresh staging path printed by the build when signing the catalog:
 
 ```powershell
 ./installer/publish-release.ps1 `
-  -InstallerPath ./artifacts/installer/SnappySnap-Setup-<version>-x64.exe `
+  -InstallerPath ./artifacts/installer/<candidate-id>/SnappySnap-Setup-<version>-x64.exe `
   -PublishedAppPath ./artifacts/installer-staging/<build-id>/SnappySnap.exe `
   -NotesPath ./docs/public/releases/<version>.md `
   -Destination ./artifacts/signed/<version>
 
 ./tools/release/Stage-Release.ps1 `
-  -InstallerPath ./artifacts/installer/SnappySnap-Setup-<version>-x64.exe `
+  -InstallerPath ./artifacts/installer/<candidate-id>/SnappySnap-Setup-<version>-x64.exe `
   -SignedCatalogDirectory ./artifacts/signed/<version> `
   -NotesPath ./docs/public/releases/<version>.md `
   -OutputDirectory ./artifacts/release-ready/<version>

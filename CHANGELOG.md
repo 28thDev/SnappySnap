@@ -1,5 +1,7 @@
 # Changelog
 
+Entries marked release candidate below are unpublished tester history, not public releases. Their numbers do not reserve public versions. The intended next public release is 1.1.0, with consolidated changes since 1.0.0; final release notes and acceptance are still pending.
+
 ## 1.1.5 — release candidate
 
 - Window and browser capture suggestions are clipped to the visible desktop, fixing region capture failures for maximized or partly offscreen windows.
