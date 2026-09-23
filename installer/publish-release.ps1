@@ -16,7 +16,7 @@ if ($version -notmatch '^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)$') { throw 'Ve
 $name = "SnappySnap-Setup-$version-x64.exe"
 if (!$InstallerPath) { $InstallerPath = Join-Path $repo "artifacts\installer\$name" }
 foreach ($file in @($InstallerPath, $PublishedAppPath)) {
-    if ((Get-Item -LiteralPath $file).VersionInfo.ProductVersion -match '^\d+\.\d+\.\d+-[a-z]+(\+|$)') { throw 'Test builds cannot be signed for public release.' }
+    if ((Get-Item -LiteralPath $file).VersionInfo.ProductVersion.Trim() -match '^\d+\.\d+\.\d+-[a-z]+(\+|$)') { throw 'Test builds cannot be signed for public release.' }
     if ((Get-Item -LiteralPath $file).VersionInfo.FileVersion.Trim() -ne "$version.0") { throw "Version mismatch: $file" }
 }
 $notes = [IO.File]::ReadAllText((Resolve-Path -LiteralPath $NotesPath))

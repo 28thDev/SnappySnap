@@ -15,7 +15,7 @@ if ([string]$props.Project.PropertyGroup.TestBuildLabel) { throw 'Clear TestBuil
 $version = [string]$props.Project.PropertyGroup.Version
 $name = "SnappySnap-Setup-$version-x64.exe"
 $installer = Get-Item -LiteralPath $InstallerPath
-if ($installer.VersionInfo.ProductVersion -match '^\d+\.\d+\.\d+-[a-z]+(\+|$)') { throw 'Test installers cannot be staged for public release.' }
+if ($installer.VersionInfo.ProductVersion.Trim() -match '^\d+\.\d+\.\d+-[a-z]+(\+|$)') { throw 'Test installers cannot be staged for public release.' }
 if ($installer.Name -cne $name -or $installer.VersionInfo.FileVersion.Trim() -ne "$version.0") { throw 'Installer name/version does not match source.' }
 $proof = Get-Content -LiteralPath ($installer.FullName + '.build.json') -Raw | ConvertFrom-Json
 if ($proof.testBuildLabel) { throw 'Test installers cannot be staged for public release.' }
