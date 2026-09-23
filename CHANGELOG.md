@@ -44,7 +44,7 @@ The PATCH increment reflects compatible improvements to the existing capture, ed
 - The region selector highlights the window under the pointer. In Chrome, Edge and Firefox it proposes the whole browser over tabs, the address bar plus visible page over the toolbar, and the visible page over page content.
 - A click accepts the proposed region; dragging selects a custom rectangle. Screenshot double-click still selects the full monitor. If browser zones cannot be determined reliably, the selector clearly offers the whole browser including tabs.
 
-The 1.1.0 tester build was superseded before publication. Its installer remains available for comparison; 1.1.1 is the current candidate.
+The 1.1.0 tester build was superseded before publication. Its installer remains available for comparison; see the newest candidate entry above.
 
 ## 1.0.0
 
