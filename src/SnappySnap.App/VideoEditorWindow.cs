@@ -106,7 +106,7 @@ public sealed class VideoEditorWindow : Window, IDisposable
         PreviewKeyDown += OnKeyDown;
         _timer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(33) }; _timer.Tick += (_, _) => Tick(); _timer.Start();
         L.Current.PropertyChanged += OnLanguageChanged;
-        Loaded += async (_, _) => await LoadAsync(); Closed += (_, _) => Dispose();
+        Loaded += async (_, _) => { Ui.FitInitialBounds(this); await LoadAsync(); }; Closed += (_, _) => Dispose();
         Closing += (_, e) =>
         {
             if (IsExporting) { e.Cancel = true; MessageBox.Show(L.T("Wait for export to finish, or cancel it before closing."), "SnappySnap"); }

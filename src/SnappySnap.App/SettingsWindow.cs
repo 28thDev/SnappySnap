@@ -138,6 +138,7 @@ public sealed class SettingsWindow : Window
             updateSection.Children.Add(new UpdatePanel(_settings.Updates, updates, installUpdate, checkUpdate));
         else updateSection.Children.Add(Ui.Text("No update source configured.", 13, "Muted"));
         Ui.Shell(this, "", content, navigation); SelectSection("General");
+        Loaded += (_, _) => Ui.FitInitialBounds(this);
         Closing += (_, e) => { if (_saving) e.Cancel = true; };
         Closed += (_, _) => { if (!_saved) Ui.ApplyTheme(_originalTheme); };
     }

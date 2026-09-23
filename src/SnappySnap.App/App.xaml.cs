@@ -944,7 +944,7 @@ public sealed class SnappySnapRuntime : IAsyncDisposable
         using var icon = new Icon(stream); return (Icon)icon.Clone();
     }
 
-    private void OpenShelf(bool compact = false, CapturePlan? plan = null)
+    private void OpenShelf(bool compact = false, CapturePlan? plan = null, bool userRequested = true)
     {
         if (IsExiting) return;
         ShelfState CreateState()
@@ -981,6 +981,7 @@ public sealed class SnappySnapRuntime : IAsyncDisposable
         UpdateNotices();
         if (compact)
         {
+            if (userRequested) window.Topmost = true;
             if (!window.IsVisible)
             {
                 if (_settings.Shelf.Compact is null)
@@ -1007,7 +1008,7 @@ public sealed class SnappySnapRuntime : IAsyncDisposable
     {
         try
         {
-            OpenShelf(true, plan);
+            OpenShelf(true, plan, userRequested: false);
             await RefreshShelvesAsync();
         }
         catch (Exception ex) { _logger.Error("Capture saved, but Shelf could not open.", ex); ShowBalloon("Capture saved", "Could not open Shelf. Use the tray menu to try again."); }
@@ -1028,6 +1029,7 @@ public sealed class SnappySnapRuntime : IAsyncDisposable
 
     private void ConfigureEditor(EditorWindow editor)
     {
+        editor.Loaded += (_, _) => { if (_compactWindow is { IsVisible: true }) _compactWindow.Topmost = false; };
         editor.StyleChanged += (tool, style) =>
         {
             _settingsSession.SetStyle(tool, style); QueuePreferencesSave();

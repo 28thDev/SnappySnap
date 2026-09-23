@@ -38,7 +38,7 @@ function Run-Uninstall([string]$name) {
     Invoke-Checked (Join-Path $root 'unins000.exe') @('/VERYSILENT','/SUPPRESSMSGBOXES','/NORESTART',"/LOG=`"$(Join-Path $evidence ($name+'.log'))`"") $name
 }
 try {
-    $version = (Get-Item $InstallerPath).VersionInfo.ProductVersion.Trim()
+    $version = ([version](Get-Item $InstallerPath).VersionInfo.FileVersion).ToString(3)
     $first = if ($PreviousInstaller) { (Resolve-Path $PreviousInstaller).Path } else { $InstallerPath }
     Run-Setup $first 'install'
     $app = Join-Path $root 'SnappySnap.exe'
@@ -53,10 +53,11 @@ try {
     New-Item -ItemType Directory -Force $captureRoot | Out-Null
     $sentinel = Join-Path $captureRoot 'installer-test-sentinel.txt'
     [IO.File]::WriteAllText($sentinel,'Do not delete captures during upgrade or uninstall.')
-    $before = (Get-FileHash $settingsPath).Hash
     if ($PreviousInstaller) { Run-Setup $InstallerPath 'upgrade' } else { Write-Output 'NOT RUN: cross-version upgrade (supply -PreviousInstaller)' }
     Run-Setup $InstallerPath 'same-version-reinstall'
-    Assert-That ((Get-FileHash $settingsPath).Hash -eq $before) 'Settings preserved across reinstall/upgrade'
+    $settings = Get-Content $settingsPath -Raw | ConvertFrom-Json
+    Assert-That ((!$settings.general.startWithWindows) -and ($settings.general.shelfRecentCount -eq 37)) 'User preferences preserved across reinstall/upgrade'
+    $before = (Get-FileHash $settingsPath).Hash
     Assert-That ((Get-ItemProperty $key).DisplayVersion -eq $version) 'Installed Apps version matches package'
     Assert-That ((Get-Item $app).VersionInfo.FileVersion -eq "$version.0") 'Executable version matches package'
     # Only delete a named application dependency in this previously verified disposable install directory.

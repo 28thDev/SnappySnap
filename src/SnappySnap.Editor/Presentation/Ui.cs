@@ -138,6 +138,7 @@ public static class Ui
         if (navigation is not null) { var nav = new Border { Width = 178, Child = navigation, BorderBrush = Brush("Border"), BorderThickness = new Thickness(0, 0, 1, 0), Padding = new Thickness(8, 8, 8, 12) }; DockPanel.SetDock(nav, Dock.Left); root.Children.Add(nav); }
         root.Children.Add(content); window.Content = new Border { Background = Brush("Background"), BorderBrush = Brush("Border"), BorderThickness = new Thickness(1), Child = root }; return root;
     }
+    public static void FitInitialBounds(Window window) => WorkAreaChrome.FitInitialBounds(window);
     public static DockPanel Navigation(string active, Action shelf, Action settings)
     {
         var panel = new DockPanel();
@@ -154,6 +155,21 @@ public static class Ui
 /// <summary>WM_GETMINMAXINFO and MONITORINFO both use physical pixels, including negative origins.</summary>
 internal static class WorkAreaChrome
 {
+    public static void FitInitialBounds(Window window)
+    {
+        var hwnd = new WindowInteropHelper(window).Handle;
+        var info = new MonitorInfo { Size = Marshal.SizeOf<MonitorInfo>() };
+        if (!GetMonitorInfo(MonitorFromWindow(hwnd, 2), ref info) || !GetWindowRect(hwnd, out var rect)) return;
+        var scale = GetDpiForWindow(hwnd) / 96d;
+        var workWidth = info.Work.Right - info.Work.Left;
+        var workHeight = info.Work.Bottom - info.Work.Top;
+        window.MinWidth = Math.Min(window.MinWidth, workWidth / scale);
+        window.MinHeight = Math.Min(window.MinHeight, workHeight / scale);
+        var width = Math.Min(rect.Right - rect.Left, workWidth);
+        var height = Math.Min(rect.Bottom - rect.Top, workHeight);
+        SetWindowPos(hwnd, 0, Math.Clamp(rect.Left, info.Work.Left, info.Work.Right - width),
+            Math.Clamp(rect.Top, info.Work.Top, info.Work.Bottom - height), width, height, 0x0010 | 0x0004);
+    }
     public static void Attach(Window window)
     {
         HwndSource? source = null;
@@ -180,4 +196,7 @@ internal static class WorkAreaChrome
     [StructLayout(LayoutKind.Sequential)] private struct MinMaxInfo { public NativePoint Reserved, MaxSize, MaxPosition, MinTrackSize, MaxTrackSize; }
     [DllImport("user32.dll")] private static extern nint MonitorFromWindow(nint hwnd, uint flags);
     [DllImport("user32.dll", CharSet = CharSet.Unicode)] [return: MarshalAs(UnmanagedType.Bool)] private static extern bool GetMonitorInfo(nint monitor, ref MonitorInfo info);
+    [DllImport("user32.dll")] [return: MarshalAs(UnmanagedType.Bool)] private static extern bool GetWindowRect(nint hwnd, out NativeRect rect);
+    [DllImport("user32.dll")] private static extern uint GetDpiForWindow(nint hwnd);
+    [DllImport("user32.dll")] [return: MarshalAs(UnmanagedType.Bool)] private static extern bool SetWindowPos(nint hwnd, nint after, int x, int y, int width, int height, uint flags);
 }

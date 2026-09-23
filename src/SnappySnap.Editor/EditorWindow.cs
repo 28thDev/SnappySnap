@@ -150,7 +150,7 @@ public sealed class EditorWindow : Window
         Ui.Shell(this, "", workspace, compact: true);
         _surface.MouseLeftButtonDown += OnMouseDown; _surface.MouseMove += OnMouseMove; _surface.MouseLeftButtonUp += OnMouseUp;
         L.Current.PropertyChanged += OnLanguageChanged; Closed += (_, _) => L.Current.PropertyChanged -= OnLanguageChanged;
-        Loaded += (_, _) => { _selected = _document.Elements.FirstOrDefault(x => x.IsSelected); Fit(); Refresh(); };
+        Loaded += (_, _) => { WorkAreaChrome.FitInitialBounds(this); _selected = _document.Elements.FirstOrDefault(x => x.IsSelected); Fit(); Refresh(); };
         Closing += (_, e) => { if (IsSaving) { e.Cancel = true; return; } FinishTextEdit(true); if (!_committing && (_history.CanUndo || _initialSaveFailed) && MessageBox.Show(this, L.T(_initialSaveFailed ? "This screenshot was not saved to Shelf. Close without saving?" : "Discard your unsaved annotations? The saved screenshot will stay in Shelf."), "SnappySnap", MessageBoxButton.YesNo, MessageBoxImage.Question) != MessageBoxResult.Yes) e.Cancel = true; };
     }
     private void OnLanguageChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e) => Refresh();
