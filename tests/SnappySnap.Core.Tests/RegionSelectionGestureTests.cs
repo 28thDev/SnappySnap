@@ -53,6 +53,18 @@ public sealed class RegionSelectionGestureTests
         var gesture = new RegionSelectionGesture();
         gesture.Begin(new(100, 100), 100, Settings); gesture.Move(new(150, 100));
         Assert.Equal(SelectionGestureKind.None, gesture.End(new(100, 100), Monitors, true).Kind);
+        Assert.True(gesture.HasDragged);
+        gesture.Begin(new(100, 100), 200, Settings);
+        Assert.Equal(SelectionGestureKind.None, gesture.End(new(100, 100), Monitors, true).Kind);
+    }
+
+    [Fact]
+    public void Narrow_drag_is_not_a_click_or_a_double_click()
+    {
+        var gesture = new RegionSelectionGesture();
+        gesture.Begin(new(100, 100), 100, Settings);
+        Assert.Equal(SelectionGestureKind.None, gesture.End(new(105, 100), Monitors, true).Kind);
+        Assert.True(gesture.HasDragged);
         gesture.Begin(new(100, 100), 200, Settings);
         Assert.Equal(SelectionGestureKind.None, gesture.End(new(100, 100), Monitors, true).Kind);
     }

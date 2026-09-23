@@ -189,4 +189,11 @@
   <data name="Official GitHub Releases" xml:space="preserve"><value>GitHub 官方版本</value></data>
   <data name="Downloading and verifying the installer…" xml:space="preserve"><value>正在下载并验证安装程序…</value></data>
   <data name="Update failed. Check the connection and local log, then try again." xml:space="preserve"><value>更新失败。请检查网络连接和本地日志，然后重试。</value></data>
+  <data name="Click: suggested area · Drag: custom area · Double-click: monitor · Esc: cancel" xml:space="preserve"><value>单击：建议区域 · 拖动：自选区域 · 双击：整个显示器 · Esc：取消</value></data>
+  <data name="Click: suggested area · Drag: custom area · Esc: cancel" xml:space="preserve"><value>单击：建议区域 · 拖动：自选区域 · Esc：取消</value></data>
+  <data name="Address bar and page · click to capture" xml:space="preserve"><value>地址栏和网页 · 单击捕获</value></data>
+  <data name="Page content · click to capture" xml:space="preserve"><value>网页内容 · 单击捕获</value></data>
+  <data name="Full browser · tabs included" xml:space="preserve"><value>整个浏览器 · 包含标签页</value></data>
+  <data name="Detecting browser area…" xml:space="preserve"><value>正在识别浏览器区域…</value></data>
+  <data name="Window · click to capture" xml:space="preserve"><value>窗口 · 单击捕获</value></data>
 </root>

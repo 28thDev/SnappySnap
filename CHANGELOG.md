@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.1.0 — release candidate
+
+- Arrow annotations start at 10 px and can reach 24 px; an old saved default of 5 px migrates once to 10 px.
+- The region selector highlights the window under the pointer. In Chrome, Edge and Firefox it proposes the whole browser over tabs, the address bar plus visible page over the toolbar, and the visible page over page content.
+- A click accepts the proposed region; dragging selects a custom rectangle. Screenshot double-click still selects the full monitor. If browser zones cannot be determined reliably, the selector clearly offers the whole browser including tabs.
+
+This candidate awaits physical browser and recording acceptance. The 1.1.0 installer is for local testing until the owner approves release.
+
 ## 1.0.0
 
 First public release.

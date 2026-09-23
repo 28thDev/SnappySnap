@@ -189,4 +189,11 @@
   <data name="Official GitHub Releases" xml:space="preserve"><value>公式 GitHub リリース</value></data>
   <data name="Downloading and verifying the installer…" xml:space="preserve"><value>インストーラーをダウンロードして検証しています…</value></data>
   <data name="Update failed. Check the connection and local log, then try again." xml:space="preserve"><value>更新に失敗しました。接続とローカルログを確認して再試行してください。</value></data>
+  <data name="Click: suggested area · Drag: custom area · Double-click: monitor · Esc: cancel" xml:space="preserve"><value>クリック：候補範囲 · ドラッグ：任意の範囲 · ダブルクリック：モニター全体 · Esc：キャンセル</value></data>
+  <data name="Click: suggested area · Drag: custom area · Esc: cancel" xml:space="preserve"><value>クリック：候補範囲 · ドラッグ：任意の範囲 · Esc：キャンセル</value></data>
+  <data name="Address bar and page · click to capture" xml:space="preserve"><value>アドレスバーとページ · クリックしてキャプチャ</value></data>
+  <data name="Page content · click to capture" xml:space="preserve"><value>ページの内容 · クリックしてキャプチャ</value></data>
+  <data name="Full browser · tabs included" xml:space="preserve"><value>ブラウザー全体 · タブを含む</value></data>
+  <data name="Detecting browser area…" xml:space="preserve"><value>ブラウザーの範囲を検出中…</value></data>
+  <data name="Window · click to capture" xml:space="preserve"><value>ウィンドウ · クリックしてキャプチャ</value></data>
 </root>

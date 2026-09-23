@@ -78,7 +78,7 @@ public static class ArrowGeometry
             context.BeginFigure(arrow.Start, false, false);
             context.QuadraticBezierTo(arrow.Start + (arrow.Control - arrow.Start) * t, At(arrow, t), true, true);
         }
-        var shaft = shaftCurve.GetWidenedPathGeometry(new Pen(Brushes.Black, Math.Min(arrow.StrokeWidth, headLength * .65))
+        var shaft = shaftCurve.GetWidenedPathGeometry(new Pen(Brushes.Black, Math.Min(arrow.StrokeWidth, length * .65))
         { StartLineCap = PenLineCap.Round, EndLineCap = PenLineCap.Flat, LineJoin = PenLineJoin.Round });
         var outline = new CombinedGeometry(GeometryCombineMode.Union, shaft, Head(arrow));
         outline.Freeze();

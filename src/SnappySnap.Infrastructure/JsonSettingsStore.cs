@@ -91,6 +91,14 @@ public sealed class JsonSettingsStore : ISettingsStore
             settings.SchemaVersion = 3;
         }
         if (settings.SchemaVersion < 4) settings.SchemaVersion = 4;
+        if (settings.SchemaVersion < 5)
+        {
+            if (settings.Editor?.Styles is not null
+                && settings.Editor.Styles.TryGetValue("Arrow", out var arrow)
+                && arrow?.StrokeWidth == 5)
+                settings.Editor.Styles["Arrow"] = arrow with { StrokeWidth = EditorSettings.DefaultArrowStrokeWidth };
+            settings.SchemaVersion = 5;
+        }
         return settings;
     }
 

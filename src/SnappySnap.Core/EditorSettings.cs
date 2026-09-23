@@ -5,6 +5,8 @@ public sealed record AnnotationStyleSettings(string? Color = null, string? FillC
 
 public sealed class EditorSettings
 {
+    public const double DefaultArrowStrokeWidth = 10;
+    public const double MaximumArrowStrokeWidth = 24;
     public const double DefaultStepDiameter = 64;
     public const double MinimumStepDiameter = 24;
     public const double MaximumStepDiameter = 240;
@@ -12,7 +14,7 @@ public sealed class EditorSettings
 
     public static Dictionary<string, AnnotationStyleSettings> Defaults() => new(StringComparer.Ordinal)
     {
-        ["Arrow"] = new("#FFFF3B30", StrokeWidth: 5, Opacity: 1),
+        ["Arrow"] = new("#FFFF3B30", StrokeWidth: DefaultArrowStrokeWidth, Opacity: 1),
         ["Rectangle"] = new("#FFFF3B30", "#00FFFFFF", 5, 1),
         ["Line"] = new("#FFFF3B30", StrokeWidth: 5, Opacity: 1),
         ["Freehand"] = new("#FFFF3B30", StrokeWidth: 5, Opacity: 1),
@@ -31,7 +33,7 @@ public sealed class EditorSettings
             if (settings?.Styles is null || !settings.Styles.TryGetValue(key, out var value) || value is null) continue;
             styles[key] = new(
                 Color(value.Color, fallback.Color), Color(value.FillColor, fallback.FillColor),
-                Number(value.StrokeWidth, fallback.StrokeWidth, 1, 12),
+                Number(value.StrokeWidth, fallback.StrokeWidth, 1, key == "Arrow" ? MaximumArrowStrokeWidth : 12),
                 Number(value.Opacity, fallback.Opacity, .1, 1), Number(value.FontSize, fallback.FontSize, 12, 48),
                 Number(value.StepDiameter, fallback.StepDiameter, MinimumStepDiameter, MaximumStepDiameter));
         }

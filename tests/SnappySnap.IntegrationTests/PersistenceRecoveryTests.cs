@@ -85,7 +85,7 @@ public sealed class PersistenceRecoveryTests : IDisposable
         var loaded = await new JsonSettingsStore(Paths, new Logger()).LoadAsync(default);
         Assert.Equal(73, loaded.General.ShelfRecentCount);
         using var json = JsonDocument.Parse(await File.ReadAllTextAsync(Paths.SettingsPath));
-        Assert.Equal(4, json.RootElement.GetProperty("schemaVersion").GetInt32());
+        Assert.Equal(5, json.RootElement.GetProperty("schemaVersion").GetInt32());
     }
 
     [Fact]

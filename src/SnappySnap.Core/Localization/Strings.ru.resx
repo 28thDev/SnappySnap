@@ -320,4 +320,11 @@
   <data name="Official GitHub Releases" xml:space="preserve"><value>Официальные релизы GitHub</value></data>
   <data name="Downloading and verifying the installer…" xml:space="preserve"><value>Загрузка и проверка установщика…</value></data>
   <data name="Update failed. Check the connection and local log, then try again." xml:space="preserve"><value>Не удалось проверить обновление. Проверьте соединение и локальный журнал, затем повторите.</value></data>
+  <data name="Click: suggested area · Drag: custom area · Double-click: monitor · Esc: cancel" xml:space="preserve"><value>Клик — предложенная область · Перетаскивание — своя область · Двойной клик — монитор · Esc — отмена</value></data>
+  <data name="Click: suggested area · Drag: custom area · Esc: cancel" xml:space="preserve"><value>Клик — предложенная область · Перетаскивание — своя область · Esc — отмена</value></data>
+  <data name="Address bar and page · click to capture" xml:space="preserve"><value>Адресная строка и страница · клик для захвата</value></data>
+  <data name="Page content · click to capture" xml:space="preserve"><value>Содержимое страницы · клик для захвата</value></data>
+  <data name="Full browser · tabs included" xml:space="preserve"><value>Весь браузер · вкладки попадут в кадр</value></data>
+  <data name="Detecting browser area…" xml:space="preserve"><value>Определяем область браузера…</value></data>
+  <data name="Window · click to capture" xml:space="preserve"><value>Окно · клик для захвата</value></data>
 </root>

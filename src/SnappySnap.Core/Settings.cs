@@ -4,7 +4,7 @@ namespace SnappySnap.Core;
 
 public sealed class AppSettings
 {
-    public int SchemaVersion { get; set; } = 4;
+    public int SchemaVersion { get; set; } = 5;
     public ShelfPreferences Shelf { get; set; } = new();
     public EditorSettings Editor { get; set; } = new();
     public UpdateSettings Updates { get; set; } = new();

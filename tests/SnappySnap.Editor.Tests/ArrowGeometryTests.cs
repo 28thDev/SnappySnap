@@ -26,6 +26,32 @@ public sealed class ArrowGeometryTests
     }
 
     [Fact]
+    public void New_default_and_maximum_widths_produce_a_visibly_wider_shaft_and_head()
+    {
+        Assert.Equal(10, new EditorToolStyles().Get(EditorTool.Arrow).StrokeWidth);
+        var arrow = new ArrowElement(new(10, 50), new(210, 50)) { StrokeWidth = 12 };
+        var old = ArrowGeometry.Outline(arrow).Bounds;
+        arrow.StrokeWidth = EditorSettings.MaximumArrowStrokeWidth;
+        var thick = ArrowGeometry.Outline(arrow).Bounds;
+        Assert.True(thick.Height > old.Height + 8);
+        Assert.True(ArrowGeometry.Head(arrow).Bounds.Height > 40);
+    }
+
+    [Fact]
+    public void Short_and_curved_arrows_remain_thicker_at_the_maximum_width()
+    {
+        var shortArrow = new ArrowElement(new(20, 40), new(50, 40)) { StrokeWidth = 10 };
+        var narrow = ArrowGeometry.Outline(shortArrow).Bounds.Height;
+        shortArrow.StrokeWidth = 24;
+        Assert.True(ArrowGeometry.Outline(shortArrow).Bounds.Height > narrow + 5);
+
+        var curved = new ArrowElement(new(20, 80), new(180, 80)) { Control = new(100, -30), StrokeWidth = 10 };
+        var thinArea = ArrowGeometry.Outline(curved).GetArea();
+        curved.StrokeWidth = 24;
+        Assert.True(ArrowGeometry.Outline(curved).GetArea() > thinArea * 1.5);
+    }
+
+    [Fact]
     public void HeadScalesWithStrokeButIsBoundedByArrowLength()
     {
         var arrow = new ArrowElement(new(0, 0), new(200, 0)) { StrokeWidth = 1 };
@@ -95,7 +121,7 @@ public sealed class ArrowGeometryTests
     public async Task ExportAndRetainedPreviewIncludeCurvatureAndInvalidateAfterUndo()
     {
         var document = new EditorDocument(new CapturedImage(240, 140, new byte[240 * 140 * 4]));
-        var arrow = new ArrowElement(new(20, 100), new(220, 100)) { Color = Colors.Red, StrokeWidth = 6 };
+        var arrow = new ArrowElement(new(20, 100), new(220, 100)) { Color = Colors.Red, StrokeWidth = 24 };
         document.Elements.Add(arrow);
         var cache = new EditorDrawingCache(document); cache.Update();
         var before = EditorGeometry.Capture(arrow);
@@ -109,12 +135,14 @@ public sealed class ArrowGeometryTests
             var result = new byte[240 * 140 * 4]; bitmap.CopyPixels(result, 240 * 4, 0); return result;
         }
         Assert.True(Preview()[(20 * 240 + 120) * 4 + 2] > 200);
+        Assert.True(Preview()[(28 * 240 + 120) * 4 + 2] > 200);
         var path = System.IO.Path.Combine(System.IO.Path.GetTempPath(), Guid.NewGuid() + ".png");
         try
         {
             await EditorRenderer.SavePngAsync(document, path, CancellationToken.None);
             var pixels = EditorRenderer.ToCapturedImage(EditorRenderer.LoadImage(path)).Bgra32;
             Assert.True(pixels[(20 * 240 + 120) * 4 + 2] > 200);
+            Assert.True(pixels[(28 * 240 + 120) * 4 + 2] > 200);
             Assert.Equal(0, pixels[(100 * 240 + 120) * 4 + 3]);
             history.Undo(document);
             Assert.Equal(0, Preview()[(20 * 240 + 120) * 4 + 3]);

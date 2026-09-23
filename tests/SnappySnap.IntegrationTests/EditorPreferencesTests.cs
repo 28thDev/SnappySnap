@@ -16,7 +16,7 @@ public sealed class EditorPreferencesTests : IDisposable
         var paths = new AppPaths(_root, _root); paths.EnsureDirectories();
         await File.WriteAllTextAsync(paths.SettingsPath, """{"schemaVersion":1,"general":{"shelfRecentCount":73},"screenshot":{"format":"Jpg"}}""");
         var store = new JsonSettingsStore(paths, new Logger()); var current = await store.LoadAsync(default);
-        Assert.Equal(4, current.SchemaVersion); Assert.Equal(.35, current.Editor.Styles["Highlight"].Opacity);
+        Assert.Equal(5, current.SchemaVersion); Assert.Equal(.35, current.Editor.Styles["Highlight"].Opacity);
         var session = new SettingsSession(current, store);
         session.SetStyle("Arrow", current.Editor.Styles["Arrow"] with { Color = "#FF123456", StrokeWidth = 9 });
         Assert.Equal(64, current.Editor.Styles["StepMarker"].StepDiameter);
@@ -31,6 +31,21 @@ public sealed class EditorPreferencesTests : IDisposable
     }
 
     [Fact]
+    public async Task Old_arrow_default_upgrades_once_but_custom_width_remains()
+    {
+        var paths = new AppPaths(_root, _root); paths.EnsureDirectories();
+        await File.WriteAllTextAsync(paths.SettingsPath, """{"schemaVersion":4,"editor":{"styles":{"Arrow":{"color":"#FFFF3B30","strokeWidth":5,"opacity":1}}}}""");
+        var store = new JsonSettingsStore(paths, new Logger());
+        var migrated = await store.LoadAsync(default);
+        Assert.Equal(5, migrated.SchemaVersion);
+        Assert.Equal(10, migrated.Editor.Styles["Arrow"].StrokeWidth);
+        Assert.Equal(10, (await store.LoadAsync(default)).Editor.Styles["Arrow"].StrokeWidth);
+        migrated.Editor.Styles["Arrow"] = migrated.Editor.Styles["Arrow"] with { StrokeWidth = 24 };
+        await store.SaveAsync(migrated, default);
+        Assert.Equal(24, (await store.LoadAsync(default)).Editor.Styles["Arrow"].StrokeWidth);
+    }
+
+    [Fact]
     public async Task Invalid_individual_style_fields_do_not_discard_valid_settings()
     {
         var paths = new AppPaths(_root, _root); paths.EnsureDirectories();
@@ -42,7 +57,7 @@ public sealed class EditorPreferencesTests : IDisposable
         var loaded = await new JsonSettingsStore(paths, new Logger()).LoadAsync(default);
         Assert.Equal(73, loaded.General.ShelfRecentCount);
         Assert.Equal("#FFFF3B30", loaded.Editor.Styles["Arrow"].Color);
-        Assert.Equal(5, loaded.Editor.Styles["Arrow"].StrokeWidth);
+        Assert.Equal(EditorSettings.DefaultArrowStrokeWidth, loaded.Editor.Styles["Arrow"].StrokeWidth);
         Assert.Equal(.7, loaded.Editor.Styles["Arrow"].Opacity);
         Assert.Equal("#FF123456", loaded.Editor.Styles["Text"].Color);
         Assert.Equal(20, loaded.Editor.Styles["Text"].FontSize);

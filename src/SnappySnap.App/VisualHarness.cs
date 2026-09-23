@@ -139,6 +139,32 @@ internal static partial class VisualHarness
             return Task.CompletedTask;
         });
         await File.WriteAllTextAsync(Path.Combine(output, "frozen-selector-results.txt"), "PASS: WPF selector rendered one shared frozen BitmapSource under dimmer/selection chrome; live selector path remains covered separately.\n");
+        var browserWindow = new VirtualPixelRect(180, 110, 920, 620);
+        var browserChrome = new BrowserChromeBounds(new(270, 165, 670, 42), new(180, 250, 920, 480));
+        var browserCandidate = new WindowRegionCandidate(1, browserWindow, true, browserChrome);
+        var browserSelector = new RegionSelectorWindow(monitor, _ => { }, () => { }, allowFullMonitor: true);
+        await Snapshot(browserSelector, output, "region-selector-browser", exercise: window =>
+        {
+            var elapsed = new List<string>();
+            foreach (var (name, point, kind) in new[]
+            {
+                ("tabs", new VirtualPixelPoint(500, 130), HoverRegionKind.BrowserFull),
+                ("address", new VirtualPixelPoint(500, 185), HoverRegionKind.BrowserWithAddress),
+                ("page", new VirtualPixelPoint(500, 400), HoverRegionKind.BrowserContent)
+            })
+            {
+                var hover = WindowRegionSelection.Resolve(point, [browserCandidate]);
+                if (hover?.Kind != kind) throw new InvalidOperationException($"Wrong synthetic browser zone: {name}.");
+                var timer = System.Diagnostics.Stopwatch.StartNew();
+                ((RegionSelectorWindow)window).DrawHover(hover);
+                var label = Descendants<TextBlock>(window).Single(text => text.Text.Contains(" · ", StringComparison.Ordinal) && text.Text.Contains(" px", StringComparison.Ordinal));
+                if (Canvas.GetLeft(label) + label.DesiredSize.Width > monitor.Bounds.Width)
+                    throw new InvalidOperationException($"Browser zone label is clipped: {name}.");
+                CaptureContent(window, Path.Combine(output, $"region-selector-browser-{name}.png"));
+                elapsed.Add($"{name}: {timer.Elapsed.TotalMilliseconds:F1} ms to draw and render off-screen");
+            }
+            return File.WriteAllLinesAsync(Path.Combine(output, "region-selector-browser-results.txt"), elapsed);
+        });
         var border = new RecordingBorderWindow(region, new[] { monitor }, logger); await Snapshot(border, output, "recording-border");
         var pill = new RecordingPillWindow(region, new[] { monitor }, settings, logger); await Snapshot(pill, output, "recording", window => ((RecordingPillWindow)window).Update(new RecordingSnapshot(RecordingState.Recording, TimeSpan.FromSeconds(12), true, false, true, null, null, null)));
         await Snapshot(new RecordingPillWindow(region, new[] { monitor }, settings, logger), output, "recording-paused", window => ((RecordingPillWindow)window).Update(new RecordingSnapshot(RecordingState.Paused, TimeSpan.FromSeconds(12), false, false, false, null, null, null)));
