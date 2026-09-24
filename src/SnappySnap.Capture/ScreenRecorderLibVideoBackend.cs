@@ -62,6 +62,7 @@ public sealed class ScreenRecorderLibVideoBackend : IVideoCaptureBackend
         {
             ["qualityProfile"] = request.Quality.Key,
             ["hardwareEncodingRequested"] = request.Quality.HardwarePreferred,
+            ["fastStart"] = request.Quality.FastStart,
             ["frameRate"] = request.Quality.FrameRate,
             ["segments"] = request.CapturePlan.Segments.Count
         });

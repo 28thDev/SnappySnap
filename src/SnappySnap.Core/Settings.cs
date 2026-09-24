@@ -57,9 +57,9 @@ public sealed class RecordingSettings
 
 public static class QualityProfileCatalog
 {
-    public static QualityProfile Compact { get; } = new("Compact", "Compact", 30, 45, true, true);
-    public static QualityProfile Balanced { get; } = new("Balanced", "Balanced", 30, 65, true, true);
-    public static QualityProfile High { get; } = new("High", "High", 30, 75, true, true);
+    public static QualityProfile Compact { get; } = new("Compact", "Compact", 30, 45, true, false);
+    public static QualityProfile Balanced { get; } = new("Balanced", "Balanced", 30, 65, true, false);
+    public static QualityProfile High { get; } = new("High", "High", 30, 75, true, false);
 
     public static QualityProfile Resolve(string? key) => key?.ToLowerInvariant() switch
     {
