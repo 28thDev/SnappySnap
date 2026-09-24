@@ -8,7 +8,7 @@ Capture, annotate, record, and edit your Windows 11 screen — with local-first 
 
 ## What it does
 
-- Capture a screen region, annotate it, crop it, copy it or save a separate version.
+- Capture a screen region or the full desktop, annotate it, crop it, copy it or save a separate version.
 - Record a region as MP4/H.264 with pause/resume, mouse-click indicators, system audio and optional microphone audio.
 - Trim recordings and remove middle sections, then export a new MP4 while preserving the original.
 - Browse recent captures in Shelf/history, select several files and drag them into another application.
@@ -41,16 +41,19 @@ These images show the real WPF interface with a fictional project board and loca
 
 ## Everyday controls
 
-| Shortcut | Action |
+| Control | Action |
 | --- | --- |
 | `Ctrl+E` | Select a screenshot region |
+| `Print Screen` | Capture the full desktop across connected monitors |
 | `Ctrl+Alt+E` | Start or stop region recording |
 | `Ctrl+Alt+Space` | Pause or resume recording |
-| `Esc` | Cancel region selection |
+| `Esc` or right-click | Cancel region selection |
 
-Shortcuts can be changed in Settings. Conflicts with other applications are reported there. Click the tray icon to open recent captures; Settings is available directly from Shelf/history. A brief startup card shows your configured shortcuts.
+During region selection, click a suggested window or browser area, or drag to select your own. Browser suggestions can include the page alone, the page with browser controls, or the whole window. The screenshot selector uses the screen as it looked when you pressed the shortcut; recordings keep the selected area if the source window moves.
 
-Screenshot selection saves the original before opening the editor. **Copy** puts the current edit on the clipboard, **Save** replaces the saved screenshot, and **Save as new** keeps a separate copy. Dragging from history transfers the saved file, not unsaved editor changes.
+Shortcuts can be changed in Settings. If Windows reserves `Print Screen` for its own screen capture, SnappySnap reports the conflict in Hotkeys and Shelf so you can choose another shortcut. Click the tray icon to open recent captures; Settings is available directly from Shelf/history. A brief startup card shows your configured shortcuts.
+
+The first screenshot saves to Shelf and opens in the editor. While a screenshot editor is open, later captures save to Shelf without opening more editors; after all editors close, the next capture opens one again. You can open saved screenshots in separate editors from Shelf. **Copy** puts the current edit on the clipboard, **Save** replaces the saved screenshot, and **Save as new** keeps a separate copy. Dragging from history transfers the saved file, not unsaved editor changes.
 
 ## Installation and updates
 
@@ -80,6 +83,6 @@ The SDK and NuGet dependency graph are pinned. [Build instructions](docs/public/
 
 ## Status and license
 
-See [CHANGELOG.md](CHANGELOG.md) for release changes and the [release notes](docs/public/releases/1.1.0.md) for installation requirements.
+See [CHANGELOG.md](CHANGELOG.md) for release changes and the [latest release](https://github.com/28thDev/SnappySnap/releases/latest) for installation details.
 
 SnappySnap is released under the [MIT License](LICENSE). Third-party components retain their own licenses; see [dependencies and notices](docs/DEPENDENCIES.md). Security reports follow [SECURITY.md](SECURITY.md).
