@@ -60,7 +60,7 @@ Download `SnappySnap-Setup-<version>-x64.exe` from this repository's [GitHub Rel
 - Setup installs for the current user and includes the .NET and required Microsoft C++ runtimes; administrator rights and online prerequisites are not required. On Windows N, an optional unchecked task opens Windows Optional Features when Media Foundation is missing so you can install the official Media Feature Pack.
 - For a manual update, finish recording/export, resolve editor changes and exit SnappySnap from the tray. Run the new Setup over the existing installation.
 - Uninstall keeps captures and profile data. Delete in Shelf removes the selected media files.
-- The 1.0.0 installer has no Authenticode publisher signature. Windows may show an unknown-publisher or reputation warning. The update catalog is cryptographically signed; this is separate from Windows publisher signing.
+- The installer has no Authenticode publisher signature. Windows may show an unknown-publisher or reputation warning. The update catalog is cryptographically signed; this is separate from Windows publisher signing.
 
 Settings can check official stable GitHub Releases automatically, or you can choose **Check now**. A verified new version appears in Settings and Shelf; choose **Download**, then **Update and restart**. Automatic checks can be disabled. Network failures are quiet and an already downloaded installer can be used offline after local verification.
 
@@ -80,6 +80,6 @@ The SDK and NuGet dependency graph are pinned. [Build instructions](docs/public/
 
 ## Status and license
 
-See [CHANGELOG.md](CHANGELOG.md) for release changes and the [release notes](docs/public/releases/1.0.0.md) for installation requirements.
+See [CHANGELOG.md](CHANGELOG.md) for release changes and the [release notes](docs/public/releases/1.1.0.md) for installation requirements.
 
 SnappySnap is released under the [MIT License](LICENSE). Third-party components retain their own licenses; see [dependencies and notices](docs/DEPENDENCIES.md). Security reports follow [SECURITY.md](SECURITY.md).

@@ -1,8 +1,6 @@
 # Changelog
 
-## 1.1.0 — release candidate
-
-- Test builds show a letter (1.1.0-a, b, ...) in Settings, logs and Setup; the public release has no letter.
+## 1.1.0
 
 - Fixed region capture failing when a proposed window extends outside the desktop. The highlight and captured output now use the visible intersection.
 - The first screenshot opens the editor. While any screenshot editor remains open, including minimized, subsequent captures save directly to Shelf without opening additional editors. After all editors close, the next screenshot opens an editor again. A failed save opens an editor so the capture can be recovered.
@@ -17,8 +15,6 @@
 - Recording start no longer displays a Windows notification inside the selected video area.
 
 Region screenshots use the frame frozen at hotkey time. Video records a fixed rectangle. Saved captures remain individually editable through Shelf.
-
-Owner testing and publication are pending.
 
 ## 1.0.0
 
