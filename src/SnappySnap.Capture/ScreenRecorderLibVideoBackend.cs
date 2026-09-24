@@ -38,6 +38,10 @@ public sealed class ScreenRecorderLibVideoBackend : IVideoCaptureBackend
         ObjectDisposedException.ThrowIf(_disposed, this);
         ArgumentNullException.ThrowIfNull(request);
         request.CapturePlan.Validate();
+        if ((request.CapturePlan.OutputWidth & 1) != 0 || (request.CapturePlan.OutputHeight & 1) != 0)
+        {
+            throw new ArgumentException("H.264 recording requires even output dimensions.", nameof(request));
+        }
         if (_recorder is not null)
         {
             throw new InvalidOperationException("The video backend is already active.");

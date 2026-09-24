@@ -514,7 +514,7 @@ public sealed class SnappySnapRuntime : IAsyncDisposable
             if (monitors.Count == 0) throw new InvalidOperationException("No display is available for the recording harness.");
             var monitor = monitors[0];
             var requested = new VirtualPixelRect(monitor.Bounds.X + 100, monitor.Bounds.Y + 100, 400, 300);
-            var plan = _planBuilder.Build(requested, monitors);
+            var plan = _planBuilder.BuildForVideo(requested, monitors);
             _logger.Info("Recording harness using a deterministic capture plan.", new Dictionary<string, object?>
             {
                 ["widthPx"] = plan.OutputWidth,
@@ -744,7 +744,7 @@ public sealed class SnappySnapRuntime : IAsyncDisposable
             var region = await _selector!.SelectAsync().ConfigureAwait(true);
             _logger.Info("Video region selector completed.", new Dictionary<string, object?> { ["selected"] = region is not null, ["widthPx"] = region?.Width, ["heightPx"] = region?.Height });
             if (region is null) return;
-            var plan = _planBuilder.Build(region.Value, _topology.GetMonitors());
+            var plan = _planBuilder.BuildForVideo(region.Value, _topology.GetMonitors());
             await StartVideoWithPlanAsync(plan).ConfigureAwait(true);
         }
         catch (Exception ex)

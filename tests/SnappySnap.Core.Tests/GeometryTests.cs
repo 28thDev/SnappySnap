@@ -60,4 +60,32 @@ public sealed class GeometryTests
 
         Assert.Throws<ArgumentException>(() => new CapturePlanBuilder().Build(new VirtualPixelRect(200, 200, 20, 20), [monitor]));
     }
+
+    [Fact]
+    public void Video_plan_trims_odd_edges_without_moving_the_selected_origin()
+    {
+        var monitors = new[]
+        {
+            new MonitorDescriptor("left", new(-1280, 0, 1280, 1024), new(-1280, 0, 1280, 984), 120, 120, false),
+            new MonitorDescriptor("primary", new(0, 0, 1920, 1080), new(0, 0, 1920, 1040), 96, 96, true)
+        };
+
+        var plan = new CapturePlanBuilder().BuildForVideo(new(-101, 100, 301, 203), monitors);
+
+        Assert.Equal(new(-101, 100, 300, 202), plan.SelectedVirtualBounds);
+        Assert.Equal(300, plan.OutputWidth);
+        Assert.Equal(202, plan.OutputHeight);
+        Assert.Equal(2, plan.Segments.Count);
+        Assert.Equal(new(0, 0, 101, 202), plan.Segments[0].DestinationRectInOutputPx);
+        Assert.Equal(new(101, 0, 199, 202), plan.Segments[1].DestinationRectInOutputPx);
+        Assert.Equal(new(-101, 100, 301, 203), new CapturePlanBuilder().Build(new(-101, 100, 301, 203), monitors).SelectedVirtualBounds);
+    }
+
+    [Fact]
+    public void Video_plan_rejects_a_region_too_small_for_even_output()
+    {
+        var monitor = new MonitorDescriptor("primary", new(0, 0, 100, 100), new(0, 0, 100, 100), 96, 96, true);
+
+        Assert.Throws<ArgumentException>(() => new CapturePlanBuilder().BuildForVideo(new(20, 20, 1, 10), [monitor]));
+    }
 }

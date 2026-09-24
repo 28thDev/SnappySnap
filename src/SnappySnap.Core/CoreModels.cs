@@ -82,6 +82,20 @@ public sealed record CapturePlan(
 
 public sealed class CapturePlanBuilder : ICapturePlanBuilder
 {
+    public CapturePlan BuildForVideo(VirtualPixelRect selectedRegion, IReadOnlyList<MonitorDescriptor> monitors)
+    {
+        var normalized = selectedRegion.Normalize();
+        var width = normalized.Width & ~1;
+        var height = normalized.Height & ~1;
+        if (width < 2 || height < 2)
+        {
+            throw new ArgumentException("A video region must be at least 2 × 2 physical pixels.", nameof(selectedRegion));
+        }
+
+        // H.264 requires even output dimensions; keep the recording within the selected pixels.
+        return Build(new VirtualPixelRect(normalized.X, normalized.Y, width, height), monitors);
+    }
+
     public CapturePlan Build(VirtualPixelRect selectedRegion, IReadOnlyList<MonitorDescriptor> monitors)
     {
         var normalized = selectedRegion.Normalize();

@@ -12,6 +12,7 @@
 - Window and browser hover suggestions support full browser, address toolbar with page, and page content. Unrecognized browser layouts explicitly offer the full window with tabs.
 - Arrow, rectangle, line and freehand widths default to 10 px and reach 24 px; custom preferences are preserved.
 - Double-click, Enter or Edit in Shelf opens the built-in editor. Context actions have distinct icons. Open still uses the Windows default app.
+- Fixed an H.264 recording failure for selected regions with odd pixel dimensions.
 
 Region screenshots use the frame frozen at hotkey time. Video records a fixed rectangle. Saved captures remain individually editable through Shelf.
 
