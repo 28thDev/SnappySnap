@@ -238,6 +238,7 @@ public sealed class ScreenRecorderLibVideoBackend : IVideoCaptureBackend
                 Quality = request.Quality.Quality,
                 IsHardwareEncodingEnabled = request.Quality.HardwarePreferred,
                 IsMp4FastStartEnabled = request.Quality.FastStart,
+                IsFragmentedMp4Enabled = true,
                 IsFixedFramerate = true
             },
             AudioOptions = new AudioOptions
