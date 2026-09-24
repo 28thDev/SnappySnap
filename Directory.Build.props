@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Version>1.1.0</Version>
     <!-- Empty for public releases; a, b, ... for owner test builds. -->
-    <TestBuildLabel>b</TestBuildLabel>
+    <TestBuildLabel>c</TestBuildLabel>
     <InformationalVersion>$(Version)</InformationalVersion>
     <InformationalVersion Condition="'$(TestBuildLabel)' != ''">$(Version)-$(TestBuildLabel)</InformationalVersion>
     <Nullable>enable</Nullable>

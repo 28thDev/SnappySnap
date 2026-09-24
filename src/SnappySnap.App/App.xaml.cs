@@ -394,7 +394,7 @@ public sealed class SnappySnapRuntime : IAsyncDisposable
         RegisterHotkeys();
         _selector = new RegionSelectorService(_topology, _logger);
         CreateTrayIcon();
-        _startupNotice = new StartupNoticeWindow(_settings.Hotkeys, _hotkeys.Results.Where(result => !result.Registered).Select(result => result.Id).ToHashSet(), _logger);
+        _startupNotice = new StartupNoticeWindow(_settings.Hotkeys, _hotkeys.Results.Where(result => GlobalHotkeyService.AvailabilityError(result) is not null).Select(result => result.Id).ToHashSet(), _logger);
         _startupNotice.Closed += (_, _) => _startupNotice = null;
         _startupNotice.Show();
         Microsoft.Win32.SystemEvents.UserPreferenceChanged += OnSystemAppearanceChanged;

@@ -1,4 +1,5 @@
 using System.Runtime.InteropServices;
+using Microsoft.Win32;
 using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Input;
@@ -89,13 +90,32 @@ public sealed record HotkeyRegistration(int Id, string Shortcut, string? Error, 
 public sealed class GlobalHotkeyService : IDisposable
 {
     private const int WmHotkey = 0x0312;
-        private readonly IAppLogger _logger;
+    private const string WindowsPrintScreenWarning = "Windows opens screen capture with Print Screen. Turn this off in Windows Settings > Accessibility > Keyboard, or choose another shortcut.";
+    private readonly IAppLogger _logger;
     private readonly HwndSource _source;
     private readonly Dictionary<int, string> _registered = new();
     private IReadOnlyList<HotkeyRegistration> _results = Array.Empty<HotkeyRegistration>();
     public event EventHandler? RegistrationsChanged;
     public IReadOnlyList<HotkeyRegistration> Results { get => _results; private set { _results = value; RegistrationsChanged?.Invoke(this, EventArgs.Empty); } }
-    public string Warning => string.Join("\n", Results.Where(r => !r.Registered).Select(r => $"{r.Shortcut}: {L.T(r.Error ?? "")}"));
+    public string Warning => string.Join("\n", Results.Select(r => (r.Shortcut, Error: AvailabilityError(r))).Where(x => x.Error is not null).Select(x => $"{x.Shortcut}: {L.T(x.Error!)}"));
+    public static string? AvailabilityError(HotkeyRegistration registration)
+    {
+        if (registration.Error is not null) return registration.Error;
+        return registration.Registered && HotkeyParser.TryParse(registration.Shortcut, out var modifiers, out var key)
+            && modifiers == HotkeyModifiers.None && key == Key.PrintScreen && WindowsUsesPrintScreenForSnipping()
+                ? WindowsPrintScreenWarning : null;
+    }
+
+    private static bool WindowsUsesPrintScreenForSnipping()
+    {
+        try
+        {
+            var value = Registry.GetValue(@"HKEY_CURRENT_USER\Control Panel\Keyboard", "PrintScreenKeyForSnippingEnabled", null);
+            return value is int enabled ? enabled != 0 : OperatingSystem.IsWindowsVersionAtLeast(10, 0, 22621);
+        }
+        catch (UnauthorizedAccessException) { return false; }
+        catch (System.Security.SecurityException) { return false; }
+    }
     public static Dictionary<int, string> Bindings(HotkeySettings settings)
     {
         var bindings = new Dictionary<int, string> { [1001] = settings.RegionScreenshot, [1002] = settings.RegionVideo, [1003] = settings.PauseResumeVideo, [1005] = settings.FullScreenshot };
@@ -145,6 +165,7 @@ public sealed class GlobalHotkeyService : IDisposable
     public bool Probe(string shortcut)
     {
         if (!HotkeyParser.TryParse(shortcut, out var modifiers, out var key)) return false;
+        if (modifiers == HotkeyModifiers.None && key == Key.PrintScreen && WindowsUsesPrintScreenForSnipping()) return false;
         const int probeId = 2000;
         if (!RegisterHotKey(_source.Handle, probeId, (uint)(modifiers | HotkeyModifiers.NoRepeat), (uint)KeyInterop.VirtualKeyFromKey(key))) return false;
         UnregisterHotKey(_source.Handle, probeId);

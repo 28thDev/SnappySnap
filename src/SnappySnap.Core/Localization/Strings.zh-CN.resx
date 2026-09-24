@@ -29,6 +29,7 @@
   <data name="Screenshot region" xml:space="preserve"><value>截图区域</value></data>
   <data name="Screenshot full screen" xml:space="preserve"><value>截取整个屏幕</value></data>
   <data name="Focus a field and press a key combination. Print Screen also works alone. Leave Open Shelf empty to disable its shortcut." xml:space="preserve"><value>选中输入框并按下快捷键。Print Screen 也可单独使用。留空“打开 Shelf”可禁用其快捷键。</value></data>
+  <data name="Windows opens screen capture with Print Screen. Turn this off in Windows Settings &gt; Accessibility &gt; Keyboard, or choose another shortcut." xml:space="preserve"><value>Windows 会使用 Print Screen 打开屏幕截图。在 Windows 设置 &gt; 辅助功能 &gt; 键盘中关闭此选项，或选择其他快捷键。</value></data>
   <data name="Could not capture the full screen. Try again or check the local log." xml:space="preserve"><value>无法截取整个屏幕。请重试或查看本地日志。</value></data>
   <data name="Start / stop recording" xml:space="preserve"><value>开始 / 停止录制</value></data>
   <data name="Pause / resume recording" xml:space="preserve"><value>暂停 / 继续录制</value></data>

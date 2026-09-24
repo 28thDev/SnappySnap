@@ -50,6 +50,7 @@
   <data name="Invalid shortcut" xml:space="preserve"><value>Недопустимое сочетание</value></data>
   <data name="Already used by another application" xml:space="preserve"><value>Уже используется другим приложением</value></data>
   <data name="Windows rejected this shortcut." xml:space="preserve"><value>Windows отклонила это сочетание.</value></data>
+  <data name="Windows opens screen capture with Print Screen. Turn this off in Windows Settings &gt; Accessibility &gt; Keyboard, or choose another shortcut." xml:space="preserve"><value>Windows открывает средство захвата по Print Screen. Отключите это в параметрах Windows &gt; Специальные возможности &gt; Клавиатура или выберите другое сочетание.</value></data>
   <data name="Default image format" xml:space="preserve"><value>Формат новых снимков</value></data>
   <data name="Copy saved image to clipboard" xml:space="preserve"><value>Копировать сохранённый снимок в буфер</value></data>
   <data name="Copy keeps the editor open. Save replaces the current image; Save as new creates a copy." xml:space="preserve"><value>Копирование оставляет редактор открытым. «Сохранить» заменяет текущий снимок; «Как новый» создаёт копию.</value></data>

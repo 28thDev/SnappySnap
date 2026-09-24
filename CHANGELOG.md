@@ -8,7 +8,7 @@
 - The first screenshot opens the editor. While any screenshot editor remains open, including minimized, subsequent captures save directly to Shelf without opening additional editors. After all editors close, the next screenshot opens an editor again. A failed save opens an editor so the capture can be recovered.
 - Open any number of screenshot editors manually from Shelf; each window keeps its own edits and save session. Concurrent saves remain tracked until all finish.
 - Fixed opacity slider steps sticking and removed fractional tails from property labels.
-- Print Screen captures the full virtual desktop; right-click cancels region selection.
+- Print Screen captures the full virtual desktop; right-click cancels region selection. Hotkeys and Shelf report when Windows screen capture intercepts Print Screen.
 - Window and browser hover suggestions support full browser, address toolbar with page, and page content. Unrecognized browser layouts explicitly offer the full window with tabs.
 - Arrow, rectangle, line and freehand widths default to 10 px and reach 24 px; custom preferences are preserved.
 - Double-click, Enter or Edit in Shelf opens the built-in editor. Context actions have distinct icons. Open still uses the Windows default app.

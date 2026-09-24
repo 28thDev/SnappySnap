@@ -29,6 +29,7 @@
   <data name="Screenshot region" xml:space="preserve"><value>Región de captura</value></data>
   <data name="Screenshot full screen" xml:space="preserve"><value>Capturar toda la pantalla</value></data>
   <data name="Focus a field and press a key combination. Print Screen also works alone. Leave Open Shelf empty to disable its shortcut." xml:space="preserve"><value>Seleccione un campo y pulse una combinación. Print Screen también funciona sola. Deje Abrir Shelf vacío para desactivar su atajo.</value></data>
+  <data name="Windows opens screen capture with Print Screen. Turn this off in Windows Settings &gt; Accessibility &gt; Keyboard, or choose another shortcut." xml:space="preserve"><value>Windows abre la captura de pantalla con Print Screen. Desactive esta opción en Configuración de Windows &gt; Accesibilidad &gt; Teclado o elija otro atajo.</value></data>
   <data name="Could not capture the full screen. Try again or check the local log." xml:space="preserve"><value>No se pudo capturar toda la pantalla. Inténtelo de nuevo o revise el registro local.</value></data>
   <data name="Start / stop recording" xml:space="preserve"><value>Iniciar / detener grabación</value></data>
   <data name="Pause / resume recording" xml:space="preserve"><value>Pausar / reanudar grabación</value></data>

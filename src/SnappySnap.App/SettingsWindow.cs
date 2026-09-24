@@ -95,7 +95,8 @@ public sealed class SettingsWindow : Window
         _shelfHotkey = Shortcut(hotkeys, "Open Shelf", settings.Hotkeys.OpenShelf ?? "", optional: true);
         foreach (var entry in new[] { (1001, _screenshotHotkey, "Ctrl+Shift+F9"), (1005, _fullScreenshotHotkey, ""), (1002, _videoHotkey, "Ctrl+Shift+F10"), (1003, _pauseHotkey, ""), (1004, _shelfHotkey, "") })
         {
-            var error = Ui.Text(_hotkeys?.Results.FirstOrDefault(r => r.Id == entry.Item1)?.Error ?? "", 12, "Danger");
+            var registration = _hotkeys?.Results.FirstOrDefault(r => r.Id == entry.Item1);
+            var error = Ui.Text(registration is null ? "" : GlobalHotkeyService.AvailabilityError(registration) ?? "", 12, "Danger");
             _hotkeyErrors[entry.Item1] = error; hotkeys.Children.Insert(hotkeys.Children.IndexOf((UIElement)entry.Item2.Parent) + 1, error);
             if (entry.Item3.Length > 0)
             {
@@ -230,7 +231,7 @@ public sealed class SettingsWindow : Window
             var results = _hotkeys?.Apply(GlobalHotkeyService.Bindings(_settings.Hotkeys));
             if (results is not null)
             {
-                foreach (var result in results) _hotkeyErrors[result.Id].Text = L.T(result.Error ?? "");
+                foreach (var result in results) _hotkeyErrors[result.Id].Text = L.T(GlobalHotkeyService.AvailabilityError(result) ?? "");
                 if (results.Any(r => !r.Registered)) { SelectSection("Hotkeys"); Ui.Localize(_status, TextBlock.TextProperty, "Shortcuts were not changed. Resolve the marked conflicts."); return; }
             }
             try

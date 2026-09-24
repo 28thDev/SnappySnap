@@ -50,6 +50,7 @@
   <data name="Invalid shortcut" xml:space="preserve"><value>Invalid shortcut</value></data>
   <data name="Already used by another application" xml:space="preserve"><value>Already used by another application</value></data>
   <data name="Windows rejected this shortcut." xml:space="preserve"><value>Windows rejected this shortcut.</value></data>
+  <data name="Windows opens screen capture with Print Screen. Turn this off in Windows Settings &gt; Accessibility &gt; Keyboard, or choose another shortcut." xml:space="preserve"><value>Windows opens screen capture with Print Screen. Turn this off in Windows Settings &gt; Accessibility &gt; Keyboard, or choose another shortcut.</value></data>
   <data name="Default image format" xml:space="preserve"><value>Default image format</value></data>
   <data name="Copy saved image to clipboard" xml:space="preserve"><value>Copy saved image to clipboard</value></data>
   <data name="Copy keeps the editor open. Save replaces the current image; Save as new creates a copy." xml:space="preserve"><value>Copy keeps the editor open. Save replaces the current image; Save as new creates a copy.</value></data>

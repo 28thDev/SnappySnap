@@ -29,6 +29,7 @@
   <data name="Screenshot region" xml:space="preserve"><value>スクリーンショット範囲</value></data>
   <data name="Screenshot full screen" xml:space="preserve"><value>画面全体を撮影</value></data>
   <data name="Focus a field and press a key combination. Print Screen also works alone. Leave Open Shelf empty to disable its shortcut." xml:space="preserve"><value>入力欄を選んでキーを押してください。Print Screen は単独でも使えます。Shelf を開くショートカットを無効にするには空欄にします。</value></data>
+  <data name="Windows opens screen capture with Print Screen. Turn this off in Windows Settings &gt; Accessibility &gt; Keyboard, or choose another shortcut." xml:space="preserve"><value>Windows が Print Screen で画面キャプチャを開きます。Windows の設定 &gt; アクセシビリティ &gt; キーボードでオフにするか、別のショートカットを選んでください。</value></data>
   <data name="Could not capture the full screen. Try again or check the local log." xml:space="preserve"><value>画面全体を撮影できませんでした。再試行するかローカルログを確認してください。</value></data>
   <data name="Start / stop recording" xml:space="preserve"><value>録画の開始 / 停止</value></data>
   <data name="Pause / resume recording" xml:space="preserve"><value>録画の一時停止 / 再開</value></data>
