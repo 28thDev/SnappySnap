@@ -150,6 +150,7 @@ public sealed class ScreenRecorderLibVideoBackend : IVideoCaptureBackend
         }
 
         _timer.Stop();
+        _logger.Info("Requesting ScreenRecorderLib stop.");
         _recorder.Stop();
         var path = await _completed.Task.WaitAsync(TimeSpan.FromMinutes(2), cancellationToken).ConfigureAwait(false);
         var duration = _timer.Elapsed;
@@ -224,6 +225,12 @@ public sealed class ScreenRecorderLibVideoBackend : IVideoCaptureBackend
 
         return new RecorderOptions
         {
+            LogOptions = new LogOptions
+            {
+                IsLogEnabled = true,
+                LogSeverityLevel = LogLevel.Debug,
+                LogFilePath = request.TempPath + ".native.log"
+            },
             SourceOptions = new SourceOptions { RecordingSources = sources },
             OutputOptions = new OutputOptions
             {
@@ -253,6 +260,7 @@ public sealed class ScreenRecorderLibVideoBackend : IVideoCaptureBackend
 
     private void OnStatusChanged(object? sender, RecordingStatusEventArgs args)
     {
+        _logger.Info("ScreenRecorderLib status changed.", new Dictionary<string, object?> { ["status"] = args.Status.ToString() });
         switch (args.Status)
         {
             case RecorderStatus.Recording:
@@ -278,13 +286,18 @@ public sealed class ScreenRecorderLibVideoBackend : IVideoCaptureBackend
 
     private void OnRecordingFailed(object? sender, RecordingFailedEventArgs args)
     {
+        _logger.Error("ScreenRecorderLib reported a recording failure.", new InvalidOperationException(args.Error));
         var exception = new InvalidOperationException(args.Error);
         _started?.TrySetException(exception);
         _completed?.TrySetException(exception);
         Failed?.Invoke(this, new RecordingBackendError("ScreenRecorderLib failed to record the selected region.", exception));
     }
 
-    private void OnRecordingComplete(object? sender, RecordingCompleteEventArgs args) => _completed?.TrySetResult(args.FilePath);
+    private void OnRecordingComplete(object? sender, RecordingCompleteEventArgs args)
+    {
+        _logger.Info("ScreenRecorderLib reported recording completion.", new Dictionary<string, object?> { ["path"] = args.FilePath });
+        _completed?.TrySetResult(args.FilePath);
+    }
 
     private void PublishState(bool? isRecording = null, bool? isPaused = null, bool? systemAudioMuted = null, bool? microphoneMuted = null, string? diagnostics = null, bool? microphoneAvailable = null)
     {
