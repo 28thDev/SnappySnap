@@ -14,6 +14,7 @@
 - Double-click, Enter or Edit in Shelf opens the built-in editor. Context actions have distinct icons. Open still uses the Windows default app.
 - Fixed an H.264 recording failure for selected regions with odd pixel dimensions.
 - Video history thumbnails now use decoded frames; failed recording starts no longer report a recoverable file when none was created.
+- Recording start no longer displays a Windows notification inside the selected video area.
 
 Region screenshots use the frame frozen at hotkey time. Video records a fixed rectangle. Saved captures remain individually editable through Shelf.
 

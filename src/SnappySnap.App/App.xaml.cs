@@ -772,7 +772,6 @@ public sealed class SnappySnapRuntime : IAsyncDisposable
             _recordingOverlays.Show();
             _clickOverlay = new ClickRippleOverlayController(_topology.GetMonitors(), _settings, _logger);
             await _recording.StartAsync(plan, _paths.ExpandCaptureRoot(_settings.General.CaptureRoot), _paths.TempPath, _settings, CancellationToken.None).ConfigureAwait(true);
-            ShowBalloon("Recording started", "Ctrl+Alt+E stops; Ctrl+Alt+Space pauses.");
         }
         catch (Exception ex)
         {
