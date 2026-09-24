@@ -262,7 +262,6 @@ public sealed record QualityProfile(
     int FrameRate,
     int Quality,
     bool HardwarePreferred,
-    bool FastStart,
     int AudioBitrateKbps = 128);
 
 public sealed record VideoRecordingRequest(

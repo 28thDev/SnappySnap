@@ -62,7 +62,6 @@ public sealed class ScreenRecorderLibVideoBackend : IVideoCaptureBackend
         {
             ["qualityProfile"] = request.Quality.Key,
             ["hardwareEncodingRequested"] = request.Quality.HardwarePreferred,
-            ["fastStart"] = request.Quality.FastStart,
             ["frameRate"] = request.Quality.FrameRate,
             ["segments"] = request.CapturePlan.Segments.Count
         });
@@ -226,12 +225,6 @@ public sealed class ScreenRecorderLibVideoBackend : IVideoCaptureBackend
 
         return new RecorderOptions
         {
-            LogOptions = new LogOptions
-            {
-                IsLogEnabled = true,
-                LogSeverityLevel = LogLevel.Debug,
-                LogFilePath = request.TempPath + ".native.log"
-            },
             SourceOptions = new SourceOptions { RecordingSources = sources },
             OutputOptions = new OutputOptions
             {
@@ -245,7 +238,8 @@ public sealed class ScreenRecorderLibVideoBackend : IVideoCaptureBackend
                 Framerate = request.Quality.FrameRate,
                 Quality = request.Quality.Quality,
                 IsHardwareEncodingEnabled = request.Quality.HardwarePreferred,
-                IsMp4FastStartEnabled = request.Quality.FastStart,
+                // Fast-start finalization intermittently stalled in Windows 11 VM acceptance.
+                IsMp4FastStartEnabled = false,
                 IsFixedFramerate = true
             },
             AudioOptions = new AudioOptions
@@ -287,7 +281,6 @@ public sealed class ScreenRecorderLibVideoBackend : IVideoCaptureBackend
 
     private void OnRecordingFailed(object? sender, RecordingFailedEventArgs args)
     {
-        _logger.Error("ScreenRecorderLib reported a recording failure.", new InvalidOperationException(args.Error));
         var exception = new InvalidOperationException(args.Error);
         _started?.TrySetException(exception);
         _completed?.TrySetException(exception);

@@ -71,7 +71,7 @@ internal static partial class VisualHarness
                 {
                     var path = Path.Combine(output, $"{scene}-q{quality}.mp4");
                     await using var backend = new ScreenRecorderLibVideoBackend(logger) { FixtureVideoPath = fixturePath };
-                    await backend.StartAsync(new VideoRecordingRequest(plan, path, path, new QualityProfile("measure", "measure", 30, quality, true, true), false, false, false), timeout.Token);
+                    await backend.StartAsync(new VideoRecordingRequest(plan, path, path, new QualityProfile("measure", "measure", 30, quality, true), false, false, false), timeout.Token);
                     await Task.Delay(TimeSpan.FromSeconds(full ? 60 : 8), timeout.Token);
                     await backend.StopAsync(timeout.Token);
                     var source = await StorageFile.GetFileFromPathAsync(path); var clip = await MediaClip.CreateFromFileAsync(source);
