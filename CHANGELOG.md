@@ -13,6 +13,7 @@
 - Arrow, rectangle, line and freehand widths default to 10 px and reach 24 px; custom preferences are preserved.
 - Double-click, Enter or Edit in Shelf opens the built-in editor. Context actions have distinct icons. Open still uses the Windows default app.
 - Fixed an H.264 recording failure for selected regions with odd pixel dimensions.
+- Video history thumbnails now use decoded frames; failed recording starts no longer report a recoverable file when none was created.
 
 Region screenshots use the frame frozen at hotkey time. Video records a fixed rectangle. Saved captures remain individually editable through Shelf.
 

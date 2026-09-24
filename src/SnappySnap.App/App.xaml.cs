@@ -843,8 +843,11 @@ public sealed class SnappySnapRuntime : IAsyncDisposable
         {
             _clickOverlay?.Dispose(); _clickOverlay = null;
             _recordingOverlays?.Dispose(); _recordingOverlays = null;
-            ShowBalloon("Recording interrupted", "The recording artifact was retained for recovery. Try starting a new recording.");
-            _recoveryFolder = _paths.TempPath; UpdateNotices();
+            if (snapshot.State == RecordingState.RecoveryRequired)
+            {
+                ShowBalloon("Recording interrupted", "Check the temporary folder for a recoverable file. Try starting a new recording.");
+                _recoveryFolder = _paths.TempPath; UpdateNotices();
+            }
         }
         if (_recordingHarness && snapshot.State == RecordingState.Recording && Interlocked.Exchange(ref _recordingHarnessRun, 1) == 0)
         {
@@ -1127,6 +1130,7 @@ public sealed class SnappySnapRuntime : IAsyncDisposable
                     _logger.Warn("Invalid recovery record requires manual cleanup.", new Dictionary<string, object?> { ["path"] = record.TempPath, ["error"] = record.Error });
                     continue;
                 }
+                if (record.State == RecoveryState.Unrecoverable) continue;
 
                 if (File.Exists(record.IntendedFinalPath) && new FileInfo(record.IntendedFinalPath).Length > 0)
                 {

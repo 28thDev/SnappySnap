@@ -103,6 +103,7 @@ public sealed class RecordingSessionCoordinator : IAsyncDisposable
         {
             _lastError = "Recording could not start. Check the local log for details.";
             _logger.Error("Recording start failed.", ex, new Dictionary<string, object?> { ["sessionId"] = _sessionId });
+            await TryMarkRecoveryFailureAsync(ex).ConfigureAwait(false);
             if (_stateMachine.State == RecordingState.Starting)
             {
                 _stateMachine.Apply(RecordingCommand.StartFailed);
@@ -349,8 +350,10 @@ public sealed class RecordingSessionCoordinator : IAsyncDisposable
 
         try
         {
-            var state = _finalPath is not null && File.Exists(_finalPath) && (_tempPath is null || !File.Exists(_tempPath))
-                ? RecoveryState.FinalizedButNotIndexed : RecoveryState.Finalizing;
+            var finalExists = _finalPath is not null && File.Exists(_finalPath) && new FileInfo(_finalPath).Length > 0;
+            var tempExists = _tempPath is not null && File.Exists(_tempPath) && new FileInfo(_tempPath).Length > 0;
+            var state = finalExists && !tempExists ? RecoveryState.FinalizedButNotIndexed
+                : tempExists ? RecoveryState.Finalizing : RecoveryState.Unrecoverable;
             await _recoveryStore.MarkAsync(_sessionId, state, exception.Message, CancellationToken.None).ConfigureAwait(false);
         }
         catch (Exception recoveryError)

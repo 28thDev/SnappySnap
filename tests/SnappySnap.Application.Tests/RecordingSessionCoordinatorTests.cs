@@ -78,6 +78,33 @@ public sealed partial class RecordingSessionCoordinatorTests
         finally { if (Directory.Exists(root)) Directory.Delete(root, true); }
     }
 
+    [Theory]
+    [InlineData(false, RecoveryState.Unrecoverable)]
+    [InlineData(true, RecoveryState.Finalizing)]
+    public async Task Start_failure_only_marks_recovery_when_media_exists(bool afterFileCreated, RecoveryState expectedState)
+    {
+        var root = Path.Combine(Path.GetTempPath(), "SnappySnapTests", Guid.NewGuid().ToString("N"));
+        Directory.CreateDirectory(root);
+        try
+        {
+            var backend = new FakeBackend();
+            var recovery = new FakeRecovery();
+            if (afterFileCreated) backend.Starting = () => throw new InvalidOperationException("Injected start failure");
+            else backend.BeforeStarting = () => throw new InvalidOperationException("Injected start failure");
+            var coordinator = new SnappySnap.Application.RecordingSessionCoordinator(
+                new FakeBackendFactory(backend), new FakeHistory(), new FakeThumbnail(), recovery, new FakeLogger(), new SystemMonotonicClock());
+            var plan = new CapturePlan(new VirtualPixelRect(0, 0, 20, 20), 20, 20, [new CaptureSegment("display", new VirtualPixelRect(0, 0, 20, 20), new VirtualPixelRect(0, 0, 20, 20))]);
+
+            await Assert.ThrowsAsync<InvalidOperationException>(() => coordinator.StartAsync(plan, Path.Combine(root, "captures"), Path.Combine(root, "temp"), AppSettings.Defaults(), CancellationToken.None));
+
+            Assert.Equal(RecordingState.Idle, coordinator.Snapshot.State);
+            Assert.Equal(expectedState, Assert.Single(recovery.Records).State);
+            Assert.Equal(afterFileCreated, Directory.EnumerateFiles(Path.Combine(root, "temp"), "*.partial.mp4").Any());
+            await coordinator.DisposeAsync();
+        }
+        finally { if (Directory.Exists(root)) Directory.Delete(root, true); }
+    }
+
     private sealed class FakeBackendFactory(FakeBackend backend) : IVideoCaptureBackendFactory
     {
         public IVideoCaptureBackend Create() => backend;
@@ -94,6 +121,7 @@ public sealed partial class RecordingSessionCoordinatorTests
         public int StopCount { get; private set; }
         public int DisposeCount { get; private set; }
         public Func<Task>? Starting { get; set; }
+        public Func<Task>? BeforeStarting { get; set; }
         public Func<Task>? Pausing { get; set; }
         public Func<Task>? Resuming { get; set; }
         public Func<Task>? Stopping { get; set; }
@@ -103,7 +131,7 @@ public sealed partial class RecordingSessionCoordinatorTests
         public RecordingBackendState State { get; private set; } = new(false, false, TimeSpan.Zero, false, true);
         public event EventHandler<RecordingBackendState>? StateChanged { add { } remove { } }
         public event EventHandler<RecordingBackendError>? Failed;
-        public async Task StartAsync(VideoRecordingRequest request, CancellationToken cancellationToken) { _request = request; Directory.CreateDirectory(Path.GetDirectoryName(request.TempPath)!); File.WriteAllBytes(request.TempPath, [1, 2, 3]); StartCount++; if (Starting is not null) await Starting(); State = new(true, false, TimeSpan.FromSeconds(1), false, true, MicrophoneAvailable: _microphoneAvailable, SystemAudioAvailable: _systemAudioAvailable); }
+        public async Task StartAsync(VideoRecordingRequest request, CancellationToken cancellationToken) { _request = request; if (BeforeStarting is not null) await BeforeStarting(); Directory.CreateDirectory(Path.GetDirectoryName(request.TempPath)!); File.WriteAllBytes(request.TempPath, [1, 2, 3]); StartCount++; if (Starting is not null) await Starting(); State = new(true, false, TimeSpan.FromSeconds(1), false, true, MicrophoneAvailable: _microphoneAvailable, SystemAudioAvailable: _systemAudioAvailable); }
         public async Task PauseAsync(CancellationToken cancellationToken) { PauseCount++; if (Pausing is not null) await Pausing(); State = State with { IsPaused = true }; }
         public async Task ResumeAsync(CancellationToken cancellationToken) { ResumeCount++; if (Resuming is not null) await Resuming(); State = State with { IsPaused = false }; }
         public Task SetSystemAudioMutedAsync(bool muted, CancellationToken cancellationToken) => Task.CompletedTask;

@@ -4,8 +4,8 @@ using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.WindowsRuntime;
 using SnappySnap.Core;
+using Windows.Media.Editing;
 using Windows.Storage;
-using Windows.Storage.FileProperties;
 
 namespace SnappySnap.History;
 
@@ -91,21 +91,24 @@ public sealed class ThumbnailService : IThumbnailService
         try
         {
             var source = await StorageFile.GetFileFromPathAsync(item.FilePath).AsTask(cancellationToken).ConfigureAwait(false);
-            using var thumbnail = await source.GetThumbnailAsync(ThumbnailMode.VideosView, 320, ThumbnailOptions.ResizeThumbnail).AsTask(cancellationToken).ConfigureAwait(false);
-            if (thumbnail is null)
-            {
-                throw new InvalidOperationException("Windows did not provide a video thumbnail.");
-            }
-
+            var clip = await MediaClip.CreateFromFileAsync(source).AsTask(cancellationToken).ConfigureAwait(false);
+            var properties = clip.GetVideoEncodingProperties();
+            if (properties.Width == 0 || properties.Height == 0) throw new InvalidOperationException("The video has no frame dimensions.");
+            var scale = Math.Min(1, Math.Min(320d / properties.Width, 220d / properties.Height));
+            var width = Math.Max(2, (int)(properties.Width * scale) / 2 * 2);
+            var height = Math.Max(2, (int)(properties.Height * scale) / 2 * 2);
+            var composition = new MediaComposition();
+            composition.Clips.Add(clip);
+            var time = TimeSpan.FromTicks(Math.Min(TimeSpan.FromSeconds(1).Ticks, clip.OriginalDuration.Ticks / 2));
+            using var thumbnail = await composition.GetThumbnailAsync(time, width, height, VideoFramePrecision.NearestFrame).AsTask(cancellationToken).ConfigureAwait(false);
             using var stream = thumbnail.AsStreamForRead();
-            using var sourceImage = Image.FromStream(stream);
-            using var bitmap = new Bitmap(sourceImage);
-            using var resized = CreateThumbnail(bitmap, 320, 220);
-            resized.Save(path, ImageFormat.Jpeg);
+            using var buffer = new MemoryStream();
+            await stream.CopyToAsync(buffer, cancellationToken).ConfigureAwait(false);
+            await File.WriteAllBytesAsync(path, buffer.ToArray(), cancellationToken).ConfigureAwait(false);
         }
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or ArgumentException or ExternalException or InvalidOperationException)
         {
-            _logger.Warn("Windows video thumbnail was unavailable; using a local placeholder.", new Dictionary<string, object?> { ["captureId"] = item.Id, ["error"] = ex.Message });
+            _logger.Warn("Video frame thumbnail was unavailable; using a local placeholder.", new Dictionary<string, object?> { ["captureId"] = item.Id, ["error"] = ex.Message });
             using var placeholder = CreateVideoPlaceholder(item, 320, 180);
             placeholder.Save(path, ImageFormat.Jpeg);
         }
