@@ -42,6 +42,8 @@
   <data name="This shortcut is assigned twice." xml:space="preserve"><value>このショートカットは重複しています。</value></data>
   <data name="Resolve the marked shortcut errors." xml:space="preserve"><value>マークされたショートカットの問題を解決してください。</value></data>
   <data name="Default image format" xml:space="preserve"><value>既定の画像形式</value></data>
+  <data name="Open editor after capture" xml:space="preserve"><value>キャプチャ後にエディターを開く</value></data>
+  <data name="When off, new screenshots go straight to Shelf and are copied if the option below is on. Edit them later from Shelf." xml:space="preserve"><value>オフにすると、新しいスクリーンショットはキャプチャ一覧に直接保存され、下のオプションがオンの場合はクリップボードにもコピーされます。後でキャプチャ一覧から編集できます。</value></data>
   <data name="Copy saved image to clipboard" xml:space="preserve"><value>保存した画像をクリップボードにコピー</value></data>
   <data name="Video quality" xml:space="preserve"><value>動画品質</value></data>
   <data name="Compact" xml:space="preserve"><value>コンパクト</value></data>

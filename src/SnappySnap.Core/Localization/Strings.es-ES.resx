@@ -42,6 +42,8 @@
   <data name="This shortcut is assigned twice." xml:space="preserve"><value>Este atajo está asignado dos veces.</value></data>
   <data name="Resolve the marked shortcut errors." xml:space="preserve"><value>Resuelve los errores de atajos marcados.</value></data>
   <data name="Default image format" xml:space="preserve"><value>Formato de imagen predeterminado</value></data>
+  <data name="Open editor after capture" xml:space="preserve"><value>Abrir el editor después de capturar</value></data>
+  <data name="When off, new screenshots go straight to Shelf and are copied if the option below is on. Edit them later from Shelf." xml:space="preserve"><value>Si está desactivado, las capturas nuevas van directamente al panel y se copian si la opción de abajo está activada. Puedes editarlas después desde el panel.</value></data>
   <data name="Copy saved image to clipboard" xml:space="preserve"><value>Copiar la imagen guardada al portapapeles</value></data>
   <data name="Video quality" xml:space="preserve"><value>Calidad de vídeo</value></data>
   <data name="Compact" xml:space="preserve"><value>Compacta</value></data>

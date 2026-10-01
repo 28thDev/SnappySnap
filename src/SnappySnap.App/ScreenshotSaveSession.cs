@@ -17,7 +17,7 @@ internal sealed class ScreenshotSaveSession(
     private string? _pendingPath;
     private bool _pendingMayOverwrite;
 
-    public Task SaveOriginalAsync(string format) => SaveCoreAsync(new(format), copyToClipboard: false);
+    public Task SaveOriginalAsync(string format, bool copyToClipboard = false) => SaveCoreAsync(new(format), copyToClipboard);
     public Task SaveAsync(EditorSaveRequest request) => SaveCoreAsync(request, copyToClipboard: true);
 
     private async Task SaveCoreAsync(EditorSaveRequest request, bool copyToClipboard)

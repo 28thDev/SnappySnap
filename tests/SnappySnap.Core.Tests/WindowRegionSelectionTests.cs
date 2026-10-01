@@ -62,6 +62,20 @@ public sealed class WindowRegionSelectionTests
     }
 
     [Fact]
+    public void Address_proposal_starts_slightly_above_the_toolbar_only_while_geometry_stays_valid()
+    {
+        // Chrome at 200%: tabs end at y=82, toolbar spans 80..172, page starts at 242.
+        var window = new VirtualPixelRect(0, 0, 3840, 2304);
+        var chrome = new BrowserChromeBounds(new(0, 80, 3840, 92), new(316, 102, 2710, 48), new(0, 242, 3840, 2062));
+        var raised = chrome.WithToolbarRaised(8, window);
+        Assert.Equal(new VirtualPixelRect(0, 72, 3840, 100), raised.Toolbar);
+        Assert.Equal(new HoverRegionResult(1, new(0, 72, 3840, 2232), HoverRegionKind.BrowserWithAddress),
+            WindowRegionSelection.Resolve(new(500, 120), [new(1, window, true, raised)], window));
+        Assert.Equal(chrome, chrome.WithToolbarRaised(0, window));
+        Assert.Equal(chrome, chrome.WithToolbarRaised(80, window));
+    }
+
+    [Fact]
     public void Missing_or_invalid_browser_geometry_never_pretends_to_hide_tabs()
     {
         var window = new VirtualPixelRect(100, 100, 900, 700);

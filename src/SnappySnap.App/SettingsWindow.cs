@@ -36,7 +36,7 @@ public sealed class SettingsWindow : Window
     private readonly ISettingsStore _store;
     private readonly WindowsStartupRegistration _startup;
     private readonly IAppLogger _logger;
-    private readonly CheckBox _start, _systemAudio, _microphone, _clipboard;
+    private readonly CheckBox _start, _systemAudio, _microphone, _clipboard, _openEditor;
     private readonly TextBox _screenshotHotkey, _fullScreenshotHotkey, _videoHotkey, _pauseHotkey, _shelfHotkey, _folder, _recent;
     private readonly ComboBox _duration, _radius, _format, _language, _theme;
     private readonly TextBlock _status;
@@ -112,6 +112,10 @@ public sealed class SettingsWindow : Window
 
         var screenshot = Section("Screenshots", "\uEB9F");
         _format = Choice(screenshot, "Default image format", ImageFormats, settings.Screenshot.Format, "");
+        _openEditor = Toggle(screenshot, "Open editor after capture", settings.Screenshot.OpenEditor);
+        _openEditor.Margin = new Thickness(0, 14, 0, 6);
+        var openEditorHint = Ui.Text("When off, new screenshots go straight to Shelf and are copied if the option below is on. Edit them later from Shelf.", 12, "Muted");
+        openEditorHint.Margin = new Thickness(0, 0, 0, 14); screenshot.Children.Add(openEditorHint);
         _clipboard = Toggle(screenshot, "Copy saved image to clipboard", settings.Screenshot.CopyToClipboard);
         screenshot.Children.Add(Ui.Text("Copy keeps the editor open. Save replaces the current image; Save as new creates a copy.", 12, "Muted"));
 
@@ -222,6 +226,7 @@ public sealed class SettingsWindow : Window
             _settings.General.StartWithWindows = _start.IsChecked == true; _settings.General.CaptureRoot = folder; _settings.General.ShelfRecentCount = recent;
             _settings.Hotkeys.RegionScreenshot = keys[0]; _settings.Hotkeys.FullScreenshot = keys[1]; _settings.Hotkeys.RegionVideo = keys[2]; _settings.Hotkeys.PauseResumeVideo = keys[3]; _settings.Hotkeys.OpenShelf = keys[4].Length == 0 ? null : keys[4];
             _settings.Screenshot.Format = (string)_format.SelectedItem;
+            _settings.Screenshot.OpenEditor = _openEditor.IsChecked == true;
             _settings.Screenshot.CopyToClipboard = _clipboard.IsChecked == true;
             _settings.Recording.QualityProfile = _quality; _settings.Recording.SystemAudioDefault = _systemAudio.IsChecked == true; _settings.Recording.MicrophoneDefault = _microphone.IsChecked == true;
             _settings.Recording.LeftClickColor = _leftColor; _settings.Recording.RightClickColor = _rightColor;

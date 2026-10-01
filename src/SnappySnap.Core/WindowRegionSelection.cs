@@ -14,6 +14,13 @@ public readonly record struct BrowserChromeBounds(VirtualPixelRect Toolbar, Virt
         && Content.Width >= window.Width * .4 && Content.Height >= window.Height * .25
         && Address.Y < Content.Y && Address.Y + Address.Height <= Content.Y;
 
+    // Browsers draw the toolbar's top edge inside the tab strip; starting slightly above it gives a clean edge.
+    public BrowserChromeBounds WithToolbarRaised(int pixels, VirtualPixelRect window)
+    {
+        var raised = this with { Toolbar = new(Toolbar.X, Toolbar.Y - pixels, Toolbar.Width, Toolbar.Height + pixels) };
+        return pixels > 0 && raised.IsValidFor(window) ? raised : this;
+    }
+
     private static bool Inside(VirtualPixelRect outer, VirtualPixelRect inner) =>
         inner.Width > 0 && inner.Height > 0 && inner.X >= outer.X && inner.Y >= outer.Y
         && inner.X + inner.Width <= outer.X + outer.Width && inner.Y + inner.Height <= outer.Y + outer.Height;

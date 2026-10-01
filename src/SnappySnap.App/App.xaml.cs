@@ -682,7 +682,8 @@ public sealed class SnappySnapRuntime : IAsyncDisposable
     private async Task CompleteScreenshotAsync(CapturePlan plan, CapturedImage image)
     {
         SetShelfCaptureInProgress(false);
-        var openEditor = !System.Windows.Application.Current.Windows.OfType<EditorWindow>().Any();
+        var editorEnabled = _settings.Screenshot.OpenEditor;
+        var openEditor = editorEnabled && !System.Windows.Application.Current.Windows.OfType<EditorWindow>().Any();
         var document = new EditorDocument(image);
         string? saveError = null;
         var save = new ScreenshotSaveSession(document, _shelf,
@@ -692,7 +693,8 @@ public sealed class SnappySnapRuntime : IAsyncDisposable
         _screenshots.BeginExport();
         try
         {
-            await save.SaveOriginalAsync(_settings.Screenshot.Format);
+            // With the editor turned off the saved original is the final result, so it follows the clipboard setting.
+            await save.SaveOriginalAsync(_settings.Screenshot.Format, copyToClipboard: !editorEnabled);
             if (!openEditor)
             {
                 _screenshots.ConfirmExported();

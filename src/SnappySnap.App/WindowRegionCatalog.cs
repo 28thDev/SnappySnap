@@ -10,6 +10,8 @@ internal sealed class WindowRegionCatalog
 {
     private const int DwmExtendedFrameBounds = 9;
     private const int DwmCloaked = 14;
+    // Stays inside the empty band below the tab shapes, so no tab title or icon is cut.
+    private const int AddressRegionLiftDip = 4;
     private readonly IReadOnlyList<WindowInfo> _windows;
     private readonly Dictionary<long, Task<BrowserChromeBounds?>> _browserProbes = new();
     private readonly HashSet<long> _reportedProbeFailures = new();
@@ -142,7 +144,8 @@ internal sealed class WindowRegionCatalog
         }
         if (toolbar is null) return null;
         var result = new BrowserChromeBounds(toolbar.Value, address.Value, content.Value);
-        return result.IsValidFor(window) ? result : null;
+        if (!result.IsValidFor(window)) return null;
+        return result.WithToolbarRaised((int)Math.Round(AddressRegionLiftDip * GetDpiForWindow(handle) / 96d), window);
     }
 
     private static VirtualPixelRect? PhysicalBounds(System.Windows.Rect bounds)
@@ -163,6 +166,7 @@ internal sealed class WindowRegionCatalog
     [DllImport("user32.dll")] private static extern bool IsWindowVisible(nint handle);
     [DllImport("user32.dll")] private static extern bool IsIconic(nint handle);
     [DllImport("user32.dll")] private static extern uint GetWindowThreadProcessId(nint handle, out uint processId);
+    [DllImport("user32.dll")] private static extern uint GetDpiForWindow(nint handle);
     [DllImport("dwmapi.dll")] private static extern int DwmGetWindowAttribute(nint handle, int attribute, out NativeRect value, int size);
     [DllImport("dwmapi.dll")] private static extern int DwmGetWindowAttribute(nint handle, int attribute, out int value, int size);
 }
