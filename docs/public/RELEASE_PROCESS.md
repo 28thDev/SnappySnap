@@ -20,7 +20,7 @@ Choose a public version from the last **published** release and the complete acc
 
 ### Lettered test builds
 
-`Directory.Build.props` contains the numeric `<Version>1.1.0</Version>` and `<TestBuildLabel>a</TestBuildLabel>`. The label is lowercase letters only: a, b, ... z, then aa, ab if needed. Advance it only when delivering a changed test installer; start at a for the next public version. Do not bump the numeric product version for test iterations, rename the branch, or introduce rc/counters/channels.
+`Directory.Build.props` contains the numeric `<Version>1.1.0</Version>` and `<TestBuildLabel>a</TestBuildLabel>`. The label is lowercase letters only: a, b, ... z, then aa, ab if needed. Advance it only when delivering a changed test installer; start at a for the next public version. Do not bump the numeric product version or rename the branch for test iterations, and do not introduce rc/counters/channels.
 
 - Test: app Settings -> Updates, diagnostic logs and Setup display `1.1.0-a`; filename is `SnappySnap-Setup-1.1.0-a-x64.exe`.
 - Public: set `<TestBuildLabel></TestBuildLabel>`, commit and rebuild. Display/name become `1.1.0` / `SnappySnap-Setup-1.1.0-x64.exe`.
@@ -32,12 +32,12 @@ The label is explicitly committed, not inferred from Git, time or artifact direc
 
 Keep the current candidate and its provenance in a fresh output directory. Old unpublished artifacts may be removed at the owner's request; their letters are not reused for different delivered bytes. Published versions, catalogs and tags remain immutable. Public release notes consolidate all accepted changes since the last published version.
 
-Keep one working branch through the entire preparation cycle. Do not create or rename a branch just because a tester version changed. Its name is a work label, not a version authority. `master` is the permanent branch; use a temporary stabilization branch when the owner requests one or parallel work requires it. Normal publication follows the separately approved merge into master, then the final build and tag there. The tag helper also supports an exact `release/<public-version>` branch for deliberate parallel maintenance; that exception does not require renaming the current tester branch.
+Keep one working branch through the entire preparation cycle. A new tester letter never creates or renames a branch. When the owner changes the public target version, rename the same branch so its name matches the new target; a branch that has already been pushed is renamed only with the owner's approval. The name remains a work label, not a version authority. `master` is the permanent branch; use a temporary stabilization branch when the owner requests one or parallel work requires it. Normal publication follows the separately approved merge into master, then the final build and tag there. The tag helper also supports an exact `release/<public-version>` branch for deliberate parallel maintenance; that exception does not require renaming the current tester branch.
 
 ### Agent decision sequence
 
 1. Establish the last published release, owner-approved public target, current source version and last installed tester version. Do not infer publication from a branch, local tag or artifact folder alone. If public state is uncertain, verify it before changing the public target.
-2. Continue fixes in the current working branch. Keep the numeric version fixed during testing and use TestBuildLabel. Documentation/test-only changes do not require another installer.
+2. Continue fixes in the current working branch; if the owner changed the public target, rename it to match. Keep the numeric version fixed during testing and use TestBuildLabel. Documentation/test-only changes do not require another installer.
 3. For a requested tester build, advance TestBuildLabel for a new delivery, commit the source and use a fresh output directory. Record version, commit, hash and acceptance status. Replace obsolete tester deliverables through explicit cleanup when requested.
 4. Before public release, set `Directory.Build.props` to the agreed public target; prepare one set of public release notes covering changes since the last published release. Consolidate unpublished tester notes into the upcoming public release; remove obsolete standalone notes.
 5. Perform the approved merge, commit the final versioned source and build the exact final installer. Revalidate version, payload, signing/provenance, normal upgrade and acceptance. Never relabel or rename a higher-version executable as a lower release. If merge/source changes after a candidate was built, rebuild from the final commit.
