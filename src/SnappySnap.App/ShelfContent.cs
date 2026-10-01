@@ -377,7 +377,7 @@ public sealed partial class ShelfContent : UserControl, IDisposable
             _state.ConfigureEditor?.Invoke(document);
             string? saveNotice = null;
             var save = new ScreenshotSaveSession(document.Document, _service,
-                () => Environment.ExpandEnvironmentVariables(_settings.General.CaptureRoot), row.Item.SourceBounds,
+                () => new SnappySnap.Infrastructure.AppPaths().ExpandCaptureRoot(_settings.General.CaptureRoot), row.Item.SourceBounds,
                 bitmap => { if (_settings.Screenshot.CopyToClipboard) Clipboard.SetImage(bitmap); },
                 message => { saveNotice = message; _state.Notify?.Invoke(message); }, _logger, row.Item.FilePath);
             document.SaveRequestedAsync = async request =>

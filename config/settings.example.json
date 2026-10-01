@@ -20,7 +20,6 @@
     "fullScreenshot": "PrintScreen",
     "regionVideo": "Ctrl+Alt+E",
     "pauseResumeVideo": "Ctrl+Alt+Space",
-    "fastRegionScreenshot": null,
     "openShelf": null
   },
   "screenshot": {

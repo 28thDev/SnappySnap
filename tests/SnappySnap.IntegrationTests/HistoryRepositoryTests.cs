@@ -25,6 +25,19 @@ public sealed class HistoryRepositoryTests
             await repository.DeleteAsync(created.Id, CancellationToken.None);
             Assert.False(File.Exists(media));
             Assert.Empty(await repository.GetRecentAsync(20, CancellationToken.None));
+            Assert.NotNull(await repository.GetByIdAsync(created.Id, CancellationToken.None));
+            File.WriteAllBytes(media, [4, 5]);
+            var kept = await repository.AddAsync(new NewHistoryItem(MediaType.Screenshot, media, DateTimeOffset.UtcNow, 2, 2, null, null, new VirtualPixelRect(0, 0, 2, 2)), CancellationToken.None);
+            var other = Path.Combine(root, "other.png");
+            File.WriteAllBytes(other, [6]);
+            var retired = await repository.AddAsync(new NewHistoryItem(MediaType.Screenshot, other, DateTimeOffset.UtcNow, 2, 2, null, null, new VirtualPixelRect(0, 0, 2, 2)), CancellationToken.None);
+            await repository.DeleteAsync(retired.Id, CancellationToken.None);
+            await repository.DisposeAsync();
+
+            // The next session drops retired rows and keeps live captures.
+            repository = new SqliteHistoryRepository(Path.Combine(root, "db.sqlite"), new TestLogger());
+            Assert.Equal(kept.Id, Assert.Single(await repository.GetRecentAsync(20, CancellationToken.None)).Id);
+            Assert.Null(await repository.GetByIdAsync(retired.Id, CancellationToken.None));
             await repository.DisposeAsync();
         }
         finally { if (Directory.Exists(root)) Directory.Delete(root, true); }

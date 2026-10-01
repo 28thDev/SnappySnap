@@ -106,6 +106,7 @@ public sealed class RecordingPillWindow : Window
     private bool _microphoneEnabled;
     private bool _microphoneAvailable = true;
     private bool _systemAudioAvailable = true;
+    private (RecordingState, bool, bool, bool, bool)? _shown;
 
     public RecordingPillWindow(VirtualPixelRect bounds, IReadOnlyList<MonitorDescriptor> monitors, AppSettings settings, IAppLogger logger)
     {
@@ -116,8 +117,9 @@ public sealed class RecordingPillWindow : Window
         var panel = new StackPanel { Orientation = Orientation.Horizontal, Background = Ui.Brush("Surface"), Margin = new Thickness(10, 6, 10, 6) };
         _timer = new TextBlock { Text = "● 00:00", Foreground = Ui.Brush("Text"), MinWidth = 84, VerticalAlignment = VerticalAlignment.Center, Margin = new Thickness(6, 5, 12, 5), FontWeight = FontWeights.SemiBold };
         _pause = AddButton(panel, "Pause", (_, _) => PauseClicked?.Invoke(this, EventArgs.Empty));
-        _systemAudio = AddButton(panel, "Audio ON", (_, _) => { _systemAudioEnabled = !_systemAudioEnabled; UpdateAudioLabels(); SystemAudioClicked?.Invoke(this, _systemAudioEnabled); });
-        _microphone = AddButton(panel, "Mic OFF", (_, _) => { _microphoneEnabled = !_microphoneEnabled; UpdateAudioLabels(); MicrophoneClicked?.Invoke(this, _microphoneEnabled); });
+        // The optimistic label is resynchronized from the next snapshot, including after a failed toggle.
+        _systemAudio = AddButton(panel, "Audio ON", (_, _) => { _systemAudioEnabled = !_systemAudioEnabled; _shown = null; UpdateAudioLabels(); SystemAudioClicked?.Invoke(this, _systemAudioEnabled); });
+        _microphone = AddButton(panel, "Mic OFF", (_, _) => { _microphoneEnabled = !_microphoneEnabled; _shown = null; UpdateAudioLabels(); MicrophoneClicked?.Invoke(this, _microphoneEnabled); });
         _stop = AddButton(panel, "Stop", (_, _) => StopClicked?.Invoke(this, EventArgs.Empty));
         _stop.SetResourceReference(StyleProperty, "DangerButton");
         panel.Children.Insert(0, _timer);
@@ -144,11 +146,15 @@ public sealed class RecordingPillWindow : Window
             var elapsed = snapshot.ActiveDuration.ToString(@"mm\:ss", System.Globalization.CultureInfo.InvariantCulture);
             _timer.Text = snapshot.State == RecordingState.Paused ? L.F("{0} · Paused", elapsed) : $"● {elapsed}";
             _timer.Foreground = Ui.Brush(snapshot.State == RecordingState.Paused ? "Warning" : "Text");
+            var active = snapshot.State is RecordingState.Recording or RecordingState.Paused;
+            if (!active) _timer.Text = L.T(snapshot.State == RecordingState.Finalizing ? "Saving recording…" : snapshot.State.ToString());
+            // The 250 ms refresh only advances the timer; controls are rebuilt when their state changes.
+            var shown = (snapshot.State, snapshot.SystemAudioEnabled, snapshot.SystemAudioAvailable, snapshot.MicrophoneEnabled, snapshot.MicrophoneAvailable);
+            if (shown == _shown) return;
+            _shown = shown;
             _pause.Content = Ui.Label(snapshot.State == RecordingState.Paused ? "\uE768" : "\uE769", snapshot.State == RecordingState.Paused ? "Resume" : "Pause");
             Ui.Localize(_pause, AutomationProperties.NameProperty, snapshot.State == RecordingState.Paused ? "Resume recording" : "Pause recording");
-            var active = snapshot.State is RecordingState.Recording or RecordingState.Paused;
             _pause.IsEnabled = active; _stop.IsEnabled = active;
-            if (!active) _timer.Text = L.T(snapshot.State == RecordingState.Finalizing ? "Saving recording…" : snapshot.State.ToString());
             _systemAudioAvailable = snapshot.SystemAudioAvailable;
             _systemAudioEnabled = snapshot.SystemAudioEnabled;
             _microphoneAvailable = snapshot.MicrophoneAvailable;

@@ -577,21 +577,35 @@ public sealed class SnappySnapRuntime : IAsyncDisposable
         }
     }
 
-    private async Task StartScreenshotAsync()
+    // One capture at a time: shared gate, failure reporting and cleanup for every screenshot entry point.
+    private async Task RunScreenshotAsync(Func<Task> capture, string logMessage, string failureTitle, string failureText)
     {
-        if (IsExiting) return;
-        if (_screenshotRunning || _videoStarting || _recording.Snapshot.State is not (RecordingState.Idle or RecordingState.Completed)) return;
+        if (IsExiting || _screenshotRunning || _videoStarting || _recording.Snapshot.State is not (RecordingState.Idle or RecordingState.Completed)) return;
         _screenshotRunning = true;
         SetShelfCaptureInProgress(true);
-        FrozenDesktopSnapshot? frozenSnapshot = null;
-        try
+        try { await capture(); }
+        catch (Exception ex)
+        {
+            _logger.Error(logMessage, ex);
+            if (_screenshots.Snapshot.State == ScreenshotState.Exporting) _screenshots.FailExport(ex);
+            _screenshots.Cancel();
+            ShowBalloon(failureTitle, failureText);
+        }
+        finally
+        {
+            SetShelfCaptureInProgress(false);
+            _screenshotRunning = false;
+        }
+    }
+
+    private Task StartScreenshotAsync() => RunScreenshotAsync(async () =>
         {
             _screenshots.Begin();
             _topology.Invalidate();
             var monitors = _topology.GetMonitors();
             var fullDesktopPlan = _planBuilder.Build(_topology.VirtualDesktopBounds, monitors);
             var preparationTimer = Stopwatch.StartNew();
-            frozenSnapshot = await _screenshots.PrepareSelectionAsync(fullDesktopPlan, CancellationToken.None).ConfigureAwait(true);
+            FrozenDesktopSnapshot? frozenSnapshot = await _screenshots.PrepareSelectionAsync(fullDesktopPlan, CancellationToken.None).ConfigureAwait(true);
             preparationTimer.Stop();
             _logger.Info("Screenshot selector snapshot prepared.", new Dictionary<string, object?>
             {
@@ -603,86 +617,35 @@ public sealed class SnappySnapRuntime : IAsyncDisposable
                 ["bitmapBytes"] = checked((long)frozenSnapshot.CapturedImage.Width * frozenSnapshot.CapturedImage.Height * 4)
             });
             var region = await _selector!.SelectAsync(frozenSnapshot, monitors, allowFullMonitor: true).ConfigureAwait(true);
-            frozenSnapshot = null;
+            frozenSnapshot = null; // Release the full-desktop frame before saving and editing.
             if (region is null) { _screenshots.Cancel(); return; }
             var plan = _planBuilder.Build(region.Value, monitors);
             await CompleteScreenshotWithPlanAsync(plan);
-        }
-        catch (Exception ex)
-        {
-            _logger.Error("Screenshot flow failed.", ex);
-            if (_screenshots.Snapshot.State == ScreenshotState.Exporting) _screenshots.FailExport(ex);
-            _screenshots.Cancel();
-            ShowBalloon("Screenshot failed", "Could not capture the selected region. Try again or check the local log.");
-        }
-        finally
-        {
-            frozenSnapshot = null;
-            SetShelfCaptureInProgress(false);
-            _screenshotRunning = false;
-        }
-    }
+        }, "Screenshot flow failed.", "Screenshot failed", "Could not capture the selected region. Try again or check the local log.");
 
-    private async Task StartFullScreenshotAsync()
-    {
-        if (IsExiting || _screenshotRunning || _videoStarting || _recording.Snapshot.State is not (RecordingState.Idle or RecordingState.Completed)) return;
-        _screenshotRunning = true;
-        SetShelfCaptureInProgress(true);
-        try
+    private Task StartFullScreenshotAsync() => RunScreenshotAsync(async () =>
         {
             _topology.Invalidate();
             _screenshots.Begin();
             var plan = _planBuilder.Build(_topology.VirtualDesktopBounds, _topology.GetMonitors());
             var image = await _screenshots.CaptureDirectAsync(plan, CancellationToken.None);
             await CompleteScreenshotAsync(plan, image);
-        }
-        catch (Exception ex)
-        {
-            _logger.Error("Full-screen screenshot flow failed.", ex);
-            if (_screenshots.Snapshot.State == ScreenshotState.Exporting) _screenshots.FailExport(ex);
-            _screenshots.Cancel();
-            ShowBalloon("Screenshot failed", "Could not capture the full screen. Try again or check the local log.");
-        }
-        finally
-        {
-            SetShelfCaptureInProgress(false);
-            _screenshotRunning = false;
-        }
-    }
+        }, "Full-screen screenshot flow failed.", "Screenshot failed", "Could not capture the full screen. Try again or check the local log.");
 
-    private async Task CaptureShelfAsync(ShelfWindow shelf)
-    {
-        if (IsExiting || _screenshotRunning || _videoStarting || _recording.Snapshot.State is not (RecordingState.Idle or RecordingState.Completed)) return;
-        shelf.UpdateLayout();
-        if (!shelf.TryGetCaptureBounds(out var bounds))
+    private Task CaptureShelfAsync(ShelfWindow shelf) => RunScreenshotAsync(async () =>
         {
-            ShowBalloon("Shelf screenshot failed", "The Shelf window is not ready to capture. Try again.");
-            return;
-        }
-
-        _screenshotRunning = true;
-        SetShelfCaptureInProgress(true);
-        try
-        {
+            shelf.UpdateLayout();
+            if (!shelf.TryGetCaptureBounds(out var bounds))
+            {
+                ShowBalloon("Shelf screenshot failed", "The Shelf window is not ready to capture. Try again.");
+                return;
+            }
             _topology.Invalidate();
             _screenshots.Begin();
             var plan = _planBuilder.Build(bounds, _topology.GetMonitors());
             var image = await _screenshots.CaptureDirectAsync(plan, CancellationToken.None);
             await CompleteScreenshotAsync(plan, image);
-        }
-        catch (Exception ex)
-        {
-            _logger.Error("Shelf screenshot flow failed.", ex);
-            if (_screenshots.Snapshot.State == ScreenshotState.Exporting) _screenshots.FailExport(ex);
-            _screenshots.Cancel();
-            ShowBalloon("Shelf screenshot failed", "Could not capture the selected region. Try again or check the local log.");
-        }
-        finally
-        {
-            SetShelfCaptureInProgress(false);
-            _screenshotRunning = false;
-        }
-    }
+        }, "Shelf screenshot flow failed.", "Shelf screenshot failed", "Could not capture the selected region. Try again or check the local log.");
 
     private async Task CompleteScreenshotWithPlanAsync(CapturePlan plan)
     {

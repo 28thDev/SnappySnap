@@ -31,7 +31,6 @@ public sealed class HotkeySettings
     public string FullScreenshot { get; set; } = "PrintScreen";
     public string RegionVideo { get; set; } = "Ctrl+Alt+E";
     public string PauseResumeVideo { get; set; } = "Ctrl+Alt+Space";
-    public string? FastRegionScreenshot { get; set; }
     public string? OpenShelf { get; set; }
 }
 

@@ -201,7 +201,6 @@ public sealed class SqliteHistoryRepository : IHistoryRepository, IAsyncDisposab
             await using var command = connection.CreateCommand();
             command.CommandText = """
                 PRAGMA journal_mode=WAL;
-                CREATE TABLE IF NOT EXISTS schema_migrations (version INTEGER PRIMARY KEY, applied_at_utc TEXT NOT NULL);
                 CREATE TABLE IF NOT EXISTS captures (
                     id TEXT PRIMARY KEY,
                     media_type INTEGER NOT NULL,
@@ -223,6 +222,8 @@ public sealed class SqliteHistoryRepository : IHistoryRepository, IAsyncDisposab
                     deleted_at_utc TEXT NULL
                 );
                 CREATE INDEX IF NOT EXISTS ix_captures_created_at ON captures(created_at_utc DESC);
+                -- Rows retired in earlier sessions have no remaining reader.
+                DELETE FROM captures WHERE deleted_at_utc IS NOT NULL;
                 """;
             await command.ExecuteNonQueryAsync(cancellationToken).ConfigureAwait(false);
             _initialized = true;
