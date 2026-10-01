@@ -75,10 +75,8 @@ public sealed class ThumbnailService : IThumbnailService
     {
         var bitmap = new Bitmap(width, height, PixelFormat.Format24bppRgb);
         using var graphics = Graphics.FromImage(bitmap);
+        // Shelf draws its own play badge over every video thumbnail.
         graphics.Clear(Color.FromArgb(31, 36, 46));
-        using var brush = new SolidBrush(Color.FromArgb(104, 211, 145));
-        var triangle = new[] { new Point(width / 2 - 18, height / 2 - 24), new Point(width / 2 - 18, height / 2 + 24), new Point(width / 2 + 26, height / 2) };
-        graphics.FillPolygon(brush, triangle);
         using var textBrush = new SolidBrush(Color.WhiteSmoke);
         using var font = new Font("Segoe UI", 9, FontStyle.Regular);
         var text = item.Duration.HasValue ? item.Duration.Value.ToString(@"mm\:ss", System.Globalization.CultureInfo.InvariantCulture) : "Video";

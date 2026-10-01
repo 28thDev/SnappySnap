@@ -8,7 +8,6 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using SnappySnap.Core;
 using SnappySnap.Localization;
-using SnappySnap.Presentation;
 
 namespace SnappySnap.App;
 
@@ -171,6 +170,9 @@ public sealed class RegionSelectorWindow : Window
     private readonly Func<VirtualPixelPoint, Task<HoverRegionResult?>>? _resolveHover;
     private readonly Action? _cancelPendingClicks;
     private CancellationTokenSource? _pendingClick;
+    private static readonly Brush SelectionBrush = Frozen(Color.FromRgb(0x9C, 0xC7, 0xB3));
+    private static readonly Brush LabelBackground = Frozen(Color.FromArgb(210, 20, 20, 20));
+    private static SolidColorBrush Frozen(Color color) { var brush = new SolidColorBrush(color); brush.Freeze(); return brush; }
 
     public RegionSelectorWindow(MonitorDescriptor monitor, Action<VirtualPixelRect> selected, Action cancelled,
         bool allowFullMonitor = false, IReadOnlyList<MonitorDescriptor>? monitors = null, RegionSelectionGesture? gesture = null,
@@ -234,15 +236,20 @@ public sealed class RegionSelectorWindow : Window
             canvas.Children.Add(image);
         }
         _dimmer = new System.Windows.Shapes.Path { Fill = new SolidColorBrush(Color.FromArgb(140, 8, 14, 20)), IsHitTestVisible = false, Data = new RectangleGeometry(new Rect(0, 0, Width, Height)) }; canvas.Children.Add(_dimmer);
-        var hint = Ui.Text(L.T(allowFullMonitor
-            ? "Click: suggested area · Drag: custom area · Double-click: monitor · Right-click or Esc: cancel"
-            : "Click: suggested area · Drag: custom area · Right-click or Esc: cancel"), 12);
-        hint.IsHitTestVisible = false; Canvas.SetLeft(hint, 20); Canvas.SetTop(hint, 20); canvas.Children.Add(hint);
-        _selectionBorder = new System.Windows.Shapes.Rectangle { Stroke = Ui.Brush("Accent"), StrokeThickness = 1.5, StrokeDashArray = new DoubleCollection { 5, 3 }, Fill = Brushes.Transparent, Visibility = Visibility.Collapsed, IsHitTestVisible = false };
+        // The overlay sits on arbitrary desktop content, so its chrome uses fixed colors instead of the app theme.
+        var hint = new TextBlock
+        {
+            Text = L.T(allowFullMonitor
+                ? "Click: suggested area · Drag: custom area · Double-click: monitor · Right-click or Esc: cancel"
+                : "Click: suggested area · Drag: custom area · Right-click or Esc: cancel"),
+            FontSize = 12, Foreground = Brushes.White, Background = LabelBackground, Padding = new Thickness(8, 5, 8, 5), IsHitTestVisible = false
+        };
+        Canvas.SetLeft(hint, 20); Canvas.SetTop(hint, 20); canvas.Children.Add(hint);
+        _selectionBorder = new System.Windows.Shapes.Rectangle { Stroke = SelectionBrush, StrokeThickness = 1.5, StrokeDashArray = new DoubleCollection { 5, 3 }, Fill = Brushes.Transparent, Visibility = Visibility.Collapsed, IsHitTestVisible = false };
         canvas.Children.Add(_selectionBorder);
-        _sizeText = new TextBlock { Foreground = Brushes.White, Background = new SolidColorBrush(Color.FromArgb(210, 20, 20, 20)), Padding = new Thickness(5), Visibility = Visibility.Collapsed };
+        _sizeText = new TextBlock { Foreground = Brushes.White, Background = LabelBackground, Padding = new Thickness(5), Visibility = Visibility.Collapsed };
         canvas.Children.Add(_sizeText);
-        for (var i = 0; i < 8; i++) { var handle = new System.Windows.Shapes.Rectangle { Width = 6, Height = 6, Fill = Ui.Brush("Accent"), Stroke = Brushes.White, StrokeThickness = 1, Visibility = Visibility.Collapsed, IsHitTestVisible = false }; _handles.Add(handle); canvas.Children.Add(handle); }
+        for (var i = 0; i < 8; i++) { var handle = new System.Windows.Shapes.Rectangle { Width = 6, Height = 6, Fill = SelectionBrush, Stroke = Brushes.White, StrokeThickness = 1, Visibility = Visibility.Collapsed, IsHitTestVisible = false }; _handles.Add(handle); canvas.Children.Add(handle); }
         Content = canvas;
         Loaded += (_, _) => { if (ShowActivated) Focus(); };
         Closed += (_, _) => _pendingClick?.Cancel();

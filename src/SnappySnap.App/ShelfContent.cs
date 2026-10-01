@@ -436,7 +436,7 @@ public sealed class ShelfRow : INotifyPropertyChanged
     public string Title => Path.GetFileName(Item.FilePath);
     public string Timestamp => Item.CreatedAtUtc.ToLocalTime().ToString("g", L.Culture);
     public string MediaLabel => L.T(Item.MediaType == MediaType.Video ? "Video recording" : "Screenshot");
-    public string Metadata => Item.CreatedAtUtc.ToLocalTime().ToString(Item.CreatedAtUtc.LocalDateTime.Date == DateTime.Today ? "HH:mm" : "d MMM · HH:mm", L.Culture) + " · " + FileSizeFormatter.Format(Item.FileSizeBytes, L.Culture);
+    public string Metadata => Item.CreatedAtUtc.ToLocalTime().ToString(Item.CreatedAtUtc.LocalDateTime.Date == DateTime.Today ? "HH:mm" : "d MMM · HH:mm", L.Culture) + $" · {Item.WidthPx} × {Item.HeightPx} · " + FileSizeFormatter.Format(Item.FileSizeBytes, L.Culture);
     public string AccessibleName => $"{Title}, {MediaLabel}, {Timestamp}, {Details}";
     public string FileInfo => $"{Item.FilePath}\n{Timestamp}\n{Details}";
     public void RefreshLocale() => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(null));

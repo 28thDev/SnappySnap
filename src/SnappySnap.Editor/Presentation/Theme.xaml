@@ -80,11 +80,27 @@
     <Setter Property="Foreground" Value="{DynamicResource AccentTextBrush}" />
     <Setter Property="BorderBrush" Value="{DynamicResource AccentBrush}" />
     <Setter Property="FontWeight" Value="SemiBold" />
-    <Style.Triggers>
-      <Trigger Property="IsMouseOver" Value="True">
-        <Setter Property="Foreground" Value="{DynamicResource TextBrush}" />
-      </Trigger>
-    </Style.Triggers>
+    <Setter Property="Template">
+      <Setter.Value>
+        <!-- Keeps the accent fill on hover; the base template would repaint it as a secondary button. -->
+        <ControlTemplate TargetType="Button">
+          <Border x:Name="Frame" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="{StaticResource ControlRadius}" Padding="{TemplateBinding Padding}">
+            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="Center" RecognizesAccessKey="True" />
+          </Border>
+          <ControlTemplate.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+              <Setter TargetName="Frame" Property="Opacity" Value="0.88" />
+            </Trigger>
+            <Trigger Property="IsPressed" Value="True">
+              <Setter TargetName="Frame" Property="Opacity" Value="0.7" />
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+              <Setter Property="Opacity" Value="0.4" />
+            </Trigger>
+          </ControlTemplate.Triggers>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
   </Style>
   <Style x:Key="GhostButton" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
     <Setter Property="Background" Value="Transparent" />
@@ -387,8 +403,13 @@
               <Track.Thumb>
                 <Thumb>
                   <Thumb.Template>
-                    <ControlTemplate>
-                      <Border Margin="2" Background="{DynamicResource BorderBrush}" CornerRadius="3" />
+                    <ControlTemplate TargetType="Thumb">
+                      <Border x:Name="Grip" Margin="2" Background="{DynamicResource ControlBorderBrush}" CornerRadius="3" />
+                      <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                          <Setter TargetName="Grip" Property="Background" Value="{DynamicResource MutedBrush}" />
+                        </Trigger>
+                      </ControlTemplate.Triggers>
                     </ControlTemplate>
                   </Thumb.Template>
                 </Thumb>

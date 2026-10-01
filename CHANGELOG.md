@@ -1,5 +1,17 @@
 # Changelog
 
+## 1.2.0
+
+- New: Settings → Screenshots → Open editor after capture. When off, screenshots go straight to Shelf and follow the automatic clipboard option; a failed save still opens the editor for recovery.
+- The browser "address bar and page" suggestion starts slightly above the toolbar, so its top edge no longer cuts through the bottom of the tab strip.
+- The region selector uses fixed high-contrast colors and a readable hint in every appearance.
+- The recording pill has a red recording indicator and can be dragged out of the way.
+- Screenshot editor tools and actions share one row when the window is wide enough.
+- Settings rows use consistent spacing; alternative shortcut suggestions appear next to the shortcut that has a conflict.
+- The tray menu follows the selected appearance. Shelf cards show capture dimensions. Scroll bars and the primary button hover state are easier to see.
+- Unexpected errors are written to the local log and reported without closing SnappySnap.
+- Recording no longer writes a log entry for every mouse click. Old log files are removed automatically; only the ten most recent are kept.
+
 ## 1.1.0
 
 - Fixed region capture failing when a proposed window extends outside the desktop. The highlight and captured output now use the visible intersection.

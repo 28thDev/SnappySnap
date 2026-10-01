@@ -901,6 +901,37 @@ public sealed class SnappySnapRuntime : IAsyncDisposable
         tray.ContextMenuStrip = menu;
         tray.MouseClick += (_, e) => { if (e.Button == System.Windows.Forms.MouseButtons.Left) OpenShelf(true); };
         _tray = tray;
+        ApplyTrayTheme();
+    }
+
+    // The tray menu is a WinForms control; give it the same palette as the WPF windows.
+    private void ApplyTrayTheme()
+    {
+        if (_tray?.ContextMenuStrip is not { } menu) return;
+        static System.Drawing.Color Themed(string key)
+        {
+            var color = ((System.Windows.Media.SolidColorBrush)Ui.Brush(key)).Color;
+            return System.Drawing.Color.FromArgb(color.R, color.G, color.B);
+        }
+        menu.Renderer = new System.Windows.Forms.ToolStripProfessionalRenderer(new TrayMenuColors(Themed("Surface"), Themed("Raised"), Themed("Border"))) { RoundedEdges = false };
+        menu.ShowImageMargin = false;
+        menu.BackColor = Themed("Surface");
+        foreach (System.Windows.Forms.ToolStripItem item in menu.Items) item.ForeColor = Themed("Text");
+    }
+
+    private sealed class TrayMenuColors(System.Drawing.Color surface, System.Drawing.Color raised, System.Drawing.Color border) : System.Windows.Forms.ProfessionalColorTable
+    {
+        public override System.Drawing.Color ToolStripDropDownBackground => surface;
+        public override System.Drawing.Color ImageMarginGradientBegin => surface;
+        public override System.Drawing.Color ImageMarginGradientMiddle => surface;
+        public override System.Drawing.Color ImageMarginGradientEnd => surface;
+        public override System.Drawing.Color MenuBorder => border;
+        public override System.Drawing.Color SeparatorDark => border;
+        public override System.Drawing.Color SeparatorLight => border;
+        public override System.Drawing.Color MenuItemBorder => raised;
+        public override System.Drawing.Color MenuItemSelected => raised;
+        public override System.Drawing.Color MenuItemSelectedGradientBegin => raised;
+        public override System.Drawing.Color MenuItemSelectedGradientEnd => raised;
     }
 
     private System.Windows.Forms.NotifyIcon? _tray;
@@ -913,6 +944,7 @@ public sealed class SnappySnapRuntime : IAsyncDisposable
             if (IsExiting) return;
             Ui.ApplyTheme(_settingsWindow?.PreviewTheme ?? _settings.General.Theme);
             if (_tray is not null) { var previous = _tray.Icon; _tray.Icon = LoadTrayIcon(); previous?.Dispose(); }
+            ApplyTrayTheme();
         });
     }
     private static Icon LoadTrayIcon()
@@ -1048,6 +1080,7 @@ public sealed class SnappySnapRuntime : IAsyncDisposable
         {
             _settings = settings;
             L.SetLanguage(settings.General.Language); Ui.ApplyTheme(settings.General.Theme);
+            ApplyTrayTheme();
             if (!settings.Updates.AutomaticChecks && _automaticUpdateCheckRunning) _updates.Cancel();
             _shelfWindow?.Shelf.UpdateSettings(settings);
             _compactWindow?.Shelf.UpdateSettings(settings);

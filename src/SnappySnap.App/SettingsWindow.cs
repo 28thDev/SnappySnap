@@ -76,8 +76,8 @@ public sealed class SettingsWindow : Window
         _theme.SelectionChanged += (_, _) => Ui.ApplyTheme(PreviewTheme);
         general.Children.Add(new Separator { Margin = new Thickness(0, 12, 0, 18) });
         _start = Toggle(general, "Start with Windows", settings.General.StartWithWindows);
-        general.Children.Add(Ui.Text("Capture folder", 12, "Muted"));
-        var folderRow = new DockPanel { Margin = new Thickness(0, 8, 0, 18) };
+        general.Children.Add(Ui.Text("Capture folder"));
+        var folderRow = new DockPanel { Margin = new Thickness(0, 6, 0, RowGap) };
         var browse = Ui.Button("Browse…", "\uE8B7", (_, _) =>
         {
             var dialog = new OpenFolderDialog { Title = L.T("Choose a capture folder") };
@@ -85,7 +85,7 @@ public sealed class SettingsWindow : Window
         }); browse.Margin = new Thickness(10, 0, 0, 0); DockPanel.SetDock(browse, Dock.Right); folderRow.Children.Add(browse);
         _folder = new TextBox { Text = settings.General.CaptureRoot }; Ui.Localize(_folder, AutomationProperties.NameProperty, "Capture folder"); folderRow.Children.Add(_folder); general.Children.Add(folderRow);
         _recent = Field(general, "Recent captures in Shelf", settings.General.ShelfRecentCount.ToString(CultureInfo.InvariantCulture));
-        general.Children.Add(Ui.Text("1–500. Files on disk are not deleted.", 12, "Muted"));
+        Hint(general, "1–500. Files on disk are not deleted.");
 
         var hotkeys = Section("Hotkeys", "\uE765");
         _screenshotHotkey = Shortcut(hotkeys, "Screenshot region", settings.Hotkeys.RegionScreenshot);
@@ -97,31 +97,41 @@ public sealed class SettingsWindow : Window
         {
             var registration = _hotkeys?.Results.FirstOrDefault(r => r.Id == entry.Item1);
             var error = Ui.Text(registration is null ? "" : GlobalHotkeyService.AvailabilityError(registration) ?? "", 12, "Danger");
-            _hotkeyErrors[entry.Item1] = error; hotkeys.Children.Insert(hotkeys.Children.IndexOf((UIElement)entry.Item2.Parent) + 1, error);
+            error.Margin = new Thickness(0, -6, 0, RowGap);
+            var row = hotkeys.Children.IndexOf((UIElement)entry.Item2.Parent);
+            _hotkeyErrors[entry.Item1] = error; hotkeys.Children.Insert(row + 1, error);
+            Button? alternative = null;
             if (entry.Item3.Length > 0)
             {
+                // The alternative belongs to its own field and is offered only while that field has a problem.
                 var candidate = entry.Item3;
-                hotkeys.Children.Add(Ui.Button(L.F("Try {0}", candidate), "", (_, _) =>
+                alternative = Ui.Button(L.F("Try {0}", candidate), "", (_, _) =>
                 {
                     if (_hotkeys?.Probe(candidate) == true) { entry.Item2.Text = candidate; Ui.Localize(error, TextBlock.TextProperty, "Available now; checked again when saving."); }
                     else Ui.Localize(error, TextBlock.TextProperty, "This shortcut is also occupied. Enter another combination.");
-                }, "GhostButton"));
+                });
+                alternative.HorizontalAlignment = HorizontalAlignment.Left; alternative.Margin = new Thickness(0, -4, 0, RowGap);
+                hotkeys.Children.Insert(row + 2, alternative);
             }
+            void ShowProblem() => error.Visibility = (alternative ?? (UIElement)error).Visibility = error.Text.Length == 0 ? Visibility.Collapsed : Visibility.Visible;
+            // The descriptor holds its component strongly; detach so a closed window can be collected.
+            var text = System.ComponentModel.DependencyPropertyDescriptor.FromProperty(TextBlock.TextProperty, typeof(TextBlock));
+            EventHandler changed = (_, _) => ShowProblem();
+            text.AddValueChanged(error, changed); Closed += (_, _) => text.RemoveValueChanged(error, changed);
+            ShowProblem();
         }
-        hotkeys.Children.Add(Ui.Text("Focus a field and press a key combination. Print Screen also works alone. Leave Open Shelf empty to disable its shortcut.", 12, "Muted"));
+        Hint(hotkeys, "Focus a field and press a key combination. Print Screen also works alone. Leave Open Shelf empty to disable its shortcut.", 4);
 
         var screenshot = Section("Screenshots", "\uEB9F");
         _format = Choice(screenshot, "Default image format", ImageFormats, settings.Screenshot.Format, "");
         _openEditor = Toggle(screenshot, "Open editor after capture", settings.Screenshot.OpenEditor);
-        _openEditor.Margin = new Thickness(0, 14, 0, 6);
-        var openEditorHint = Ui.Text("When off, new screenshots go straight to Shelf and are copied if the option below is on. Edit them later from Shelf.", 12, "Muted");
-        openEditorHint.Margin = new Thickness(0, 0, 0, 14); screenshot.Children.Add(openEditorHint);
+        Hint(screenshot, "When off, new screenshots go straight to Shelf and are copied if the option below is on. Edit them later from Shelf.");
         _clipboard = Toggle(screenshot, "Copy saved image to clipboard", settings.Screenshot.CopyToClipboard);
-        screenshot.Children.Add(Ui.Text("Copy keeps the editor open. Save replaces the current image; Save as new creates a copy.", 12, "Muted"));
+        Hint(screenshot, "Copy keeps the editor open. Save replaces the current image; Save as new creates a copy.");
 
         var recording = Section("Recording", "\uE714");
         recording.Children.Add(Ui.Text("Video quality", 13));
-        var qualities = new WrapPanel { Margin = new Thickness(0, 8, 0, 10) };
+        var qualities = new WrapPanel { Margin = new Thickness(0, 8, 0, 4) };
         foreach (var name in new[] { "Compact", "Balanced", "High" })
         {
             var button = new ToggleButton { Content = Ui.Text(name), Tag = name, IsChecked = _quality == name, Margin = new Thickness(0, 0, 8, 8), Padding = new Thickness(16, 8, 16, 8) };
@@ -129,7 +139,7 @@ public sealed class SettingsWindow : Window
             button.Click += (_, _) => { _quality = name; foreach (var other in _qualityButtons) other.IsChecked = Equals(other.Tag, name); };
             _qualityButtons.Add(button); qualities.Children.Add(button);
         }
-        recording.Children.Add(qualities); recording.Children.Add(Ui.Text("MP4 / H.264 · 30 fps", 12, "Muted"));
+        recording.Children.Add(qualities); Hint(recording, "MP4 / H.264 · 30 fps");
         _systemAudio = Toggle(recording, "Record system audio by default", settings.Recording.SystemAudioDefault);
         _microphone = Toggle(recording, "Record microphone by default", settings.Recording.MicrophoneDefault);
         var ripple = new StackPanel { Margin = new Thickness(0, 10, 0, 0) };
@@ -137,7 +147,7 @@ public sealed class SettingsWindow : Window
         AddColors(ripple, "Right click", _rightColor, color => _rightColor = color);
         _duration = Choice(ripple, "Duration", RippleDurations, settings.Recording.ClickRippleDurationMs.ToString(CultureInfo.InvariantCulture), "ms");
         _radius = Choice(ripple, "Radius", RippleRadii, settings.Recording.ClickRippleRadiusPx.ToString(CultureInfo.InvariantCulture), "px");
-        recording.Children.Add(new Expander { Header = Ui.Text("Click highlighting"), Content = ripple, Margin = new Thickness(0, 20, 0, 0) });
+        recording.Children.Add(new Expander { Header = Ui.Text("Click highlighting"), Content = ripple, Margin = new Thickness(0, 8, 0, 0) });
         var updateSection = Section("Updates", "\uE895");
         if (updates is not null && installUpdate is not null && checkUpdate is not null)
             updateSection.Children.Add(new UpdatePanel(_settings.Updates, updates, installUpdate, checkUpdate));
@@ -156,7 +166,7 @@ public sealed class SettingsWindow : Window
 
     private static ComboBox Options(Panel parent, string label, (string Value, string Label)[] values, string selected)
     {
-        var row = new Grid { Margin = new Thickness(0, 0, 0, 18) };
+        var row = new Grid { Margin = new Thickness(0, 0, 0, RowGap) };
         row.ColumnDefinitions.Add(new ColumnDefinition());
         row.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
         var box = new ComboBox { Width = 180, SelectedValuePath = nameof(ComboBoxItem.Tag) };
@@ -170,10 +180,16 @@ public sealed class SettingsWindow : Window
     }
 
     public event EventHandler<AppSettings>? SettingsSaved;
-    private static CheckBox Toggle(Panel parent, string label, bool value) { var b = new CheckBox { Content = Ui.Text(label), IsChecked = value, Margin = new Thickness(0, 0, 0, 10) }; Ui.Localize(b, AutomationProperties.NameProperty, label); parent.Children.Add(b); return b; }
+    // One rhythm for every settings row: 13 px label, RowGap below, and a muted hint tucked under its row.
+    private const double RowGap = 12;
+    private static void Hint(Panel parent, string text, double top = -6)
+    {
+        var hint = Ui.Text(text, 12, "Muted"); hint.Margin = new Thickness(0, top, 0, RowGap + 4); parent.Children.Add(hint);
+    }
+    private static CheckBox Toggle(Panel parent, string label, bool value) { var b = new CheckBox { Content = Ui.Text(label), IsChecked = value, Margin = new Thickness(0, 0, 0, RowGap) }; Ui.Localize(b, AutomationProperties.NameProperty, label); parent.Children.Add(b); return b; }
     private static TextBox Field(Panel parent, string label, string value)
     {
-        var row = new Grid { Margin = new Thickness(0, 0, 0, 10) }; row.ColumnDefinitions.Add(new ColumnDefinition()); row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(150) }); row.Children.Add(Ui.Text(label, 12));
+        var row = new Grid { Margin = new Thickness(0, 0, 0, RowGap) }; row.ColumnDefinitions.Add(new ColumnDefinition()); row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(150) }); row.Children.Add(Ui.Text(label));
         var b = new TextBox { Text = value }; Ui.Localize(b, AutomationProperties.NameProperty, label); Grid.SetColumn(b, 1); row.Children.Add(b); parent.Children.Add(row); return b;
     }
     private static TextBox Shortcut(Panel parent, string label, string value, bool optional = false)
@@ -191,11 +207,11 @@ public sealed class SettingsWindow : Window
     }
     private static ComboBox Choice(Panel p, string label, string[] values, string selected, string unit)
     {
-        var row = new DockPanel { Margin = new Thickness(0, 4, 0, 0) }; var b = new ComboBox { ItemsSource = values.Contains(selected) ? values : values.Append(selected).ToArray(), SelectedItem = selected, Width = 100, ToolTip = L.T(unit) }; Ui.Localize(b, AutomationProperties.NameProperty, label); DockPanel.SetDock(b, Dock.Right); row.Children.Add(b); row.Children.Add(Ui.Text(unit.Length == 0 ? L.T(label) : L.T(label) + " (" + L.T(unit) + ")", 12)); p.Children.Add(row); return b;
+        var row = new DockPanel { Margin = new Thickness(0, 0, 0, RowGap) }; var b = new ComboBox { ItemsSource = values.Contains(selected) ? values : values.Append(selected).ToArray(), SelectedItem = selected, Width = 100, ToolTip = L.T(unit) }; Ui.Localize(b, AutomationProperties.NameProperty, label); DockPanel.SetDock(b, Dock.Right); row.Children.Add(b); row.Children.Add(Ui.Text(unit.Length == 0 ? L.T(label) : L.T(label) + " (" + L.T(unit) + ")")); p.Children.Add(row); return b;
     }
     private static void AddColors(Panel parent, string label, string current, Action<string> changed)
     {
-        var row = new DockPanel { Margin = new Thickness(0, 6, 0, 6) }; var swatches = new StackPanel { Orientation = Orientation.Horizontal }; DockPanel.SetDock(swatches, Dock.Right); row.Children.Add(swatches); row.Children.Add(Ui.Text(label, 12));
+        var row = new DockPanel { Margin = new Thickness(0, 6, 0, 6) }; var swatches = new StackPanel { Orientation = Orientation.Horizontal }; DockPanel.SetDock(swatches, Dock.Right); row.Children.Add(swatches); row.Children.Add(Ui.Text(label));
         var buttons = new List<ToggleButton>();
         foreach (var color in new[] { "#FFFFC107", "#FFFF6B35", "#FF69E6A3", "#FF80B5FF" })
         {

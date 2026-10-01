@@ -111,6 +111,7 @@ public sealed class EditorWindow : Window
             var compactTools = ActualWidth < 1040;
             foreach (var caption in toolCaptions) caption.Visibility = compactTools ? Visibility.Collapsed : Visibility.Visible;
             foreach (var button in _toolButtons.Values) { button.MinWidth = compactTools ? 36 : 43; button.Height = compactTools ? 38 : 46; }
+            _layoutToolbar?.Invoke();
         };
         var center = new DockPanel();
         var bottom = new DockPanel { Margin = new Thickness(12, 4, 12, 4) };
@@ -145,7 +146,19 @@ public sealed class EditorWindow : Window
         _properties.VerticalAlignment = VerticalAlignment.Top; _properties.HorizontalAlignment = HorizontalAlignment.Center;
         _properties.Margin = new Thickness(8); _properties.CornerRadius = new CornerRadius(6);
         var canvasHost = new Grid(); canvasHost.Children.Add(_scroll); canvasHost.Children.Add(_properties); center.Children.Add(canvasHost);
-        var toolbar = new StackPanel { Margin = new Thickness(8, 4, 8, 4) }; toolbar.Children.Add(tools); toolbar.Children.Add(actions);
+        var toolbar = new Grid { Margin = new Thickness(8, 4, 8, 4) };
+        toolbar.ColumnDefinitions.Add(new ColumnDefinition()); toolbar.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+        toolbar.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto }); toolbar.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+        toolbar.Children.Add(tools); toolbar.Children.Add(actions);
+        _layoutToolbar = () =>
+        {
+            // Tools and actions share one row whenever both fit at their natural width in the current language.
+            var unbounded = new Size(double.PositiveInfinity, double.PositiveInfinity);
+            tools.Measure(unbounded); actions.Measure(unbounded);
+            var oneRow = tools.DesiredSize.Width + actions.DesiredSize.Width + 40 <= ActualWidth;
+            Grid.SetColumnSpan(tools, oneRow ? 1 : 2);
+            Grid.SetRow(actions, oneRow ? 0 : 1); Grid.SetColumn(actions, oneRow ? 1 : 0); Grid.SetColumnSpan(actions, oneRow ? 1 : 2);
+        };
         var workspace = new DockPanel(); DockPanel.SetDock(toolbar, Dock.Top); workspace.Children.Add(toolbar); workspace.Children.Add(center);
         Ui.Shell(this, "", workspace, compact: true);
         _surface.MouseLeftButtonDown += OnMouseDown; _surface.MouseMove += OnMouseMove; _surface.MouseLeftButtonUp += OnMouseUp;
@@ -153,7 +166,13 @@ public sealed class EditorWindow : Window
         Loaded += (_, _) => { WorkAreaChrome.FitInitialBounds(this); _selected = _document.Elements.FirstOrDefault(x => x.IsSelected); Fit(); Refresh(); };
         Closing += (_, e) => { if (IsSaving) { e.Cancel = true; return; } FinishTextEdit(true); if (!_committing && (_history.CanUndo || _initialSaveFailed) && MessageBox.Show(this, L.T(_initialSaveFailed ? "This screenshot was not saved to Shelf. Close without saving?" : "Discard your unsaved annotations? The saved screenshot will stay in Shelf."), "SnappySnap", MessageBoxButton.YesNo, MessageBoxImage.Question) != MessageBoxResult.Yes) e.Cancel = true; };
     }
-    private void OnLanguageChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e) => Refresh();
+    private void OnLanguageChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+    {
+        Refresh();
+        // Button captions are rebound by the same notification; lay out once they have their new widths.
+        Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Loaded, new Action(() => _layoutToolbar?.Invoke()));
+    }
+    private Action? _layoutToolbar;
     private readonly Dictionary<EditorTool, ToggleButton> _toolButtons = new();
     private readonly Button _undo, _redo, _delete;
     private readonly TextBlock _zoomText, _selectionLabel;
