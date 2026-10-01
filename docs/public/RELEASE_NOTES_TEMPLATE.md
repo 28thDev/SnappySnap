@@ -22,10 +22,9 @@ Before updating, finish recording/export and exit through the tray. Captures/pre
 
 - [ ] State actual Authenticode signing status.
 - [ ] Link the approved license and describe any dependency/codec limitations accurately.
-- [ ] Record tested Windows/display/audio setups and known limitations.
 - [ ] Confirm clean install, upgrade and retained data in a disposable profile.
 - [ ] Confirm source tag, commit and installer hash match.
-- [ ] State whether this is a validation build or the official release; list only completed acceptance, and retain known limitations.
+- [ ] State whether this is a validation build or the official release. Tested setups are recorded locally and are not part of the notes.
 - [ ] Confirm the signed catalog, signature and installer are all attached before publication.
 
 SnappySnap checks official stable GitHub Releases automatically unless you disable the option in Settings. Downloading and installing an update require your actions. A verified cached installer can be installed offline. See [privacy and update requests](https://github.com/28thDev/SnappySnap/blob/master/docs/public/PRIVACY.md) for the network and local-data details.

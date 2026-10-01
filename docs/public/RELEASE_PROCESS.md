@@ -47,7 +47,7 @@ Keep one working branch through the entire preparation cycle. A new tester lette
 
 The updater offers only newer versions. Setup also refuses a lower version while a higher one is registered. Therefore a tester running 1.1.5 cannot install 1.1.0 over it or receive 1.1.0 automatically.
 
-For the current cycle, the intended public release is **1.1.0** over the public 1.0.0 baseline; 1.1.1–1.1.5 are legacy unpublished tester history; new candidates use 1.1.0-a, b, etc. The current working branch is denis/release-1.1.0 and builds now use 1.1.0 for owner testing. This is an explicit owner-selected target, not a rule that every future batch warrants MINOR.
+For the current cycle, the intended public release is **1.2.0** over the public 1.1.0 baseline; 1.1.1–1.1.5 are legacy unpublished tester history from before 1.1.0. Candidates were delivered as 1.2.0-a from the working branch denis/release-1.2.0. This is an explicit owner-selected target, not a rule that every future batch warrants MINOR.
 
 Before handing off the final build, verify in a disposable profile: preserve/back up the tester's settings, history and captures, uninstall the higher tester version normally, install the public version, and confirm retained data and normal operation. The uninstaller is designed to retain user data, but this exact transition still needs acceptance. Do not edit installed-version registry values, delete the user's profile or weaken downgrade protection. Host uninstall/install requires the user's authorization. Also test the ordinary 1.0.0 -> 1.1.0 upgrade separately. If data compatibility fails, stop and resolve that transition before release.
 
@@ -59,7 +59,7 @@ Before handing off the final build, verify in a disposable profile: preserve/bac
 4. In a disposable Windows profile, verify installation, update, repair, uninstall/reinstall, retained settings/history/media and startup preferences.
 5. Verify the signed GitHub update path with an older installed candidate and a newer release: check, download, install, restart, retained data and offline cached installation. Confirm cancellation and rejection of damaged packages.
 6. Confirm recoverable custody of the update signing key, the actual Authenticode signing status and a working private security-reporting channel. Catalog signing does not establish a Windows publisher.
-7. Finalize release notes with tested behavior, known limitations and accurate installation/update instructions. Keep preparation notices until the release is actually available.
+7. Finalize release notes with the changes and accurate installation/update instructions. The tested setup stays in the local acceptance record and is not listed in the notes. Keep preparation notices until the release is actually available.
 
 ## Build and stage
 
