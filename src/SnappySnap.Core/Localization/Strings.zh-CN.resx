@@ -42,6 +42,8 @@
   <data name="This shortcut is assigned twice." xml:space="preserve"><value>此快捷键被分配了两次。</value></data>
   <data name="Resolve the marked shortcut errors." xml:space="preserve"><value>请解决标记的快捷键错误。</value></data>
   <data name="Default image format" xml:space="preserve"><value>默认图像格式</value></data>
+  <data name="Unexpected error" xml:space="preserve"><value>意外错误</value></data>
+  <data name="SnappySnap hit an unexpected error and keeps running. Details are in the local log." xml:space="preserve"><value>SnappySnap 遇到意外错误，但仍在运行。详细信息已写入本地日志。</value></data>
   <data name="Open editor after capture" xml:space="preserve"><value>截图后打开编辑器</value></data>
   <data name="When off, new screenshots go straight to Shelf and are copied if the option below is on. Edit them later from Shelf." xml:space="preserve"><value>关闭后，新截图将直接保存到素材架；如果启用了下方选项，还会复制到剪贴板。之后可在素材架中编辑。</value></data>
   <data name="Copy saved image to clipboard" xml:space="preserve"><value>将保存的图像复制到剪贴板</value></data>

@@ -52,6 +52,8 @@
   <data name="Windows rejected this shortcut." xml:space="preserve"><value>Windows отклонила это сочетание.</value></data>
   <data name="Windows opens screen capture with Print Screen. Turn this off in Windows Settings &gt; Accessibility &gt; Keyboard, or choose another shortcut." xml:space="preserve"><value>Windows открывает средство захвата по Print Screen. Отключите это в параметрах Windows &gt; Специальные возможности &gt; Клавиатура или выберите другое сочетание.</value></data>
   <data name="Default image format" xml:space="preserve"><value>Формат новых снимков</value></data>
+  <data name="Unexpected error" xml:space="preserve"><value>Непредвиденная ошибка</value></data>
+  <data name="SnappySnap hit an unexpected error and keeps running. Details are in the local log." xml:space="preserve"><value>В SnappySnap произошла непредвиденная ошибка, приложение продолжает работать. Подробности — в локальном журнале.</value></data>
   <data name="Open editor after capture" xml:space="preserve"><value>Открывать редактор после снимка</value></data>
   <data name="When off, new screenshots go straight to Shelf and are copied if the option below is on. Edit them later from Shelf." xml:space="preserve"><value>Если выключено, новые снимки сразу попадают в историю и копируются в буфер, если включена опция ниже. Изменить их можно позже из истории.</value></data>
   <data name="Copy saved image to clipboard" xml:space="preserve"><value>Копировать сохранённый снимок в буфер</value></data>

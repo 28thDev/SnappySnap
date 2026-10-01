@@ -5,6 +5,7 @@ namespace SnappySnap.Infrastructure;
 
 public sealed class FileLogger : IAppLogger, IDisposable
 {
+    private const int RetainedFiles = 10;
     private readonly string _directory;
     private readonly object _gate = new();
     private readonly long _maxBytes;
@@ -16,6 +17,8 @@ public sealed class FileLogger : IAppLogger, IDisposable
         _maxBytes = maxBytes;
         Directory.CreateDirectory(directory);
         _currentPath = Path.Combine(directory, $"snappysnap-{DateTime.UtcNow:yyyyMMdd}.log");
+        try { Prune(); }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException) { }
     }
 
     public void Info(string message, IReadOnlyDictionary<string, object?>? properties = null) => Write("Info", message, null, properties);
@@ -47,8 +50,13 @@ public sealed class FileLogger : IAppLogger, IDisposable
         var line = JsonSerializer.Serialize(entry) + Environment.NewLine;
         lock (_gate)
         {
-            RotateIfNeeded(line.Length);
-            File.AppendAllText(_currentPath, line);
+            // A locked or full log must not fail the capture or save that is being logged.
+            try
+            {
+                RotateIfNeeded(line.Length);
+                File.AppendAllText(_currentPath, line);
+            }
+            catch (Exception ex) when (ex is IOException or UnauthorizedAccessException) { }
         }
     }
 
@@ -61,6 +69,13 @@ public sealed class FileLogger : IAppLogger, IDisposable
 
         var rotated = Path.Combine(_directory, $"snappysnap-{DateTime.UtcNow:yyyyMMdd-HHmmssfff}.log");
         File.Move(_currentPath, rotated, overwrite: true);
+        Prune();
+    }
+
+    private void Prune()
+    {
+        foreach (var old in Directory.GetFiles(_directory, "snappysnap-*.log").OrderByDescending(File.GetLastWriteTimeUtc).Skip(RetainedFiles))
+            File.Delete(old);
     }
 
     public void Dispose()

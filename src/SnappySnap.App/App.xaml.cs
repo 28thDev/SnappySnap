@@ -162,6 +162,10 @@ public partial class App : System.Windows.Application
                 catch (Exception ex) { logger.Error("Installer startup configuration failed.", ex); Shutdown(3); }
                 return;
             }
+            // Installed only for the real tray application; harness runs must still fail loudly.
+            DispatcherUnhandledException += (_, args) => { ReportUnhandled("Unhandled UI exception.", args.Exception); args.Handled = true; };
+            TaskScheduler.UnobservedTaskException += (_, args) => { ReportUnhandled("Unobserved task exception.", args.Exception); args.SetObserved(); };
+            AppDomain.CurrentDomain.UnhandledException += (_, args) => ReportUnhandled("Fatal unhandled exception.", args.ExceptionObject as Exception);
             _runtime = await SnappySnapRuntime.CreateAsync().ConfigureAwait(true);
             _runtime.Start();
             if (e.Args.Any(arg => string.Equals(arg, "--screenshot-harness", StringComparison.OrdinalIgnoreCase)))
@@ -187,6 +191,13 @@ public partial class App : System.Windows.Application
             MessageBox.Show(L.F("SnappySnap could not start.\n\n{0}", ex.Message), "SnappySnap", MessageBoxButton.OK, MessageBoxImage.Error);
             Shutdown(1);
         }
+    }
+
+    private void ReportUnhandled(string message, Exception? exception)
+    {
+        if (_runtime is { } runtime && Dispatcher.CheckAccess()) { runtime.ReportUnexpected(message, exception); return; }
+        using var logger = new FileLogger(new AppPaths().LogsPath);
+        logger.Error(message, exception);
     }
 
     protected override void OnExit(ExitEventArgs e)
@@ -772,7 +783,7 @@ public sealed class SnappySnapRuntime : IAsyncDisposable
             _recordingOverlays.SystemAudioClicked += async (_, enabled) => await SetRecordingAudioAsync(false, enabled);
             _recordingOverlays.MicrophoneClicked += async (_, enabled) => await SetRecordingAudioAsync(true, enabled);
             _recordingOverlays.Show();
-            _clickOverlay = new ClickRippleOverlayController(_topology.GetMonitors(), _settings, _logger);
+            _clickOverlay = new ClickRippleOverlayController(_topology.GetMonitors(), _settings);
             await _recording.StartAsync(plan, _paths.ExpandCaptureRoot(_settings.General.CaptureRoot), _paths.TempPath, _settings, CancellationToken.None).ConfigureAwait(true);
         }
         catch (Exception ex)
@@ -1199,7 +1210,17 @@ public sealed class SnappySnapRuntime : IAsyncDisposable
     private void ShowBalloon(string title, string text)
     {
         try { _tray?.ShowBalloonTip(2500, L.T(title), L.T(text), System.Windows.Forms.ToolTipIcon.Info); }
-        catch { }
+        catch (Exception ex) { _logger.Warn("Could not show a tray notification.", new Dictionary<string, object?> { ["error"] = ex.Message }); }
+    }
+
+    private DateTime _lastUnexpectedNotice;
+    public void ReportUnexpected(string message, Exception? exception)
+    {
+        _logger.Error(message, exception);
+        // A failing timer or repeated handler must not flood the notification area.
+        if (DateTime.UtcNow - _lastUnexpectedNotice < TimeSpan.FromSeconds(30)) return;
+        _lastUnexpectedNotice = DateTime.UtcNow;
+        ShowBalloon("Unexpected error", "SnappySnap hit an unexpected error and keeps running. Details are in the local log.");
     }
 
     public async ValueTask DisposeAsync()

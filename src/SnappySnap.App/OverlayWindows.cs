@@ -200,12 +200,10 @@ public sealed class ClickRippleOverlayController : IDisposable
     private readonly List<RippleWindow> _windows = new();
     private readonly GlobalMouseClickSource _mouse = new();
     private readonly IReadOnlyList<MonitorDescriptor> _monitors;
-    private readonly AppSettings _settings;
-    private readonly IAppLogger _logger;
 
-    public ClickRippleOverlayController(IReadOnlyList<MonitorDescriptor> monitors, AppSettings settings, IAppLogger logger)
+    public ClickRippleOverlayController(IReadOnlyList<MonitorDescriptor> monitors, AppSettings settings)
     {
-        _monitors = monitors; _settings = settings; _logger = logger;
+        _monitors = monitors;
         foreach (var monitor in monitors) _windows.Add(new RippleWindow(monitor, settings));
         _mouse.Clicked += OnClick;
     }
@@ -231,14 +229,7 @@ public sealed class ClickRippleOverlayController : IDisposable
         if (!_recording) return;
         var monitor = _monitors.FirstOrDefault(x => x.Bounds.Contains(click.Position));
         var window = _windows.FirstOrDefault(x => x.Monitor.Id == monitor?.Id);
-        _logger.Info("Recording click observed.", new Dictionary<string, object?>
-        {
-            ["button"] = click.Button.ToString(),
-            ["x"] = click.Position.X,
-            ["y"] = click.Position.Y,
-            ["monitor"] = monitor?.Id,
-            ["overlayMatched"] = window is not null
-        });
+        // Runs inside the low-level mouse hook: no file I/O here.
         if (window is null) return;
         window.Dispatcher.BeginInvoke(() => { if (_recording) window.AddRipple(click); });
     }
